@@ -72,15 +72,6 @@ public class GameManager : MonoBehaviour
         if (m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead()) {
             StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
         }
-
-        if (Input.GetKeyDown("space")) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        
-        //if (Input.GetKeyDown("space")) {
-        //    m_playerOne.GetComponent<Health>().Hit(100.0f);
-        //    Debug.Log("Health player one = " + m_playerOne.GetComponent<Health>().m_health.ToString());
-        //}
     }
 
     private void Load()

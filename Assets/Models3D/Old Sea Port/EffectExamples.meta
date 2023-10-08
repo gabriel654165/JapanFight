@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Models3D/Old Sea Port/EffectExamples.meta
 guid: 6c0b056137d972f46a0312ba21b6263f
 folderAsset: yes
 timeCreated: 1473947300
+=======
+guid: afb5bde251787a4418dcdef3d5b179cc
+folderAsset: yes
+timeCreated: 1495498736
+>>>>>>> 9706b5a50b50fb59054356eb6d30f2397bfe032c:Assets/Ressources/Fighter Pack Bundle FREE/Berserker Fighter Mecanim Animation Pack FREE/Animations.meta
 licenseType: Store
 DefaultImporter:
   userData: 
