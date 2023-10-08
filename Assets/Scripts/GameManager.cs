@@ -30,9 +30,14 @@ public class GameManager : MonoBehaviour
     private GameObject m_camera;
     private GameObject m_playerOne;
     private GameObject m_playerTwo;
-    [SerializeField] private Vector3 m_spawnPositionP1 = new Vector3(5, 1, 0);
-    [SerializeField] private Vector3 m_spawnPositionP2 = new Vector3(-5, 1, 0);
-    [SerializeField] private Vector3 m_spawnPositionCam = new Vector3(0, 0, 10);
+
+    // @note: map properties
+    [SerializeField] private int m_indexMap = 0;
+    private Vector3[] m_arraySpawnPosP1 = {new Vector3(5, 1, 0), new Vector3(-35, 1, 45)};
+    private Vector3[] m_arraySpawnPosP2 = {new Vector3(-5, 1, 0), new Vector3(-40, 1, 50)};
+    private Vector3[] m_arraySpawnPosCam = {new Vector3(0, 0, 10), new Vector3(-37.5f, 0, 47.5f)};
+    private Vector3[] m_arrayCameraOffset = {new Vector3(0, 2.5f, -30), new Vector3(-20, 2.5f, -20)};
+    
     // @note: prefabs
     public GameObject cameraPrefab;
     public GameObject playerPrefab;
@@ -68,10 +73,9 @@ public class GameManager : MonoBehaviour
             StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
         }
 
-        //if (Input.GetKeyDown("space")) {
-        //    Save();
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        //}
+        if (Input.GetKeyDown("space")) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
         
         //if (Input.GetKeyDown("space")) {
         //    m_playerOne.GetComponent<Health>().Hit(100.0f);
@@ -111,13 +115,20 @@ public class GameManager : MonoBehaviour
 
     private void InitRound()
     {
+        // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
         m_playerOne = Instantiate(playerPrefab);
         m_playerTwo = Instantiate(playerPrefab);
 
-        m_camera.transform.position = m_spawnPositionCam;
-        m_playerOne.transform.position = m_spawnPositionP1;
-        m_playerTwo.transform.position = m_spawnPositionP2;
+        // @note: 2 map pos so random from 0 to 1
+        m_indexMap = Random.Range(0, 2);
+        // @note: transfrom init
+        m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
+        m_playerOne.transform.position = m_arraySpawnPosP1[m_indexMap];
+        m_playerTwo.transform.position = m_arraySpawnPosP2[m_indexMap];
+        m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
+
+        // @note: camera init 
         var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
         m_camera.GetComponent<CameraController>().SetTargets(targets);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;

@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_targets: []
-  m_offset: {x: 0, y: 0, z: -30}
+  m_offset: {x: -25, y: 2.5, z: -25}
   m_smoothTime: 2
   m_minZoom: 40
   m_maxZoom: 10

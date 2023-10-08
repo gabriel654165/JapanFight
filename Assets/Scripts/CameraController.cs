@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private List<Transform> m_targets;
 
     //@note: regular movements
-    [SerializeField] private Vector3 m_offset = new Vector3(0, 0, -50);
+    [SerializeField] private Vector3 m_offset = new Vector3(-25, 2.5f, -25);//0, 2.5f, -30f
     [SerializeField] private float m_smoothTime = 5f;
     [SerializeField] private float m_minZoom = 40f;
     [SerializeField] private float m_maxZoom = 10f;
@@ -21,7 +21,6 @@ public class CameraController : MonoBehaviour
 
     private Camera m_camera;
     private Vector3 m_velocity;
-    private Quaternion m_initialRotation;
 
     public bool m_isFollowingTargets = false;
     
@@ -29,7 +28,6 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         m_camera = GetComponent<Camera>();
-        m_initialRotation = transform.transform.rotation;
     }
 
     //@debug
@@ -53,8 +51,6 @@ public class CameraController : MonoBehaviour
             return;
         }
         if (m_isFollowingTargets) {
-            // @note: to reset camera special moves
-            m_camera.transform.rotation = Quaternion.Lerp(m_camera.transform.rotation, m_initialRotation, 0.5f);
             Move();
             Zoom();
         } else {
@@ -70,6 +66,11 @@ public class CameraController : MonoBehaviour
         m_targets = targets;
     }
 
+    public void SetOffset(Vector3 offset)
+    {
+        m_offset = offset;
+    }
+
 
     private void Zoom()
     {
@@ -83,6 +84,8 @@ public class CameraController : MonoBehaviour
         var newPosition = centerPoint + m_offset;
 
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref m_velocity, m_smoothTime);
+        //@todo : move from here, quick fix
+        m_camera.transform.LookAt(centerPoint);
     }
 
 

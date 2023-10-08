@@ -1,0 +1,93 @@
+fileFormatVersion: 2
+guid: 5b10a3532c8c3cc4da4dc079804cdf2a
+labels:
+- OldSeaPort
+timeCreated: 1429714749
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: brick_wall_1_LOD0
+    100004: brick_wall_1_LOD1
+    100006: brick_wall_1_LOD0.001
+    400000: //RootNode
+    400002: brick_wall_1_LOD0
+    400004: brick_wall_1_LOD1
+    400006: brick_wall_1_LOD0.001
+    2300000: //RootNode
+    2300002: brick_wall_1_LOD0
+    2300004: brick_wall_1_LOD1
+    2300006: brick_wall_1_LOD0.001
+    3300000: //RootNode
+    3300002: brick_wall_1_LOD0
+    3300004: brick_wall_1_LOD1
+    3300006: brick_wall_1_LOD0.001
+    4300000: brick_wall_1
+    4300002: brick_wall_1_LOD1
+    4300004: brick_wall_1_LOD0
+    4300006: brick_wall_1_LOD0.001
+    6400000: //RootNode
+    6400002: brick_wall_1_LOD0
+    6400004: brick_wall_1_LOD1
+    20500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages:
+    - .0800092146
+    - .00999999978
+    globalScale: .5
+    meshCompression: 2
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
