@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager m_instance;
 
     // @note: Rules
-    private float m_gameDuration = 60 * 3;
+    private float m_gameDuration = 20 /* 60 * 3*/;
     private float m_timer = 0f;
     private int m_nbRoundsToWin = 2;
     private int m_playerOneWinRate = 0;
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
     private void Load()
     {
         if (!PlayerPrefs.HasKey("playerOneWinRate") || !PlayerPrefs.HasKey("playerTwoWinRate")) {
-            Debug.Log("Value does not exist");
+            Debug.Log("Value does not exist in PlayerPrefs");
             m_playerOneWinRate = 0;
             m_playerTwoWinRate = 0;
             return;
@@ -95,8 +95,8 @@ public class GameManager : MonoBehaviour
 
     private void Save()
     {
-        //m_playerOneWinRate++;
-        //m_playerTwoWinRate++;
+        m_playerOneWinRate++;
+        m_playerTwoWinRate++;
         PlayerPrefs.SetInt("playerOneWinRate", m_playerOneWinRate);
         PlayerPrefs.SetInt("playerTwoWinRate", m_playerTwoWinRate);
         PlayerPrefs.Save();
@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
         // @note: make player face each other
         m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
         m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
-        m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
 
         // @note: camera init 
         var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
@@ -137,6 +136,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
         Debug.Log("New game coroutine");
+        var startingPos = new Vector3(m_arrayCameraOffset[m_indexMap].x, 200, m_arrayCameraOffset[m_indexMap].z);
+        m_camera.GetComponent<CameraController>().SetOffset(startingPos);
+        yield return new WaitForSeconds(1);
+        m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
         yield return new WaitForSeconds(4);
         m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 10f);
         yield return new WaitForSeconds(4);
@@ -149,7 +152,9 @@ public class GameManager : MonoBehaviour
     private IEnumerator StartNewRoundCoroutine()
     {
         Debug.Log("New round coroutine");
-        yield return null;
+        m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
+        m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
+        yield return new WaitForSeconds(2);
     }
 
 
