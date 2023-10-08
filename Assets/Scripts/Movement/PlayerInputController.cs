@@ -5,32 +5,35 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
-    private InputMaster m_inputMaster;
     private Rigidbody m_rigidbody;
     [SerializeField] private Animator m_animator;
     [SerializeField] private float m_speed;
+    // private InputMaster m_inputMaster;
+
+    public Animator GetAnimator() {return m_animator;}
 
     private void Awake()
     {
-        m_inputMaster = new InputMaster();
+//        m_inputMaster = new InputMaster();
+
         m_rigidbody = GetComponent<Rigidbody>();
 
-        m_inputMaster.Enable();
-        m_inputMaster.Player.Fist_attack_1.performed += Fist_attack_1;
-        m_inputMaster.Player.Fist_attack_2.performed += Fist_attack_2;
-        m_inputMaster.Player.Foot_attack_1.performed += Foot_attack_1;
-        m_inputMaster.Player.Jump.performed += TriggerJump;
-        m_inputMaster.Player.Special_attack.performed += SpecialAttack;
-        m_inputMaster.Player.Dodge.performed += Dodge;
-        m_inputMaster.Player.High_block.performed += Guard;
-        m_inputMaster.Player.High_block.canceled += Guard;
-        m_inputMaster.Player.Movement.performed += Walk;
-        m_inputMaster.Player.Movement.canceled += Walk;
+        // m_inputMaster.Enable();
+        // m_inputMaster.Player.Fist_attack_1.performed += Fist_attack_1;
+        // m_inputMaster.Player.Fist_attack_2.performed += Fist_attack_2;
+        // m_inputMaster.Player.Foot_attack_1.performed += Foot_attack_1;
+        // m_inputMaster.Player.Jump.performed += TriggerJump;
+        // m_inputMaster.Player.Special_attack.performed += SpecialAttack;
+        // m_inputMaster.Player.Dodge.performed += Dodge;
+        // m_inputMaster.Player.High_block.performed += Guard;
+        // m_inputMaster.Player.High_block.canceled += Guard;
+        // m_inputMaster.Player.Movement.performed += Walk;
+        // m_inputMaster.Player.Movement.canceled += Walk;
     }
 
     public void Walk(InputAction.CallbackContext context)
     {
-        Vector2 analog = m_inputMaster.Player.Movement.ReadValue<Vector2>();
+        Vector2 analog = context.ReadValue<Vector2>();
 
         if(context.performed && analog.x != 0)
         {
@@ -92,7 +95,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (context.performed)
         {
-            m_animator.SetTrigger("Kick_1");
+            m_animator.SetTrigger("Kick_2");
         }
     }
 
@@ -110,8 +113,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkForward" || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkBackward")
         {
-            Vector2 move = m_inputMaster.Player.Movement.ReadValue<Vector2>();
-
+            Vector2 move = GetComponent<PlayerInput>().actions["Movement"].ReadValue<Vector2>();
             transform.Translate(0, 0, (move.x * m_speed) * Time.deltaTime);
         }
     }

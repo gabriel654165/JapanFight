@@ -8,7 +8,6 @@ public class Health : MonoBehaviour
     /*private*/public float m_health = 0;
     private bool m_isDead = false;
 
-
     void Start()
     {
         m_health = m_maxHealth;
