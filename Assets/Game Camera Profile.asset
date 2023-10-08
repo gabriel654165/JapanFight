@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Game Camera Profile
   m_EditorClassIdentifier: 
   components:
-  - {fileID: 8203531484642169892}
---- !u!114 &8203531484642169892
+  - {fileID: 6467529449446479565}
+--- !u!114 &6467529449446479565
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}

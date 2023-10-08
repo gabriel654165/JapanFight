@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager m_instance;
+
+    public VolumeProfile volume;
 
     // @note: Rules
     private float m_gameDuration = 20 /* 60 * 3*/;
@@ -163,6 +167,12 @@ public class GameManager : MonoBehaviour
         Debug.Log("End coroutine");
         m_roundIsFinished = true;
         // @note: slowmotion during KO
+        ColorAdjustments colorAdjustments;
+        if (volume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            float saturationVal = colorAdjustments.saturation.value;
+            colorAdjustments.saturation.overrideState = true;
+            colorAdjustments.saturation.value = -100f;
+        }
         yield return new WaitForSeconds(1);
         Time.timeScale = 0.5f;
         yield return new WaitForSeconds(2);
@@ -170,6 +180,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         m_camera.GetComponent<CameraController>().TranslateToTarget(deadPlayer, 10f);
         yield return new WaitForSeconds(6);
+        if (volume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            float saturationVal = colorAdjustments.saturation.value;
+            colorAdjustments.saturation.overrideState = true;
+            colorAdjustments.saturation.value = 100f;
+        }
         Save();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
