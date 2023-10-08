@@ -8039,7 +8039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &512968231
 Transform:
   m_ObjectHideFlags: 0
@@ -19501,6 +19501,83 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1401285505}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1318491010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318491012}
+  - component: {fileID: 1318491011}
+  m_Layer: 0
+  m_Name: Input Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1318491011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318491010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 0
+  m_MaxPlayerCount: 2
+  m_AllowJoining: 1
+  m_JoinBehavior: 2
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 4039522165146828199, guid: a7b6f0892f5c6e3499c0f5f1ebdbdb91,
+    type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!4 &1318491012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318491010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0009981394, y: 1.7325327, z: 2.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1319027605 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100006, guid: 2b120c828398db5439578c6f50bef162,
@@ -27784,7 +27861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1837125291
 Transform:
   m_ObjectHideFlags: 0
@@ -32120,9 +32197,14 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8495443673391527017, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
         type: 3}
+      propertyPath: inputManager
+      value: 
+      objectReference: {fileID: 1318491011}
+    - target: {fileID: 8495443673391527017, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
+        type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 4039522165146828199, guid: bb974bf19ce96e148990bfdeb6086d17,
+      objectReference: {fileID: 4039522165146828199, guid: a7b6f0892f5c6e3499c0f5f1ebdbdb91,
         type: 3}
     - target: {fileID: 8495443673391527018, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
         type: 3}

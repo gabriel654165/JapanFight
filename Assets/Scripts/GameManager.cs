@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
+
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +37,7 @@ public class GameManager : MonoBehaviour
     // @note: prefabs
     public GameObject cameraPrefab;
     public GameObject playerPrefab;
+    public PlayerInputManager inputManager;
 
     public static GameManager Instance {
         get {
@@ -111,11 +116,21 @@ public class GameManager : MonoBehaviour
     {
         // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
-        m_playerOne = Instantiate(playerPrefab);
-        m_playerTwo = Instantiate(playerPrefab);
+        try {
+            // @note: controls binding to players
+            inputManager.playerPrefab = playerPrefab;
+            inputManager.JoinPlayer();
+            inputManager.JoinPlayer();
+            Player[] players = FindObjectsOfType<Player>();
+            //If one controller, the game crash
+            m_playerOne = players[0].gameObject;
+            m_playerTwo = players[1].gameObject;
+        } catch (Exception er) {
+            Debug.Log(er.ToString());
+        }
 
         // @note: 2 map pos so random from 0 to 1
-        m_indexMap = Random.Range(0, 2);
+        m_indexMap = UnityEngine.Random.Range(0, 2);
         // @note: transfrom init
         m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
         m_playerOne.transform.position = m_arraySpawnPosP1[m_indexMap];
