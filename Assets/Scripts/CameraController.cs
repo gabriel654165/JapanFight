@@ -30,19 +30,6 @@ public class CameraController : MonoBehaviour
         m_camera = GetComponent<Camera>();
     }
 
-    //@debug
-    /*bool ok = false;
-    void Update()
-    {
-        if (Input.GetKeyDown("space")) {
-            if (!ok) {
-                TranslateToTarget(m_targets[0], m_speedMovement);
-                ok = true;
-            } else {
-                TranslateToTarget(m_targets[1], m_speedMovement);
-            }
-        }
-    }*/
 
     void LateUpdate()
     {
@@ -84,8 +71,8 @@ public class CameraController : MonoBehaviour
         var newPosition = centerPoint + m_offset;
 
         transform.position = Vector3.SmoothDamp(transform.position, newPosition, ref m_velocity, m_smoothTime);
-        //@todo : move from here, quick fix
-        m_camera.transform.LookAt(centerPoint);
+        //@todo : move code from this func, quick fix
+        m_camera.transform.LookAt(centerPoint + new Vector3(0, 2, 0));
     }
 
 
@@ -95,7 +82,8 @@ public class CameraController : MonoBehaviour
         m_currentTarget = target;
 
         bool isLeft = target.transform.position.x < transform.position.x;
-        var offsetTranslatePosition = new Vector3(isLeft ? m_offsetAbsoluteLookAt.x : -m_offsetAbsoluteLookAt.x, m_offsetAbsoluteLookAt.y, m_offsetAbsoluteLookAt.z);//switch en fonction de devant le player
+        // @note : Ternaire to switch for beeing in front of the player
+        var offsetTranslatePosition = new Vector3(isLeft ? m_offsetAbsoluteLookAt.x : -m_offsetAbsoluteLookAt.x, m_offsetAbsoluteLookAt.y, m_offsetAbsoluteLookAt.z);
 
         StartCoroutine(MoveAndRotateTo(target.transform, offsetTranslatePosition, speedMovement));
     }
@@ -132,6 +120,8 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator MoveAndRotateTo(Transform target, Vector3 offsetTarget, float speed)
     {
+        // @note : find a node in the center of the target
+        var targetCenter = target.Find("Berserker").Find("Motion").Find("B_Pelvis");
         var currentPos = transform.position;
         var targetPos = target.position + offsetTarget;
         var distance = Vector3.Distance(currentPos, targetPos);
@@ -147,10 +137,10 @@ public class CameraController : MonoBehaviour
             transform.position = Vector3.Lerp(currentPos, targetPos, factor);
             // @note: increase timePassed with Mathf.Min to avoid overshooting
             timePassed += Mathf.Min(Time.deltaTime, duration - timePassed);
-            transform.LookAt(target);
+            transform.LookAt(targetCenter);
             yield return null;
         }
         transform.position = targetPos;
-        transform.LookAt(target);
+        transform.LookAt(targetCenter);
     }
 }

@@ -132,11 +132,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_targets: []
-  m_offset: {x: -25, y: 2.5, z: -25}
-  m_smoothTime: 2
-  m_minZoom: 40
+  m_offset: {x: -25, y: 3, z: -25}
+  m_smoothTime: 1
+  m_minZoom: 100
   m_maxZoom: 10
-  m_zoomLimit: 50
+  m_zoomLimit: 100
   m_speedMovement: 20
-  m_offsetAbsoluteLookAt: {x: 5, y: 0, z: 0}
+  m_offsetAbsoluteLookAt: {x: 5, y: 1, z: 0}
   m_isFollowingTargets: 1

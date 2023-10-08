@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00cc0d0c1ec8ec62abe03c2d69bc1820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPositionP1: {x: 5, y: 1, z: 0}
-  spawnPositionP2: {x: -5, y: 1, z: 0}
+  m_roundIsFinished: 0
+  m_indexMap: 0
   cameraPrefab: {fileID: 7620719105220416380, guid: 1db55deac3813eac7b8f4567422b7bd4,
     type: 3}
-  playerPrefab: {fileID: 3354145098109529539, guid: 4b33608abb2cb28079b2069de59839ae,
+  playerPrefab: {fileID: 2702494684330047165, guid: 02d86e26750dc12419092d47fc96f999,
     type: 3}

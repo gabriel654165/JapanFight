@@ -7,18 +7,6 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager m_instance;
 
-    public static GameManager Instance {
-        get {
-            if (m_instance == null) {
-                m_instance = FindObjectOfType<GameManager>();
-                if (m_instance == null) {
-                    m_instance = new GameObject().AddComponent<GameManager>();
-                }
-            }
-            return m_instance;
-        }
-    }
-
     // @note: Rules
     private float m_gameDuration = 60 * 3;
     private float m_timer = 0f;
@@ -42,6 +30,17 @@ public class GameManager : MonoBehaviour
     public GameObject cameraPrefab;
     public GameObject playerPrefab;
 
+    public static GameManager Instance {
+        get {
+            if (m_instance == null) {
+                m_instance = FindObjectOfType<GameManager>();
+                if (m_instance == null) {
+                    m_instance = new GameObject().AddComponent<GameManager>();
+                }
+            }
+            return m_instance;
+        }
+    }
 
     void Awake()
     {
@@ -117,6 +116,9 @@ public class GameManager : MonoBehaviour
         m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
         m_playerOne.transform.position = m_arraySpawnPosP1[m_indexMap];
         m_playerTwo.transform.position = m_arraySpawnPosP2[m_indexMap];
+        // @note: make player face each other
+        m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
+        m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
         m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
 
         // @note: camera init 
@@ -131,6 +133,7 @@ public class GameManager : MonoBehaviour
         }
     } 
 
+
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
         Debug.Log("New game coroutine");
@@ -142,11 +145,13 @@ public class GameManager : MonoBehaviour
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
     }
 
+
     private IEnumerator StartNewRoundCoroutine()
     {
         Debug.Log("New round coroutine");
         yield return null;
     }
+
 
     private IEnumerator EndRoundCoroutine(Transform deadPlayer)
     {

@@ -1961,6 +1961,8 @@ GameObject:
   - component: {fileID: 2702494684329552541}
   - component: {fileID: 2702494683365172396}
   - component: {fileID: 2702494683365172397}
+  - component: {fileID: 8197274159770880695}
+  - component: {fileID: 5969115339394018392}
   m_Layer: 0
   m_Name: Berserker
   m_TagString: Untagged
@@ -2014,3 +2016,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 2702494684320371395}
   m_speed: 10
+--- !u!114 &8197274159770880695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702494684330047165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890503b1d5775aa59b6ef20c39052ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5969115339394018392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702494684330047165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6736871c71e48a4bcac4f956f14062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxHealth: 200
+  m_health: 0
