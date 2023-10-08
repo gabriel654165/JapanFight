@@ -15,15 +15,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float m_zoomLimit = 50f;
 
     //@note: camera special moves
-    [SerializeField] private float m_speedMovement = 20f;
+    [SerializeField] public float m_speedMovement = 20f;
     [SerializeField] private Vector3 m_offsetAbsoluteLookAt = new Vector3(5, 0, 0);
     private Transform m_currentTarget = null;
 
     private Camera m_camera;
     private Vector3 m_velocity;
     private Quaternion m_initialRotation;
-    [SerializeField]//@debug
-    private bool m_isFollowingTargets = true;
+
+    public bool m_isFollowingTargets = false;
     
 
     void Start()
@@ -65,13 +65,19 @@ public class CameraController : MonoBehaviour
     }
 
 
-    void Zoom()
+    public void SetTargets(List<Transform> targets)
+    {
+        m_targets = targets;
+    }
+
+
+    private void Zoom()
     {
         float newZoom = Mathf.Lerp(m_maxZoom, m_minZoom, GetGreatestDistance() / m_zoomLimit);
         m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, Time.deltaTime);
     }
 
-    void Move()
+    private void Move()
     {
         var centerPoint = GetCenterPoint();
         var newPosition = centerPoint + m_offset;
@@ -80,7 +86,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    void TranslateToTarget(Transform target, float speedMovement)
+    public void TranslateToTarget(Transform target, float speedMovement)
     {
         m_isFollowingTargets = false;
         m_currentTarget = target;
@@ -92,7 +98,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    float GetGreatestDistance()
+    private float GetGreatestDistance()
     {
         var bounds = new Bounds(m_targets[0].position, Vector3.zero);
 
@@ -105,7 +111,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    Vector3 GetCenterPoint()
+    private Vector3 GetCenterPoint()
     {
         if (m_targets.Count == 1)
         {

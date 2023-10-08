@@ -131,11 +131,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4295119dce00c7d2b9e46baa7acc34e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 0}
-  - {fileID: 0}
-  offset: {x: 0, y: 0, z: -50}
-  smoothTime: 0
-  minZoom: 40
-  maxZoom: 10
-  zoomLimit: 50
+  m_targets: []
+  m_offset: {x: 0, y: 0, z: -30}
+  m_smoothTime: 2
+  m_minZoom: 40
+  m_maxZoom: 10
+  m_zoomLimit: 50
+  m_speedMovement: 20
+  m_offsetAbsoluteLookAt: {x: 5, y: 0, z: 0}
+  m_isFollowingTargets: 1
