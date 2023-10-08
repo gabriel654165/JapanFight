@@ -25,13 +25,14 @@ public class GameManager : MonoBehaviour
     private int m_nbRoundsToWin = 2;
     private int m_playerOneWinRate = 0;
     private int m_playerTwoWinRate = 0;
+    [SerializeField] private bool m_roundIsFinished = false;
     // @note: Singleton obj
     private GameObject m_camera;
     private GameObject m_playerOne;
     private GameObject m_playerTwo;
-    [SerializeField] private Vector3 spawnPositionP1 = new Vector3(5, 1, 0);
-    [SerializeField] private Vector3 spawnPositionP2 = new Vector3(-5, 1, 0);
-    [SerializeField] private Vector3 spawnPositionCam = new Vector3(0, 0, 10);
+    [SerializeField] private Vector3 m_spawnPositionP1 = new Vector3(5, 1, 0);
+    [SerializeField] private Vector3 m_spawnPositionP2 = new Vector3(-5, 1, 0);
+    [SerializeField] private Vector3 m_spawnPositionCam = new Vector3(0, 0, 10);
     // @note: prefabs
     public GameObject cameraPrefab;
     public GameObject playerPrefab;
@@ -55,16 +56,27 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (m_roundIsFinished)
+            return;
         m_timer += Time.deltaTime;
         if (m_timer > m_gameDuration) {
             Save();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
-        if (Input.GetKeyDown("space")) {
-            Save();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead()) {
+            StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
         }
+
+        //if (Input.GetKeyDown("space")) {
+        //    Save();
+        //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //}
+        
+        //if (Input.GetKeyDown("space")) {
+        //    m_playerOne.GetComponent<Health>().Hit(100.0f);
+        //    Debug.Log("Health player one = " + m_playerOne.GetComponent<Health>().m_health.ToString());
+        //}
     }
 
     private void Load()
@@ -103,9 +115,9 @@ public class GameManager : MonoBehaviour
         m_playerOne = Instantiate(playerPrefab);
         m_playerTwo = Instantiate(playerPrefab);
 
-        m_camera.transform.position = spawnPositionCam;
-        m_playerOne.transform.position = spawnPositionP1;
-        m_playerTwo.transform.position = spawnPositionP2;
+        m_camera.transform.position = m_spawnPositionCam;
+        m_playerOne.transform.position = m_spawnPositionP1;
+        m_playerTwo.transform.position = m_spawnPositionP2;
         var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
         m_camera.GetComponent<CameraController>().SetTargets(targets);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
@@ -119,16 +131,34 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
+        Debug.Log("New game coroutine");
         yield return new WaitForSeconds(4);
-        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 20f);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 10f);
         yield return new WaitForSeconds(4);
-        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 20f);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 5f);
         yield return new WaitForSeconds(4);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
     }
 
     private IEnumerator StartNewRoundCoroutine()
     {
+        Debug.Log("New round coroutine");
         yield return null;
+    }
+
+    private IEnumerator EndRoundCoroutine(Transform deadPlayer)
+    {
+        Debug.Log("End coroutine");
+        m_roundIsFinished = true;
+        // @note: slowmotion during KO
+        yield return new WaitForSeconds(1);
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(2);
+        Time.timeScale = 1f;
+        yield return new WaitForSeconds(2);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(deadPlayer, 10f);
+        yield return new WaitForSeconds(6);
+        Save();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
