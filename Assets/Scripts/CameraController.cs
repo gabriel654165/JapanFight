@@ -33,8 +33,7 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (m_targets.Count == 0)
-        {
+        if (m_targets.Count == 0) {
             return;
         }
         if (m_isFollowingTargets) {
@@ -43,7 +42,9 @@ public class CameraController : MonoBehaviour
         } else {
             // @note: for special camera moves
             float newZoom = Mathf.Lerp(m_camera.fieldOfView, m_minZoom, 0.5f);
-            m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, Time.deltaTime);
+            float time = Time.deltaTime;
+            m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+            m_camera.transform.Find("OverlayCamera").GetComponent<Camera>().fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
         }
     }
 
@@ -62,7 +63,9 @@ public class CameraController : MonoBehaviour
     private void Zoom()
     {
         float newZoom = Mathf.Lerp(m_maxZoom, m_minZoom, GetGreatestDistance() / m_zoomLimit);
-        m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, Time.deltaTime);
+        float time = Time.deltaTime;
+        m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+        m_camera.transform.Find("OverlayCamera").GetComponent<Camera>().fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
     }
 
     private void Move()
