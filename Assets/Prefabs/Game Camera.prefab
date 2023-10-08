@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7620719105220416381}
   - component: {fileID: 7620719105220416377}
   - component: {fileID: 7620719105220416376}
+  - component: {fileID: 1706946230259513165}
   m_Layer: 0
   m_Name: Game Camera
   m_TagString: MainCamera
@@ -109,7 +110,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -140,3 +141,20 @@ MonoBehaviour:
   m_speedMovement: 20
   m_offsetAbsoluteLookAt: {x: 2, y: 1, z: 0}
   m_isFollowingTargets: 1
+--- !u!114 &1706946230259513165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620719105220416380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: e348604617a4a9fc692a26d8ac3024b3, type: 2}
