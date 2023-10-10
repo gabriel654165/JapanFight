@@ -86,6 +86,7 @@ public class HandleHit : MonoBehaviour
             var randomIndex = Random.Range(0, 1);
             Debug.Log("INT = " + randomIndex.ToString());
             m_animator.SetInteger("Die", randomIndex);
+            Debug.Log("CURRENT ANIM = " + currentAnimName);
         }
     }
 }

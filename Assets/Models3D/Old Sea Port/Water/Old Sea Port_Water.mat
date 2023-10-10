@@ -19,13 +19,17 @@ Material:
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -86,6 +90,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -111,6 +119,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -225,6 +237,7 @@ Material:
     - _BendNormalsFreq: 4
     - _BendNormalsStrength: 0.05
     - _Blend: 2
+    - _BlendOp: 0
     - _BumpScale: 1
     - _BumpScale2: 1
     - _ChromaticAberration: 0.02
@@ -261,6 +274,7 @@ Material:
     - _EdgeOcclusion: 1
     - _EdgeTransparency: 1
     - _EmissionPulsateSpeed: 0
+    - _EnableExternalAlpha: 0
     - _EnableHeightBlend: 0
     - _EnableInstancedPerPixelNormal: 1
     - _EnvironmentReflections: 1
@@ -282,6 +296,7 @@ Material:
     - _GlossMin: 0
     - _Glossiness: 0.933
     - _Glossiness2: 1
+    - _GlossinessSource: 0
     - _GlossyReflections: 1
     - _HeightTransition: 0
     - _IndexofRefraction: 1.05
@@ -331,16 +346,19 @@ Material:
     - _RippleStrength: 0.5
     - _RippleStrengthFromGlobal: 0
     - _RippleTiling: 1
+    - _SampleGI: 0
     - _SecOcclusionStrength: 0
     - _SecondaryShown: 1
     - _ShadowCull: 2
     - _ShadowMIPbias: 0
     - _ShadowStrength: 1
+    - _Shininess: 0
     - _Smoothness: 0.97
     - _Smoothness0: 0.5
     - _Smoothness1: 0.5
     - _Smoothness2: 0.5
     - _Smoothness3: 0.5
+    - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _Snow: 0
     - _SnowBumpMacro: 0.1
@@ -364,6 +382,7 @@ Material:
     - _SnowWorldMapping: 0
     - _Softness: 2
     - _SoftnessFade: 0.4
+    - _SpecSource: 0
     - _Specular: 0
     - _SpecularHighlights: 1
     - _Speed: 0.266
@@ -426,9 +445,11 @@ Material:
     - _DiffuseScatteringColor: {r: 0, g: 0, b: 0, a: 0}
     - _DiffuseScatteringColor2: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _GlitterColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.2}
     - _GlitterColor2: {r: 0.8, g: 0.8, b: 0.8, a: 0.2}
     - _OcclusionColor: {r: 0.75, g: 0.75, b: 0.75, a: 0}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SnowColorAndCoverage: {r: 1, g: 1, b: 1, a: 1}
     - _SnowDiffuseScatteringColor: {r: 1, g: 1, b: 1, a: 0}
     - _SnowEmissionTransparency: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 1}
