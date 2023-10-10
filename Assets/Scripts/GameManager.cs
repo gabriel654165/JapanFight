@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private static GameManager m_instance;
 
     // @note: Rules
-    private float m_gameDuration = 20 /* 60 * 3*/;
+    private float m_gameDuration = 60 * 3;
     private float m_timer = 0f;
     private int m_nbRoundsToWin = 2;
     private int m_playerOneWinRate = 0;
@@ -21,22 +21,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool m_roundIsFinished = false;
     // @note: Singleton obj
     private GameObject m_camera;
+    private Canvas m_canvas;
     private GameObject m_playerOne;
     private GameObject m_playerTwo;
 
     // @note: map properties
     [SerializeField] private int m_indexMap = 0;
-    private Vector3[] m_arraySpawnPosP1 = {new Vector3(5, 1, 0), new Vector3(-35, 1, 45)};
-    private Vector3[] m_arraySpawnPosP2 = {new Vector3(-5, 1, 0), new Vector3(-40, 1, 50)};
+    private Vector3[] m_arraySpawnPosP1 = {new Vector3(-5, 1, 0), new Vector3(-40, 1, 50)};
+    private Vector3[] m_arraySpawnPosP2 = {new Vector3(5, 1, 0), new Vector3(-35, 1, 45)};
     private Vector3[] m_arraySpawnPosCam = {new Vector3(0, 0, 10), new Vector3(-37.5f, 0, 47.5f)};
     private Vector3[] m_arrayCameraOffset = {new Vector3(0, 2.5f, -30), new Vector3(-20, 2.5f, -20)};
     
     // @note: prefabs
     public GameObject cameraPrefab;
+    public Canvas canvasPrefab;
     public GameObject playerPrefab;
     public PlayerInputManager inputManager;
     public VolumeProfile profileVolume;
-
 
     public static GameManager Instance {
         get {
@@ -115,11 +116,19 @@ public class GameManager : MonoBehaviour
     {
         // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
+        m_canvas = Instantiate(canvasPrefab);
+
+        // @note: init canvas
+        m_canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        m_canvas.worldCamera = m_camera.GetComponent<Camera>();
+        m_canvas.sortingOrder = -100;
+        m_canvas.GetComponent<CanvasController>().SetGameManager(this);
+
         // @debug purpose
         m_playerOne = Instantiate(playerPrefab);
         m_playerTwo = Instantiate(playerPrefab);
+        // @note: controls binding to players
         /*try {
-            // @note: controls binding to players
             inputManager.playerPrefab = playerPrefab;
             inputManager.JoinPlayer();
             inputManager.JoinPlayer();
@@ -130,6 +139,8 @@ public class GameManager : MonoBehaviour
         } catch (Exception er) {
             Debug.Log(er.ToString());
         }*/
+        // @note: invert the x axis for the player on the right
+        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
         m_indexMap = UnityEngine.Random.Range(0, 2);
@@ -156,7 +167,17 @@ public class GameManager : MonoBehaviour
         } else {
             StartCoroutine(StartNewRoundCoroutine());
         }
-    } 
+    }
+
+    public List<GameObject> GetPlayerList()
+    {
+        return new List<GameObject>() {m_playerOne, m_playerTwo};
+    }
+
+    public float GetRemainingTime()
+    {
+        return m_timer - m_gameDuration;
+    }
 
 
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)

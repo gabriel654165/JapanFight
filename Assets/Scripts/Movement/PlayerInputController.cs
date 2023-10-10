@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerInputController : MonoBehaviour
 {
     private Rigidbody m_rigidbody;
+    private bool m_invertX = false;
+
     [SerializeField] private Animator m_animator;
     [SerializeField] private float m_speed;
     // private InputMaster m_inputMaster;
@@ -114,7 +116,12 @@ public class PlayerInputController : MonoBehaviour
         if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkForward" || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkBackward")
         {
             Vector2 move = GetComponent<PlayerInput>().actions["Movement"].ReadValue<Vector2>();
-            transform.Translate(0, 0, (move.x * m_speed) * Time.deltaTime);
+            transform.Translate(0, 0, ((m_invertX ? -move.x : move.x) * m_speed) * Time.deltaTime);
         }
+    }
+
+    public void InvertX(bool shouldInvert)
+    {
+        m_invertX = shouldInvert;
     }
 }

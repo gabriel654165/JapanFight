@@ -16,6 +16,9 @@ public class Health : MonoBehaviour
     public void Hit(float damages)
     {
         m_health -= damages;
+
+        //Debug.Log("Health = " + m_health.ToString());
+        
         if (m_health <= 0) {
             Die();
         }
@@ -25,6 +28,11 @@ public class Health : MonoBehaviour
     {
         m_isDead = true;
         return;
+    }
+
+    public float GetPrctLeftHealth()
+    {
+        return (m_health / m_maxHealth) * 100;
     }
 
     public bool isDead()

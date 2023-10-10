@@ -395,7 +395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4039522165146680467}
   - component: {fileID: 4039522165135442457}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mesh_Berserker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

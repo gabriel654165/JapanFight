@@ -18,7 +18,7 @@ public class HandleHit : MonoBehaviour
         m_health = transform.parent.parent.parent.GetComponent<Health>();
     }
 
-    void OnTriggerStay(Collider collision)
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Hand") || collision.gameObject.layer == LayerMask.NameToLayer("Foot"))
         {
@@ -32,10 +32,10 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        if (currentAnim != "HighHit" && currentAnim != "LowHit") {
+                        Debug.Log("Current animation = " + currentAnim);
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
                             m_health.Hit(20f);
                             if (m_health.isDead()) {
-                                Debug.Log("Is DEAD");
                                 ChooseDeathAnim(currentAnim);
                             } else {
                                 m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
@@ -47,7 +47,7 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        if (currentAnim != "HighHit" && currentAnim != "LowHit") {
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
                             m_health.Hit(40f);
                             if (m_health.isDead()) {
                                 ChooseDeathAnim(currentAnim);
@@ -61,7 +61,7 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        if (currentAnim != "HighHit" && currentAnim != "LowHit") {
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
                             m_health.Hit(40f);
                             if (m_health.isDead()) {
                                 ChooseDeathAnim(currentAnim);

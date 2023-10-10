@@ -48,5 +48,10 @@ MonoBehaviour:
   m_indexMap: 0
   cameraPrefab: {fileID: 7620719105220416380, guid: 1db55deac3813eac7b8f4567422b7bd4,
     type: 3}
-  playerPrefab: {fileID: 2702494684330047165, guid: 02d86e26750dc12419092d47fc96f999,
+  canvasPrefab: {fileID: 1521088289689159515, guid: aff099edd206d3640b663a850d477063,
     type: 3}
+  playerPrefab: {fileID: 4039522165146828199, guid: a7b6f0892f5c6e3499c0f5f1ebdbdb91,
+    type: 3}
+  inputManager: {fileID: 4440900316826048888, guid: feba4858946a16b46ba5d529ca72ea32,
+    type: 3}
+  profileVolume: {fileID: 11400000, guid: e348604617a4a9fc692a26d8ac3024b3, type: 2}
