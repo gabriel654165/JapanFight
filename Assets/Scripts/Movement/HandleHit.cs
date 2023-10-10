@@ -35,6 +35,7 @@ public class HandleHit : MonoBehaviour
                         if (currentAnim != "HighHit" && currentAnim != "LowHit") {
                             m_health.Hit(20f);
                             if (m_health.isDead()) {
+                                Debug.Log("Is DEAD");
                                 ChooseDeathAnim(currentAnim);
                             } else {
                                 m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
@@ -81,12 +82,10 @@ public class HandleHit : MonoBehaviour
 
     private void ChooseDeathAnim(string currentAnimName)
     {
-        Debug.Log("CURRENT ANIM = " + currentAnimName);
         if (currentAnimName != "Brutal Assassination" && currentAnimName != "Death") {
-            var randomIndex = Random.Range(0, 1);
-            Debug.Log("INT = " + randomIndex.ToString());
+            // @note: random anim between 2 animations of death
+            var randomIndex = Random.Range(0, 2);
             m_animator.SetInteger("Die", randomIndex);
-            Debug.Log("CURRENT ANIM = " + currentAnimName);
         }
     }
 }
