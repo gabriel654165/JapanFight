@@ -196,7 +196,6 @@ public class GameManager : MonoBehaviour
             colorAdjustments.saturation.overrideState = true;
             while (colorAdjustments.saturation.value != destSaturationVal) {
                 colorAdjustments.saturation.value = Mathf.Lerp(startSaturationVal, destSaturationVal, 1f);
-                Debug.Log("colorAdjustments.saturation.value = " + colorAdjustments.saturation.value.ToString());
                 yield return null;
             }
         }

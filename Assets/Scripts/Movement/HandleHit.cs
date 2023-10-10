@@ -32,9 +32,13 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                        if (currentAnim != "HighHit" && currentAnim != "LowHit") {
                             m_health.Hit(20f);
-                            m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                            if (m_health.isDead()) {
+                                ChooseDeathAnim(currentAnim);
+                            } else {
+                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                            }
                         }
                     }
                     break;
@@ -42,9 +46,13 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                        if (currentAnim != "HighHit" && currentAnim != "LowHit") {
                             m_health.Hit(40f);
-                            m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                            if (m_health.isDead()) {
+                                ChooseDeathAnim(currentAnim);
+                            } else {
+                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                            }
                         }
                     }
                     break;
@@ -52,13 +60,13 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                        if (currentAnim != "HighHit" && currentAnim != "LowHit") {
                             m_health.Hit(40f);
-                            //if (m_health.isDead()) {
-                            //    m_animator.SetTrigger("Die");
-                            //} else {
+                            if (m_health.isDead()) {
+                                ChooseDeathAnim(currentAnim);
+                            } else {
                                 m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
-                            //}
+                            }
                         }
                     }
                     break;
@@ -68,6 +76,16 @@ public class HandleHit : MonoBehaviour
             if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle") {
                 m_animator.SetTrigger("BlockWithGuard");
             }
+        }
+    }
+
+    private void ChooseDeathAnim(string currentAnimName)
+    {
+        Debug.Log("CURRENT ANIM = " + currentAnimName);
+        if (currentAnimName != "Brutal Assassination" && currentAnimName != "Death") {
+            var randomIndex = Random.Range(0, 1);
+            Debug.Log("INT = " + randomIndex.ToString());
+            m_animator.SetInteger("Die", randomIndex);
         }
     }
 }
