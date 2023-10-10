@@ -11,8 +11,14 @@ public class HandleHit : MonoBehaviour
     [SerializeField] private Part m_part;
     [SerializeField] private Animator m_animator;
     [SerializeField] private Collider[] m_boxToExclude;
+    private Health m_health;
 
-    void OnTriggerEnter(Collider collision)
+    void Start()
+    {
+        m_health = transform.parent.parent.parent.GetComponent<Health>();
+    }
+
+    void OnTriggerStay(Collider collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Hand") || collision.gameObject.layer == LayerMask.NameToLayer("Foot"))
         {
@@ -22,22 +28,46 @@ public class HandleHit : MonoBehaviour
 
             switch (collision.transform.root.GetComponent<PlayerInputController>().GetAnimator().GetCurrentAnimatorClipInfo(0)[0].clip.name)
             {
-                case "Punch_1":
-                    // enlever x points de vie
+                case "Punch":
+                    if (!m_health.isDead()) {
+                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                            m_health.Hit(20f);
+                            m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                        }
+                    }
                     break;
-                case "Punch_2":
-                    // enlever x points de vie
+                case "ZombiePunch":
+                    if (!m_health.isDead()) {
+                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                            m_health.Hit(40f);
+                            m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                        }
+                    }
                     break;
-                case "Kick_2":
-                    // enlever x points de vie
+                case "BarbareKick":
+                    if (!m_health.isDead()) {
+                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                            m_health.Hit(40f);
+                            //if (m_health.isDead()) {
+                            //    m_animator.SetTrigger("Die");
+                            //} else {
+                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                            //}
+                        }
+                    }
                     break;
                 default:
                     break;
             }
-            if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle")
+            if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle") {
                 m_animator.SetTrigger("BlockWithGuard");
-            else
-                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+            }
         }
     }
 }

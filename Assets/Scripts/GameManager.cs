@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +8,9 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-using System;
-
 public class GameManager : MonoBehaviour
 {
     private static GameManager m_instance;
-
-    public VolumeProfile volume;
 
     // @note: Rules
     private float m_gameDuration = 20 /* 60 * 3*/;
@@ -38,6 +35,8 @@ public class GameManager : MonoBehaviour
     public GameObject cameraPrefab;
     public GameObject playerPrefab;
     public PlayerInputManager inputManager;
+    public VolumeProfile profileVolume;
+
 
     public static GameManager Instance {
         get {
@@ -116,7 +115,10 @@ public class GameManager : MonoBehaviour
     {
         // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
-        try {
+        // @debug purpose
+        m_playerOne = Instantiate(playerPrefab);
+        m_playerTwo = Instantiate(playerPrefab);
+        /*try {
             // @note: controls binding to players
             inputManager.playerPrefab = playerPrefab;
             inputManager.JoinPlayer();
@@ -127,7 +129,7 @@ public class GameManager : MonoBehaviour
             m_playerTwo = players[1].gameObject;
         } catch (Exception er) {
             Debug.Log(er.ToString());
-        }
+        }*/
 
         // @note: 2 map pos so random from 0 to 1
         m_indexMap = UnityEngine.Random.Range(0, 2);
@@ -143,6 +145,11 @@ public class GameManager : MonoBehaviour
         var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
         m_camera.GetComponent<CameraController>().SetTargets(targets);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
+        ColorAdjustments colorAdjustments;
+        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            colorAdjustments.saturation.overrideState = true;
+            colorAdjustments.saturation.value = 100f;
+        }
 
         if (m_playerOneWinRate == 0 && m_playerTwoWinRate == 0) {
             StartCoroutine(StartNewGameCoroutine(targets));
@@ -181,25 +188,31 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End coroutine");
         m_roundIsFinished = true;
-        // @note: slowmotion during KO
+        // @note: b&w background
         ColorAdjustments colorAdjustments;
-        if (volume.TryGet<ColorAdjustments>(out colorAdjustments)) {
-            float saturationVal = colorAdjustments.saturation.value;
+        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            float startSaturationVal = colorAdjustments.saturation.value;
+            float destSaturationVal = -100f;
             colorAdjustments.saturation.overrideState = true;
-            colorAdjustments.saturation.value = -100f;
+            while (colorAdjustments.saturation.value != destSaturationVal) {
+                colorAdjustments.saturation.value = Mathf.Lerp(startSaturationVal, destSaturationVal, 1f);
+                Debug.Log("colorAdjustments.saturation.value = " + colorAdjustments.saturation.value.ToString());
+                yield return null;
+            }
         }
+        // @note: slowmotion
+        Time.timeScale = 0.25f;
         yield return new WaitForSeconds(1);
-        Time.timeScale = 0.5f;
-        yield return new WaitForSeconds(2);
+
         Time.timeScale = 1f;
-        yield return new WaitForSeconds(2);
         m_camera.GetComponent<CameraController>().TranslateToTarget(deadPlayer, 10f);
         yield return new WaitForSeconds(6);
-        if (volume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
             float saturationVal = colorAdjustments.saturation.value;
             colorAdjustments.saturation.overrideState = true;
             colorAdjustments.saturation.value = 100f;
         }
+        // @note: save and reload
         Save();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

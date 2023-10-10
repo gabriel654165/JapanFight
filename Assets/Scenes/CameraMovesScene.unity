@@ -32206,6 +32206,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4039522165146828199, guid: a7b6f0892f5c6e3499c0f5f1ebdbdb91,
         type: 3}
+    - target: {fileID: 8495443673391527017, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
+        type: 3}
+      propertyPath: profileVolume
+      value: 
+      objectReference: {fileID: 11400000, guid: e348604617a4a9fc692a26d8ac3024b3,
+        type: 2}
     - target: {fileID: 8495443673391527018, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
         type: 3}
       propertyPath: m_RootOrder
