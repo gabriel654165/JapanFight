@@ -484,6 +484,8 @@ MonoBehaviour:
   m_imgAvatarP2: {fileID: 1521088290665126091}
   m_textTimer: {fileID: 1521088290198350342}
   m_textRound: {fileID: 3199123935969497656}
+  m_popUpPrefab: {fileID: 1941564133137016575, guid: 44f5f11d70d25c14d8209093be87f0dc,
+    type: 3}
 --- !u!1 &1521088290070966675
 GameObject:
   m_ObjectHideFlags: 0

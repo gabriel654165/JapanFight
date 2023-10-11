@@ -19,6 +19,9 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_textTimer;
     [SerializeField] private TextMeshProUGUI m_textRound;
 
+    [SerializeField] private GameObject m_popUpPrefab;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +34,21 @@ public class CanvasController : MonoBehaviour
         UpdateTimer();
         UpdatePlayerPrct();
         UpdateRound();
+    }
+
+    public void SpawnTextPopUp(Vector3 initialScale, Vector3 destScale, string textContent, float duration)
+    {
+        PopUpExtendText currentPopUp = Instantiate(m_popUpPrefab).GetComponent<PopUpExtendText>();
+        Canvas currentCanvasPopUp = currentPopUp.GetComponent<Canvas>();
+
+        currentCanvasPopUp.worldCamera = m_refGameManager.GetCamera();
+        currentCanvasPopUp.sortingOrder = -100;
+        currentCanvasPopUp.planeDistance = 1;
+
+        currentPopUp.InitPopUp(destScale, duration);
+        currentPopUp.SetScale(initialScale);
+        currentPopUp.SetText(textContent);
+        currentPopUp.PopText(0, 0, 0);
     }
 
     public void SetGameManager(GameManager gameManager)

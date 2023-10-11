@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private int m_playerOneWinRate = 0;
     private int m_playerTwoWinRate = 0;
     [SerializeField] private bool m_roundIsFinished = false;
+
     // @note: Singleton obj
     private GameObject m_camera;
     private Canvas m_canvas;
@@ -179,6 +180,12 @@ public class GameManager : MonoBehaviour
         return m_playerOneWinRate + m_playerTwoWinRate;
     }
 
+    // @todo: should return the ref ?
+    public Camera GetCamera()
+    {
+        return m_camera.GetComponent<Camera>();
+    }
+
 
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
@@ -201,7 +208,17 @@ public class GameManager : MonoBehaviour
         Debug.Log("New round coroutine");
         m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
         m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
+        
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        Vector3 destScale = new Vector3(2f, 2f, 2f);
+        float duration = 1f;
+
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "ready", duration);
+        yield return new WaitForSeconds(duration);
+        
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "fight", duration);
+        yield return new WaitForSeconds(duration);
     }
 
 
