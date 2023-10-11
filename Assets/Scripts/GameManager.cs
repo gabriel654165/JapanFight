@@ -93,19 +93,14 @@ public class GameManager : MonoBehaviour
         m_playerOneWinRate = PlayerPrefs.GetInt("playerOneWinRate");
         m_playerTwoWinRate = PlayerPrefs.GetInt("playerTwoWinRate");
 
-        if (m_playerOneWinRate > m_nbRoundsToWin || m_playerTwoWinRate > m_nbRoundsToWin) {
+        if (m_playerOneWinRate >= m_nbRoundsToWin || m_playerTwoWinRate >= m_nbRoundsToWin) {
             m_playerOneWinRate = 0;
             m_playerTwoWinRate = 0;
         }
-
-        //Debug.Log("WinRate One = " + m_playerOneWinRate.ToString());
-        //Debug.Log("WinRate One = " + m_playerTwoWinRate.ToString());
     }
 
     private void Save()
     {
-        m_playerOneWinRate++;
-        m_playerTwoWinRate++;
         PlayerPrefs.SetInt("playerOneWinRate", m_playerOneWinRate);
         PlayerPrefs.SetInt("playerTwoWinRate", m_playerTwoWinRate);
         PlayerPrefs.Save();
@@ -179,6 +174,11 @@ public class GameManager : MonoBehaviour
         return m_timer - m_gameDuration;
     }
 
+    public int GetCurrentRound()
+    {
+        return m_playerOneWinRate + m_playerTwoWinRate;
+    }
+
 
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
@@ -188,9 +188,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
         yield return new WaitForSeconds(4);
-        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 10f);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 0f, 10f);
         yield return new WaitForSeconds(4);
-        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 5f);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 0f, 5f);
         yield return new WaitForSeconds(4);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
     }
@@ -209,29 +209,29 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("End coroutine");
         m_roundIsFinished = true;
+        
         // @note: b&w background
         ColorAdjustments colorAdjustments;
         if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
-            float startSaturationVal = colorAdjustments.saturation.value;
-            float destSaturationVal = -100f;
             colorAdjustments.saturation.overrideState = true;
-            while (colorAdjustments.saturation.value != destSaturationVal) {
-                colorAdjustments.saturation.value = Mathf.Lerp(startSaturationVal, destSaturationVal, 1f);
-                yield return null;
-            }
+            colorAdjustments.saturation.value = -100f;
         }
         // @note: slowmotion
         Time.timeScale = 0.25f;
         yield return new WaitForSeconds(1);
 
         Time.timeScale = 1f;
-        m_camera.GetComponent<CameraController>().TranslateToTarget(deadPlayer, 10f);
-        yield return new WaitForSeconds(6);
-        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
-            float saturationVal = colorAdjustments.saturation.value;
+        m_camera.GetComponent<CameraController>().TranslateToTarget(deadPlayer, 2f, 10f);
+         if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
             colorAdjustments.saturation.overrideState = true;
             colorAdjustments.saturation.value = 100f;
         }
+        yield return new WaitForSeconds(10);
+
+        // @note: add score to alive player
+        m_playerOneWinRate += m_playerOne.GetComponent<Health>().isDead() ? 0 : 1;
+        m_playerTwoWinRate += m_playerTwo.GetComponent<Health>().isDead() ? 0 : 1;
+
         // @note: save and reload
         Save();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

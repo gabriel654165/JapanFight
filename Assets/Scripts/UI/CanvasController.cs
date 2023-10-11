@@ -17,6 +17,7 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private Image m_imgAvatarP2;
     
     [SerializeField] private TextMeshProUGUI m_textTimer;
+    [SerializeField] private TextMeshProUGUI m_textRound;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class CanvasController : MonoBehaviour
     {
         UpdateTimer();
         UpdatePlayerPrct();
+        UpdateRound();
     }
 
     public void SetGameManager(GameManager gameManager)
@@ -50,5 +52,11 @@ public class CanvasController : MonoBehaviour
 
         m_textPrctP1.text = playerList[0].GetComponent<Health>().GetPrctLeftHealth().ToString() + "%";
         m_textPrctP2.text = playerList[1].GetComponent<Health>().GetPrctLeftHealth().ToString() + "%";
+    }
+
+    private void UpdateRound()
+    {
+        // @note: add 1 to GetCurrentRound to never display the round 0
+        m_textRound.text = "Round " + (m_refGameManager.GetCurrentRound() + 1).ToString();
     }
 }

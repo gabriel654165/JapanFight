@@ -33,8 +33,9 @@ public class HandleHit : MonoBehaviour
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
                         Debug.Log("Current animation = " + currentAnim);
+
                         if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(20f);
+                            m_health.Hit(10f);
                             if (m_health.isDead()) {
                                 ChooseDeathAnim(currentAnim);
                             } else {
@@ -48,7 +49,7 @@ public class HandleHit : MonoBehaviour
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
                         if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(40f);
+                            m_health.Hit(10f);
                             if (m_health.isDead()) {
                                 ChooseDeathAnim(currentAnim);
                             } else {
@@ -62,7 +63,7 @@ public class HandleHit : MonoBehaviour
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
                         if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(40f);
+                            m_health.Hit(7f);
                             if (m_health.isDead()) {
                                 ChooseDeathAnim(currentAnim);
                             } else {

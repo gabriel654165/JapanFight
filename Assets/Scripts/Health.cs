@@ -15,10 +15,8 @@ public class Health : MonoBehaviour
 
     public void Hit(float damages)
     {
+        //mettre un coolDown avant de prendre un prochain hit ?
         m_health -= damages;
-
-        //Debug.Log("Health = " + m_health.ToString());
-        
         if (m_health <= 0) {
             Die();
         }

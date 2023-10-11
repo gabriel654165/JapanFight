@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
     private Transform m_currentTarget = null;
 
     private Camera m_camera;
+    private Camera m_overlayCamera;
     private Vector3 m_velocity;
 
     public bool m_isFollowingTargets = false;
@@ -28,6 +29,7 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         m_camera = GetComponent<Camera>();
+        m_overlayCamera = m_camera.transform.Find("OverlayCamera").GetComponent<Camera>();
     }
 
 
@@ -37,14 +39,16 @@ public class CameraController : MonoBehaviour
             return;
         }
         if (m_isFollowingTargets) {
+            // @note: regular behavior of the camera
             Move();
             Zoom();
         } else {
             // @note: for special camera moves
             float newZoom = Mathf.Lerp(m_camera.fieldOfView, m_minZoom, 0.5f);
             float time = Time.deltaTime;
+
             m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
-            m_camera.transform.Find("OverlayCamera").GetComponent<Camera>().fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+            m_overlayCamera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
         }
     }
 
@@ -79,14 +83,17 @@ public class CameraController : MonoBehaviour
     }
 
 
-    public void TranslateToTarget(Transform target, float speedMovement)
+    public void TranslateToTarget(Transform target, float offsetToAddY, float speedMovement)
     {
         m_isFollowingTargets = false;
         m_currentTarget = target;
 
+        // @note : Ternaire to switch between right and left player, for beeing in front of the player
         bool isLeft = target.transform.position.x < transform.position.x;
-        // @note : Ternaire to switch for beeing in front of the player
-        var offsetTranslatePosition = new Vector3(isLeft ? m_offsetAbsoluteLookAt.x : -m_offsetAbsoluteLookAt.x, m_offsetAbsoluteLookAt.y, m_offsetAbsoluteLookAt.z);
+        var offsetX = isLeft ? m_offsetAbsoluteLookAt.x : -m_offsetAbsoluteLookAt.x;
+        // @note: add values to offsetToAddY if you want the camera to be upper
+        var offsetY = m_offsetAbsoluteLookAt.y + offsetToAddY;
+        var offsetTranslatePosition = new Vector3(offsetX, offsetY, m_offsetAbsoluteLookAt.z);
 
         StartCoroutine(MoveAndRotateTo(target.transform, offsetTranslatePosition, speedMovement));
     }
