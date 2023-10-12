@@ -116,7 +116,7 @@ public class PlayerInputController : MonoBehaviour
         if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkForward" || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkBackward")
         {
             Vector2 move = GetComponent<PlayerInput>().actions["Movement"].ReadValue<Vector2>();
-            transform.Translate(0, 0, ((m_invertX ? -move.x : move.x) * m_speed) * Time.deltaTime);
+            transform.Translate(0, 0, ((m_invertX ? move.x : move.x) * m_speed) * Time.deltaTime);
         }
     }
 

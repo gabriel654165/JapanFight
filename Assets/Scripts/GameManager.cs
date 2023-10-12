@@ -115,8 +115,14 @@ public class GameManager : MonoBehaviour
         m_canvas = Instantiate(canvasPrefab);
 
         // @note: init canvas
+        Camera cameraOverlayUI = null;
+
         m_canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        m_canvas.worldCamera = m_camera.GetComponent<Camera>();
+        // @note: assign the overlay camera rendering the UI for this canvas
+        foreach (var overlayCamera in m_camera.GetComponent<UniversalAdditionalCameraData>().cameraStack)
+            if (overlayCamera.gameObject.name == "OverlayCameraUI")
+                cameraOverlayUI = overlayCamera.GetComponent<Camera>();
+        m_canvas.worldCamera = cameraOverlayUI;
         m_canvas.sortingOrder = -100;
         m_canvas.GetComponent<CanvasController>().SetGameManager(this);
 
@@ -187,19 +193,55 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private IEnumerator PreRoundCoroutine()
+    {
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        Vector3 destScale = new Vector3(2f, 2f, 2f);
+        var duration = 1f;
+
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "ready", Vector2.zero, duration);
+        yield return new WaitForSeconds(duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "fight", Vector2.zero, duration);
+        yield return new WaitForSeconds(duration);
+    }
+
+    private IEnumerator DeadPlayerCoroutine()
+    {
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        Vector3 destScale = new Vector3(2f, 2f, 2f);
+        Vector2 offsetPopUp = new Vector2(0, -120);
+        var duration = 2f;
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "dead", offsetPopUp, duration);
+        yield return new WaitForSeconds(duration);
+    }
+
+
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
         Debug.Log("New game coroutine");
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        Vector3 destScale = new Vector3(2f, 2f, 2f);
+        Vector2 offsetPopUp = new Vector2(-150, -150);
+        float duration = 3f;
         var startingPos = new Vector3(m_arrayCameraOffset[m_indexMap].x, 200, m_arrayCameraOffset[m_indexMap].z);
+        
         m_camera.GetComponent<CameraController>().SetOffset(startingPos);
         yield return new WaitForSeconds(1);
         m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
         yield return new WaitForSeconds(4);
+        
         m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 0f, 10f);
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2f);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "Player 1", offsetPopUp, duration);
+        yield return new WaitForSeconds(duration);
+
         m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 0f, 5f);
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(1.5f);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "Player 2", offsetPopUp, duration);
+        yield return new WaitForSeconds(duration);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
+
+        yield return StartCoroutine(PreRoundCoroutine());
     }
 
 
@@ -210,15 +252,7 @@ public class GameManager : MonoBehaviour
         m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
         yield return new WaitForSeconds(1);
         
-        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
-        Vector3 destScale = new Vector3(2f, 2f, 2f);
-        float duration = 1f;
-
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "ready", duration);
-        yield return new WaitForSeconds(duration);
-        
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "fight", duration);
-        yield return new WaitForSeconds(duration);
+        yield return StartCoroutine(PreRoundCoroutine());
     }
 
 
@@ -244,6 +278,8 @@ public class GameManager : MonoBehaviour
             colorAdjustments.saturation.value = 100f;
         }
         yield return new WaitForSeconds(10);
+
+        yield return StartCoroutine(DeadPlayerCoroutine());
 
         // @note: add score to alive player
         m_playerOneWinRate += m_playerOne.GetComponent<Health>().isDead() ? 0 : 1;
