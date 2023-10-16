@@ -199,9 +199,9 @@ public class GameManager : MonoBehaviour
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         var duration = 1f;
 
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "ready", Vector2.zero, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "READY", Vector2.zero, duration);
         yield return new WaitForSeconds(duration);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "fight", Vector2.zero, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "FIGHT", Vector2.zero, duration);
         yield return new WaitForSeconds(duration);
     }
 
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         Vector2 offsetPopUp = new Vector2(0, -120);
         var duration = 2f;
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "dead", offsetPopUp, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "DEAD", offsetPopUp, duration);
         yield return new WaitForSeconds(duration);
     }
 
@@ -232,12 +232,12 @@ public class GameManager : MonoBehaviour
         
         m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 0f, 10f);
         yield return new WaitForSeconds(2f);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "Player 1", offsetPopUp, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration);
         yield return new WaitForSeconds(duration);
 
         m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 0f, 5f);
         yield return new WaitForSeconds(1.5f);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "Player 2", offsetPopUp, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration);
         yield return new WaitForSeconds(duration);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
 

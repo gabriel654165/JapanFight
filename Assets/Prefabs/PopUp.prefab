@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ready
+  m_text: player 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 80d6a552f44bcd946abdbef7dfa21d13, type: 2}
   m_sharedMaterial: {fileID: -3793890844828914637, guid: 80d6a552f44bcd946abdbef7dfa21d13,
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 17
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
