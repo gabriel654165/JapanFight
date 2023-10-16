@@ -121,10 +121,10 @@ public class GameManager : MonoBehaviour
         m_canvas.GetComponent<CanvasController>().SetGameManager(this);
 
         // @debug purpose
-        m_playerOne = Instantiate(playerPrefab);
-        m_playerTwo = Instantiate(playerPrefab);
+        //m_playerOne = Instantiate(playerPrefab);
+        //m_playerTwo = Instantiate(playerPrefab);
         // @note: controls binding to players
-        /*try {
+        try {
             inputManager.playerPrefab = playerPrefab;
             inputManager.JoinPlayer();
             inputManager.JoinPlayer();
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
             m_playerTwo = players[1].gameObject;
         } catch (Exception er) {
             Debug.Log(er.ToString());
-        }*/
+        }
         // @note: invert the x axis for the player on the right
         m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 

@@ -1,0 +1,57 @@
+# Blender MTL File: 'Naruto.blend'
+# Material Count: 5
+newmtl 9bi_aura_01.png_9bi_aura_01.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.702420 0.737269 0.353476
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Documents and Settings\ClintK\Desktop\Naruto.blend\Models_Resource\Models\Naruto_3\Naruto_3\0000.brres\9bi_aura_01.png
+
+
+newmtl nr9_eye.png.001_original03.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.354767 0.348122 0.286225
+Ks 0.250000 0.250000 0.250000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Documents and Settings\ClintK\Desktop\Naruto.blend\Models_Resource\Finished\Rev_3\Naruto_3\0001.brres\original03.png
+
+
+newmtl nr9o_tex02.png.001_nrt_tex02_9t.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.579312 0.324122 0.420094
+Ks 0.250000 0.250000 0.250000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Documents and Settings\ClintK\Desktop\Naruto.blend\Models_Resource\Finished\Rev_3\Naruto_3\0000.brres\nrt_tex02_9t.png
+
+
+newmtl nrt_tex01.png_nrt_tex01.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.702149 0.677173 0.726406
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Documents and Settings\ClintK\Desktop\Naruto.blend\Models_Resource\Models\Naruto_3\Naruto_3\0000.brres\nrt_tex01.png
+
+
+newmtl nrt_tex02.png_nrt_tex02.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.656111 0.724124 0.509786
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Documents and Settings\ClintK\Desktop\Naruto.blend\Models_Resource\Models\Naruto_3\Naruto_3\0000.brres\nrt_tex02.png
+
+

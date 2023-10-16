@@ -15,7 +15,7 @@ public class HandleHit : MonoBehaviour
 
     void Start()
     {
-        m_health = transform.parent.parent.parent.GetComponent<Health>();
+        m_health = transform.root.GetComponent<Health>();
     }
 
     void OnTriggerEnter(Collider collision)

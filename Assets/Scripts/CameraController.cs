@@ -131,7 +131,8 @@ public class CameraController : MonoBehaviour
     private IEnumerator MoveAndRotateTo(Transform target, Vector3 offsetTarget, float speed)
     {
         // @note : find a node in the center of the target
-        var targetCenter = target.Find("Berserker").Find("Motion").Find("B_Pelvis");
+        var targetCenter = target;
+        //var targetCenter = target.Find("Berserker").Find("Motion").Find("B_Pelvis");
         var currentPos = transform.position;
         var targetPos = target.position + offsetTarget;
         var distance = Vector3.Distance(currentPos, targetPos);
