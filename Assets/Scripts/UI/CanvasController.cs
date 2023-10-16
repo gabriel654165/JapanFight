@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 using UnityEngine;
 using TMPro;
 using System;
@@ -21,13 +22,6 @@ public class CanvasController : MonoBehaviour
 
     [SerializeField] private GameObject m_popUpPrefab;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,19 +30,24 @@ public class CanvasController : MonoBehaviour
         UpdateRound();
     }
 
-    public void SpawnTextPopUp(Vector3 initialScale, Vector3 destScale, string textContent, float duration)
+    public void SpawnTextPopUp(Vector3 initialScale, Vector3 destScale, string textContent, Vector2 offset, float duration)
     {
         PopUpExtendText currentPopUp = Instantiate(m_popUpPrefab).GetComponent<PopUpExtendText>();
         Canvas currentCanvasPopUp = currentPopUp.GetComponent<Canvas>();
+        Camera cameraOverlayUI = null;
 
-        currentCanvasPopUp.worldCamera = m_refGameManager.GetCamera();
+        // @note: assign the overlay camera rendering the UI for this canvas
+        foreach (var overlayCamera in m_refGameManager.GetCamera().GetComponent<UniversalAdditionalCameraData>().cameraStack)
+            if (overlayCamera.gameObject.name == "OverlayCameraUI")
+                cameraOverlayUI = overlayCamera.GetComponent<Camera>();
+        currentCanvasPopUp.worldCamera = cameraOverlayUI;
         currentCanvasPopUp.sortingOrder = -100;
-        currentCanvasPopUp.planeDistance = 1;
+        currentCanvasPopUp.planeDistance = 1f;
 
         currentPopUp.InitPopUp(destScale, duration);
         currentPopUp.SetScale(initialScale);
         currentPopUp.SetText(textContent);
-        currentPopUp.PopText(0, 0, 0);
+        currentPopUp.PopText(offset.x, offset.y);
     }
 
     public void SetGameManager(GameManager gameManager)

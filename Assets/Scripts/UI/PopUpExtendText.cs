@@ -30,10 +30,9 @@ public class PopUpExtendText : MonoBehaviour
         m_popUpText.GetComponent<TextMeshProUGUI>().text = text;
     }
 
-    public void PopText(float positionX = 0, float positionY = 0, float positionZ = 0)
+    public void PopText(float positionX = 0, float positionY = 0)
     {
-        //m_popUpText.transform.position = new Vector3(positionX, positionY, positionZ);
-        Debug.Log("Position = " + transform.position.x.ToString());
+        m_popUpText.transform.localPosition = new Vector3(positionX, positionY, m_popUpText.transform.localPosition.z);
         m_isActive = true;
     }
 

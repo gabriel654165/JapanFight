@@ -20,7 +20,8 @@ public class CameraController : MonoBehaviour
     private Transform m_currentTarget = null;
 
     private Camera m_camera;
-    private Camera m_overlayCamera;
+    private Camera m_overlayCameraPlayer;
+    private Camera m_overlayCameraUI;
     private Vector3 m_velocity;
 
     public bool m_isFollowingTargets = false;
@@ -29,7 +30,8 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         m_camera = GetComponent<Camera>();
-        m_overlayCamera = m_camera.transform.Find("OverlayCamera").GetComponent<Camera>();
+        m_overlayCameraPlayer = m_camera.transform.Find("OverlayCameraPlayer").GetComponent<Camera>();
+        m_overlayCameraUI = m_camera.transform.Find("OverlayCameraUI").GetComponent<Camera>();
     }
 
 
@@ -48,7 +50,8 @@ public class CameraController : MonoBehaviour
             float time = Time.deltaTime;
 
             m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
-            m_overlayCamera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+            m_overlayCameraPlayer.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+            m_overlayCameraUI.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
         }
     }
 
@@ -69,7 +72,8 @@ public class CameraController : MonoBehaviour
         float newZoom = Mathf.Lerp(m_maxZoom, m_minZoom, GetGreatestDistance() / m_zoomLimit);
         float time = Time.deltaTime;
         m_camera.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
-        m_camera.transform.Find("OverlayCamera").GetComponent<Camera>().fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+        m_overlayCameraPlayer.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
+        m_overlayCameraUI.fieldOfView = Mathf.Lerp(m_camera.fieldOfView, newZoom, time);
     }
 
     private void Move()
