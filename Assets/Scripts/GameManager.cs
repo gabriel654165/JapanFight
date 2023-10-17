@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
     // @note: prefabs
     public GameObject cameraPrefab;
     public Canvas canvasPrefab;
-    public GameObject playerPrefab;
+    public GameObject playerPrefab1;
+    public GameObject playerPrefab2;
     public PlayerInputManager inputManager;
     public VolumeProfile profileVolume;
 
@@ -127,10 +128,10 @@ public class GameManager : MonoBehaviour
         m_canvas.GetComponent<CanvasController>().SetGameManager(this);
 
         // @debug purpose
-        //m_playerOne = Instantiate(playerPrefab);
-        //m_playerTwo = Instantiate(playerPrefab);
+        m_playerOne = Instantiate(playerPrefab1);
+        m_playerTwo = Instantiate(playerPrefab2);
         // @note: controls binding to players
-        try {
+        /*try {
             inputManager.playerPrefab = playerPrefab;
             inputManager.JoinPlayer();
             inputManager.JoinPlayer();
@@ -140,7 +141,7 @@ public class GameManager : MonoBehaviour
             m_playerTwo = players[1].gameObject;
         } catch (Exception er) {
             Debug.Log(er.ToString());
-        }
+        }*/
         // @note: invert the x axis for the player on the right
         m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
