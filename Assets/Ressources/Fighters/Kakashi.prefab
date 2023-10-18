@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 7014342386618471502}
   - component: {fileID: 7014342386618471496}
   - component: {fileID: 7014342386618471503}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: R_hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1982,7 +1982,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4031859429296385731}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7777776, y: 0.7777776, z: 0.66666657}
   m_ConstrainProportionsScale: 0
@@ -1991,7 +1991,7 @@ Transform:
   - {fileID: 4031859429796402805}
   m_Father: {fileID: 936125221154995726}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!1 &4031859429796402804
 GameObject:
   m_ObjectHideFlags: 0

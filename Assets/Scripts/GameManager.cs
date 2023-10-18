@@ -8,6 +8,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
+[RequireComponent(typeof(MapMetaData))]
 public class GameManager : MonoBehaviour
 {
     private static GameManager m_instance;
@@ -26,12 +27,9 @@ public class GameManager : MonoBehaviour
     private GameObject m_playerOne;
     private GameObject m_playerTwo;
 
-    // @note: map properties
-    [SerializeField] private int m_indexMap = 0;
-    private Vector3[] m_arraySpawnPosP1 = {new Vector3(-5, 1, 0), new Vector3(-40, 1, 50)};
-    private Vector3[] m_arraySpawnPosP2 = {new Vector3(5, 1, 0), new Vector3(-35, 1, 45)};
-    private Vector3[] m_arraySpawnPosCam = {new Vector3(0, 0, 10), new Vector3(-37.5f, 0, 47.5f)};
-    private Vector3[] m_arrayCameraOffset = {new Vector3(0, 2.5f, -30), new Vector3(-20, 2.5f, -20)};
+    // @note: map property
+    [SerializeField] private int m_indexPlace = 0;
+    private static MapMetaData m_mapMetaData;
     
     // @note: prefabs
     public GameObject cameraPrefab;
@@ -111,6 +109,8 @@ public class GameManager : MonoBehaviour
 
     private void InitRound()
     {
+        m_mapMetaData = GetComponent<MapMetaData>();
+
         // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
         m_canvas = Instantiate(canvasPrefab);
@@ -146,11 +146,13 @@ public class GameManager : MonoBehaviour
         m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
-        m_indexMap = UnityEngine.Random.Range(0, 2);
+        m_indexPlace = UnityEngine.Random.Range(0, 2);
+        
         // @note: transfrom init
-        m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
-        m_playerOne.transform.position = m_arraySpawnPosP1[m_indexMap];
-        m_playerTwo.transform.position = m_arraySpawnPosP2[m_indexMap];
+        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
+        m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
+        m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
+
         // @note: make player face each other
         m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
         m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
@@ -224,11 +226,13 @@ public class GameManager : MonoBehaviour
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         Vector2 offsetPopUp = new Vector2(-150, -150);
         float duration = 3f;
-        var startingPos = new Vector3(m_arrayCameraOffset[m_indexMap].x, 200, m_arrayCameraOffset[m_indexMap].z);
+        //var startingPos = new Vector3(m_arrayCameraOffset[m_indexPlace].x, 200, m_arrayCameraOffset[m_indexPlace].z);
+        var startingPos = new Vector3(m_mapMetaData.GetCamoffset(m_indexPlace).x, 200, m_mapMetaData.GetCamoffset(m_indexPlace).z);
         
         m_camera.GetComponent<CameraController>().SetOffset(startingPos);
         yield return new WaitForSeconds(1);
-        m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
+        //m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset);
+        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
         yield return new WaitForSeconds(4);
         
         m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 0f, 10f);
@@ -249,8 +253,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator StartNewRoundCoroutine()
     {
         Debug.Log("New round coroutine");
-        m_camera.transform.position = m_arraySpawnPosCam[m_indexMap];
-        m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexMap]);
+        //m_camera.transform.position = m_arraySpawnPosCam[m_indexPlace];
+        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
+        //m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexPlace]);
+        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
         yield return new WaitForSeconds(1);
         
         yield return StartCoroutine(PreRoundCoroutine());
