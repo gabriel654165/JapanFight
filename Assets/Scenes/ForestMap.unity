@@ -2629,13 +2629,13 @@ PrefabInstance:
         type: 3}
       propertyPath: playerPrefab1
       value: 
-      objectReference: {fileID: 7825058232171926441, guid: f71ea272af2a6d0d0a9f0f545b87caa9,
+      objectReference: {fileID: 7700311845757317012, guid: 65f83e7d22ffc9089b85c6c0618de9da,
         type: 3}
     - target: {fileID: 8495443673391527017, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
         type: 3}
       propertyPath: playerPrefab2
       value: 
-      objectReference: {fileID: 555658272863577268, guid: 2a51426cc6801528294e5092174ee823,
+      objectReference: {fileID: 3002492173473226507, guid: 5da07ca54ce5a30ccae36fdba0d7f95b,
         type: 3}
     - target: {fileID: 8495443673391527017, guid: 686344c1331a0e62c8eb4d8c0d1703ba,
         type: 3}
