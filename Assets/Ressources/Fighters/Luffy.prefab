@@ -6303,7 +6303,7 @@ Animator:
   m_GameObject: {fileID: 7700311845757317012}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: e2a0ab55969950f7daf930e2c2644efc, type: 3}
-  m_Controller: {fileID: 9100000, guid: 8f2f5123e7b753b44ad9b59d61095cb5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 84070ba1f4e325142a4588fd886af2eb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

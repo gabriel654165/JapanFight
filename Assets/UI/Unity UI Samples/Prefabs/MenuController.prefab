@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3301406306334700449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3301406306334700455}
+  - component: {fileID: 3301406306334700448}
+  - component: {fileID: 3301406306334700454}
+  m_Layer: 0
+  m_Name: MenuController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3301406306334700455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3301406306334700449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -33.54602, y: 14.634861, z: 7.8430204}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3301406306334700448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3301406306334700449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f95d895591a62a2ba5ce656a6f1bd70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_posPlayer1: {fileID: 0}
+  m_posPlayer2: {fileID: 0}
+  m_playerNameArray:
+  - goku
+  - kakashi
+  - link
+  - luffy
+  - mwetwo
+  - seiya
+  m_playerPrefabArray:
+  - {fileID: 882816245202634580, guid: d2dc52bb2a0f0e744a27fd7d5ed13cd6, type: 3}
+  - {fileID: 151481808615900619, guid: ebc3ea5aa55de294da41f22235d2eb01, type: 3}
+  - {fileID: 7750312701711147755, guid: 8d1aa11e50a1f9040b72cf74205189b3, type: 3}
+  - {fileID: 6295765505574421696, guid: 213fa94d5ef914342934e52ed45eab42, type: 3}
+  - {fileID: 3794151672674208878, guid: 07a76b57a6c89ff4b92a3861c704597b, type: 3}
+  - {fileID: 1991619665362878805, guid: a9e8f3ba9444a62429139359fae84192, type: 3}
+  m_mapNameArray:
+  - castle
+  - forest
+  - city
+  - spaceShip
+  m_mapPrefabArray:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_canvas: {fileID: 0}
+  m_containerButtonPlayer: {fileID: 0}
+  m_containerButtonMap: {fileID: 0}
+  m_containerChooseField: {fileID: 0}
+  m_buttonPrefab: {fileID: 100004, guid: 05a81c3d5091440058129444d28322f3, type: 3}
+  m_initialCenterPosButton: {x: 0, y: 160, z: 400}
+  m_offsetCenterButton: {x: 0, y: -30, z: 0}
+  m_offsetSideButton: {x: 80, y: 0, z: 0}
+  m_selectedFieldPrefab: {fileID: 9057960309369087659, guid: 4b3d63a778dbfa841a5e9794569bc609,
+    type: 3}
+  m_centerPosSelectFields: {x: 0, y: 0, z: 400}
+  m_offsetSelectField: {x: 300, y: 150, z: 0}
+  m_cursorPlayerPrefab: {fileID: 1083581671039361324, guid: fad037233e21d34448eb13cb248af596,
+    type: 3}
+  inputManager: {fileID: 3301406306334700454}
+--- !u!114 &3301406306334700454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3301406306334700449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 0
+  m_MaxPlayerCount: 2
+  m_AllowJoining: 1
+  m_JoinBehavior: 0
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 1083581671039361324, guid: fad037233e21d34448eb13cb248af596,
+    type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
