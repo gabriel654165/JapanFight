@@ -1,0 +1,11 @@
+Model Information:
+* title:	Naruto Uzumaki (Running Animation)
+* source:	https://sketchfab.com/3d-models/naruto-uzumaki-running-animation-e18903ef372b4be6b4d1935815f21a6f
+* author:	Monhoo (https://sketchfab.com/Monhoo)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Naruto Uzumaki (Running Animation)" (https://sketchfab.com/3d-models/naruto-uzumaki-running-animation-e18903ef372b4be6b4d1935815f21a6f) by Monhoo (https://sketchfab.com/Monhoo) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

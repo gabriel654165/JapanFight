@@ -12,7 +12,6 @@ Material:
     type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
-  - _SPECULAR_SETUP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -119,7 +118,7 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _VerticalSolve: 0
-    - _WorkflowMode: 0
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0

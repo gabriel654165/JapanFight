@@ -118,7 +118,7 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _UVSec: 0
-    - _VerticalSolve: 0.282
+    - _VerticalSolve: 0.171
     - _WorkflowMode: 0
     - _ZTest: 4
     - _ZWrite: 1
