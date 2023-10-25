@@ -500,7 +500,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b8f07e2302842518a8c84302f813f048, type: 2}
+  - {fileID: 2100000, guid: 3b26f83a3c921a14391da23d4a09f27c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -819,6 +819,7 @@ GameObject:
   - component: {fileID: 4606153776464860884}
   - component: {fileID: 7569553304489741486}
   - component: {fileID: 4606153776464860885}
+  - component: {fileID: 2163324334950487743}
   m_Layer: 0
   m_Name: mwetwo menu
   m_TagString: Untagged
@@ -881,6 +882,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &2163324334950487743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3794151672674208878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02c1fd6875cd67f4db70666892ecd0e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_duration: 0.75
 --- !u!1 &3815185085294700561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,7 +1139,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fdf9aee0b3ef3168091b24e0c3857942, type: 2}
+  - {fileID: 2100000, guid: 776a37b435426774a9d40a9e89e4831f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

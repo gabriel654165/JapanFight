@@ -2052,11 +2052,11 @@ SkinnedMeshRenderer:
   - {fileID: 2100000, guid: a12acf6f81a176b42b4f2b42e60c8d66, type: 2}
   - {fileID: 2100000, guid: 7e53479db54ddf341b1e169b5cb8fa61, type: 2}
   - {fileID: 2100000, guid: b69d5c9997113d74abdf9d2191d7d727, type: 2}
-  - {fileID: 2100000, guid: 7e53479db54ddf341b1e169b5cb8fa61, type: 2}
   - {fileID: 2100000, guid: 687f29d16e363f443b76381b515f2f70, type: 2}
+  - {fileID: 2100000, guid: 007ad5f950ba36d48bb4bd9482e0e97e, type: 2}
   - {fileID: 2100000, guid: 2610c5bef719841468280614911bf5f0, type: 2}
   - {fileID: 2100000, guid: 0123ca84d90a5fe479b8f20dc753aea3, type: 2}
-  - {fileID: 2100000, guid: 007ad5f950ba36d48bb4bd9482e0e97e, type: 2}
+  - {fileID: 2100000, guid: 9546ddd82c4c7054fb3d22817fe771a0, type: 2}
   - {fileID: 2100000, guid: a0e7e210022f994459b8aafa99ef37ab, type: 2}
   - {fileID: 2100000, guid: 0123ca84d90a5fe479b8f20dc753aea3, type: 2}
   - {fileID: 2100000, guid: a44ef303a0a4dab4f9d38596de717bd8, type: 2}

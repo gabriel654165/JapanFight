@@ -6,7 +6,7 @@ public class SolveShader : MonoBehaviour
 {
     [SerializeField] private float m_duration = 0.75f;
 
-    private SkinnedMeshRenderer[] m_spriteRenderers;
+    private Renderer[] m_spriteRenderers;
     private Material[] m_materials;
 
     private int m_solveAmount = Shader.PropertyToID("_SolveAmount");
@@ -14,7 +14,7 @@ public class SolveShader : MonoBehaviour
 
     void Start()
     {
-        m_spriteRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        m_spriteRenderers = GetComponentsInChildren<Renderer>();
 
         int nbMaterials = 0;
         for (int i = 0; i < m_spriteRenderers.Length; i++)

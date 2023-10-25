@@ -48,7 +48,7 @@ Material:
     - _Cull: 2
     - _DisolveAmout: 1.1
     - _DstBlend: 0
-    - _OutlineThickness: 0.1
+    - _OutlineThickness: 0.05
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
