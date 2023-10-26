@@ -5,7 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float m_maxHealth = 200f;
-    /*private*/public float m_health = 0;
+    private float m_health = 0;
     private bool m_isDead = false;
 
     void Start()
@@ -13,10 +13,14 @@ public class Health : MonoBehaviour
         m_health = m_maxHealth;
     }
 
+    // @todo: mettre un coolDown avant de prendre un prochain hit ?
     public void Hit(float damages)
     {
-        //mettre un coolDown avant de prendre un prochain hit ?
-        m_health -= damages;
+        if (m_health - damages < 0)
+            m_health = 0;
+        else
+            m_health -= damages;
+
         if (m_health <= 0) {
             Die();
         }

@@ -18,6 +18,8 @@ public class MenuController : MonoBehaviour
     private Dictionary<string, GameObject> m_playerPrefabDictionary = new Dictionary<string, GameObject>();
     private string m_playerName1;
     private string m_playerName2;
+    private int m_indexPlayer1 = 0;
+    private int m_indexPlayer2 = 0;
     // @note: players on screen
     private GameObject m_playerOneObj;
     private GameObject m_playerTwoObj;
@@ -109,20 +111,23 @@ public class MenuController : MonoBehaviour
         }
 
         // @note: init player buttons
+        index = 0;
         foreach (var playerName in m_playerNameArray) {
+            int newIndex = index;
             GameObject newButtonP1 = Instantiate(m_buttonPrefab);
             GameObject newButtonP2 = Instantiate(m_buttonPrefab);
             
             newButtonP1.GetComponent<ButtonMenu>().SetText(playerName);
             newButtonP2.GetComponent<ButtonMenu>().SetText(playerName);
-            newButtonP1.GetComponent<ButtonMenu>().SetEventCallBack(() => { SetPlayerOne(m_posPlayer1, playerName, m_playerPrefabDictionary[playerName]); });
-            newButtonP2.GetComponent<ButtonMenu>().SetEventCallBack(() => { SetPlayerTwo(m_posPlayer2, playerName, m_playerPrefabDictionary[playerName]); });
+            newButtonP1.GetComponent<ButtonMenu>().SetEventCallBack(() => { SetPlayerOne(m_posPlayer1, playerName, newIndex, m_playerPrefabDictionary[playerName]); });
+            newButtonP2.GetComponent<ButtonMenu>().SetEventCallBack(() => { SetPlayerTwo(m_posPlayer2, playerName, newIndex, m_playerPrefabDictionary[playerName]); });
             newButtonP1.transform.SetParent(m_containerButtonPlayer.transform);
             newButtonP2.transform.SetParent(m_containerButtonPlayer.transform);
             newButtonP1.transform.position = lastPos - m_offsetSideButton;
             newButtonP2.transform.position = lastPos + m_offsetSideButton;
             lastPos = new Vector3(m_initialCenterPosButton.x + m_offsetCenterButton.x, lastPos.y + m_offsetCenterButton.y, m_initialCenterPosButton.z + m_offsetCenterButton.z);
             lastPos = new Vector3(m_initialCenterPosButton.x + m_offsetCenterButton.x, lastPos.y + m_offsetCenterButton.y, m_initialCenterPosButton.z + m_offsetCenterButton.z);
+            index++;
         }
     }
 
@@ -150,8 +155,9 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void SetPlayerOne(Transform posSpawn, string playerName, GameObject playerToInstantiate)
+    public void SetPlayerOne(Transform posSpawn, string playerName, int indexPlayer, GameObject playerToInstantiate)
     {
+        m_indexPlayer1 = indexPlayer;
         m_playerName1 = playerName;
         if (m_playerOneObj != null) {
             Destroy(m_playerOneObj);
@@ -165,8 +171,9 @@ public class MenuController : MonoBehaviour
         m_playerOneObj = newPlayer;
     }
 
-    public void SetPlayerTwo(Transform posSpawn, string playerName, GameObject playerToInstantiate)
+    public void SetPlayerTwo(Transform posSpawn, string playerName, int indexPlayer, GameObject playerToInstantiate)
     {
+        m_indexPlayer2 = indexPlayer;
         m_playerName2 = playerName;
         if (m_playerTwoObj != null) {
             Destroy(m_playerTwoObj);
@@ -247,7 +254,8 @@ public class MenuController : MonoBehaviour
     }
 
     private IEnumerator LoadSceneCoroutine() {
-        //assign the players also
+        Save();
+
         foreach (var index in m_scenesDictionnary.Keys)
         {
             if (index == m_mapIndex) {
@@ -269,4 +277,11 @@ public class MenuController : MonoBehaviour
         m_cptSelect = 0;
     }
 
+    private void Save()
+    {
+
+        PlayerPrefs.SetInt("indexPlayer1", m_indexPlayer1);
+        PlayerPrefs.SetInt("indexPlayer2", m_indexPlayer2);
+        PlayerPrefs.Save();
+    }
 }

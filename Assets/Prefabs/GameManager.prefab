@@ -47,12 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_roundIsFinished: 0
   m_indexPlace: 0
+  m_mapPrefabArray:
+  - {fileID: 3002492173473226507, guid: 5da07ca54ce5a30ccae36fdba0d7f95b, type: 3}
+  - {fileID: 8794010893159128874, guid: 5ad86ac00ec427443983732d7b2e3795, type: 3}
+  - {fileID: 7700311845757317012, guid: 65f83e7d22ffc9089b85c6c0618de9da, type: 3}
+  - {fileID: 7004715499153084777, guid: 4d8c9819cd399581587e67c8879e5fa6, type: 3}
+  - {fileID: 7825058232171926441, guid: f71ea272af2a6d0d0a9f0f545b87caa9, type: 3}
+  - {fileID: 1381669747960494898, guid: c5c9e222fd7c5374885a5c892bc9fdb4, type: 3}
+  - {fileID: 3937033315489113326, guid: 54d3e72e37ede9140a81c9e8fe458700, type: 3}
+  - {fileID: 4326179490444688567, guid: 440da284d7d45084290b92a128862428, type: 3}
   cameraPrefab: {fileID: 7620719105220416380, guid: 1db55deac3813eac7b8f4567422b7bd4,
     type: 3}
   canvasPrefab: {fileID: 1521088289689159515, guid: aff099edd206d3640b663a850d477063,
     type: 3}
-  playerPrefab1: {fileID: 0}
-  playerPrefab2: {fileID: 0}
   inputManager: {fileID: 4440900316826048888, guid: feba4858946a16b46ba5d529ca72ea32,
     type: 3}
   profileVolume: {fileID: 11400000, guid: e348604617a4a9fc692a26d8ac3024b3, type: 2}

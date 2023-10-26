@@ -30,12 +30,16 @@ public class GameManager : MonoBehaviour
     // @note: map property
     [SerializeField] private int m_indexPlace = 0;
     private static MapMetaData m_mapMetaData;
+    private int m_indexPlayer1 = 0;
+    private int m_indexPlayer2 = 0;
+    [SerializeField] private GameObject[] m_mapPrefabArray;
+
     
     // @note: prefabs
     public GameObject cameraPrefab;
     public Canvas canvasPrefab;
-    public GameObject playerPrefab1;
-    public GameObject playerPrefab2;
+    private GameObject m_playerPrefab1;
+    private GameObject m_playerPrefab2;
     public PlayerInputManager inputManager;
     public VolumeProfile profileVolume;
 
@@ -64,72 +68,48 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Load();
-        InitRound();
-    }
-
-    void Update()
-    {
-        if (m_roundIsFinished)
-            return;
-        m_timer += Time.deltaTime;
-        if (m_timer > m_gameDuration) {
-            Save();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        if (m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead()) {
-            StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
-        }
-    }
-
-    private void Load()
-    {
-        if (!PlayerPrefs.HasKey("playerOneWinRate") || !PlayerPrefs.HasKey("playerTwoWinRate")) {
-            Debug.Log("Value does not exist in PlayerPrefs");
-            m_playerOneWinRate = 0;
-            m_playerTwoWinRate = 0;
-            return;
-        }
-        m_playerOneWinRate = PlayerPrefs.GetInt("playerOneWinRate");
-        m_playerTwoWinRate = PlayerPrefs.GetInt("playerTwoWinRate");
-
-        if (m_playerOneWinRate >= m_nbRoundsToWin || m_playerTwoWinRate >= m_nbRoundsToWin) {
-            m_playerOneWinRate = 0;
-            m_playerTwoWinRate = 0;
-        }
-    }
-
-    private void Save()
-    {
-        PlayerPrefs.SetInt("playerOneWinRate", m_playerOneWinRate);
-        PlayerPrefs.SetInt("playerTwoWinRate", m_playerTwoWinRate);
-        PlayerPrefs.Save();
-    }
-    
-
-    private void InitRound()
-    {
-        m_mapMetaData = GetComponent<MapMetaData>();
+         m_mapMetaData = GetComponent<MapMetaData>();
 
         // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
         m_canvas = Instantiate(canvasPrefab);
 
-        // @note: init canvas
-        Camera cameraOverlayUI = null;
+        InitPlayers();
+        InitCamera();
+        InitCanvas();
 
-        m_canvas.renderMode = RenderMode.ScreenSpaceCamera;
-        // @note: assign the overlay camera rendering the UI for this canvas
-        foreach (var overlayCamera in m_camera.GetComponent<UniversalAdditionalCameraData>().cameraStack)
-            if (overlayCamera.gameObject.name == "OverlayCameraUI")
-                cameraOverlayUI = overlayCamera.GetComponent<Camera>();
-        m_canvas.worldCamera = cameraOverlayUI;
-        m_canvas.sortingOrder = -100;
-        m_canvas.GetComponent<CanvasController>().SetGameManager(this);
+        // @note: launch round coroutines
+        if (m_playerOneWinRate == 0 && m_playerTwoWinRate == 0) {
+            var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
+            StartCoroutine(StartNewGameCoroutine(targets));
+        } else {
+            StartCoroutine(StartNewRoundCoroutine());
+        }
+    }
+
+    #region INIT COMPONENTS
+    private void InitCamera()
+    {
+        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
+
+        var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
+        m_camera.GetComponent<CameraController>().SetTargets(targets);
+        m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
+        ColorAdjustments colorAdjustments;
+        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            colorAdjustments.saturation.overrideState = true;
+            colorAdjustments.saturation.value = 100f;
+        }
+    }
+
+    private void InitPlayers()
+    {
+        m_playerPrefab1 = m_mapPrefabArray[m_indexPlayer1];
+        m_playerPrefab2 = m_mapPrefabArray[m_indexPlayer2];
 
         // @debug purpose
-        m_playerOne = Instantiate(playerPrefab1);
-        m_playerTwo = Instantiate(playerPrefab2);
+        m_playerOne = Instantiate(m_playerPrefab1);
+        m_playerTwo = Instantiate(m_playerPrefab2);
         // @note: controls binding to players
         /*try {
             inputManager.playerPrefab = playerPrefab;
@@ -142,37 +122,35 @@ public class GameManager : MonoBehaviour
         } catch (Exception er) {
             Debug.Log(er.ToString());
         }*/
-        // @note: invert the x axis for the player on the right
+        
         m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
         m_indexPlace = UnityEngine.Random.Range(0, 2);
         
-        // @note: transfrom init
-        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
         m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
         m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
 
         // @note: make player face each other
         m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
         m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
-
-        // @note: camera init 
-        var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
-        m_camera.GetComponent<CameraController>().SetTargets(targets);
-        m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
-        ColorAdjustments colorAdjustments;
-        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
-            colorAdjustments.saturation.overrideState = true;
-            colorAdjustments.saturation.value = 100f;
-        }
-
-        if (m_playerOneWinRate == 0 && m_playerTwoWinRate == 0) {
-            StartCoroutine(StartNewGameCoroutine(targets));
-        } else {
-            StartCoroutine(StartNewRoundCoroutine());
-        }
     }
+
+    private void InitCanvas()
+    {
+        // @note: init canvas
+        Camera cameraOverlayUI = null;
+
+        m_canvas.renderMode = RenderMode.ScreenSpaceCamera;
+        // @note: assign the overlay camera rendering the UI for this canvas
+        foreach (var overlayCamera in m_camera.GetComponent<UniversalAdditionalCameraData>().cameraStack)
+            if (overlayCamera.gameObject.name == "OverlayCameraUI")
+                cameraOverlayUI = overlayCamera.GetComponent<Camera>();
+        m_canvas.worldCamera = cameraOverlayUI;
+        m_canvas.sortingOrder = -100;
+        m_canvas.GetComponent<CanvasController>().SetGameManager(this);
+    }
+    #endregion
 
     public List<GameObject> GetPlayerList()
     {
@@ -195,7 +173,65 @@ public class GameManager : MonoBehaviour
         return m_camera.GetComponent<Camera>();
     }
 
+    #region PLAYERPREF
+    
+    private void Load()
+    {
+        if (!PlayerPrefs.HasKey("playerOneWinRate") || !PlayerPrefs.HasKey("playerTwoWinRate")) {
+            Debug.Log("WinRates values does not exist in PlayerPrefs");
+            m_playerOneWinRate = 0;
+            m_playerTwoWinRate = 0;
+            return;
+        }
+        
+        if (!PlayerPrefs.HasKey("indexPlayer1") || !PlayerPrefs.HasKey("indexPlayer2")) {
+            Debug.Log("Players Index values does not exist in PlayerPrefs");
+            m_indexPlayer1 = 0;
+            m_indexPlayer2 = 0;
+            return;
+        }
 
+        m_playerOneWinRate = PlayerPrefs.GetInt("playerOneWinRate");
+        m_playerTwoWinRate = PlayerPrefs.GetInt("playerTwoWinRate");
+        m_indexPlayer1 = PlayerPrefs.GetInt("indexPlayer1");
+        m_indexPlayer2 = PlayerPrefs.GetInt("indexPlayer2");
+
+        if (m_playerOneWinRate >= m_nbRoundsToWin || m_playerTwoWinRate >= m_nbRoundsToWin) {
+            m_playerOneWinRate = 0;
+            m_playerTwoWinRate = 0;
+        }
+        if (m_mapPrefabArray.Length <= m_indexPlayer2) {
+            m_indexPlayer2 = 0;
+        }
+        if (m_mapPrefabArray.Length <= m_indexPlayer1) {
+            m_indexPlayer1 = 0;
+        }
+    }
+
+    private void Save()
+    {
+        PlayerPrefs.SetInt("playerOneWinRate", m_playerOneWinRate);
+        PlayerPrefs.SetInt("playerTwoWinRate", m_playerTwoWinRate);
+        PlayerPrefs.Save();
+    }
+    #endregion
+
+    void Update()
+    {
+        if (m_roundIsFinished)
+            return;
+        m_timer += Time.deltaTime;
+        if (m_timer > m_gameDuration) {
+            Save();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead()) {
+            StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
+        }
+    }
+
+    #region COROUTINES
     private IEnumerator PreRoundCoroutine()
     {
         Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
@@ -296,4 +332,6 @@ public class GameManager : MonoBehaviour
         Save();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    #endregion
+
 }
