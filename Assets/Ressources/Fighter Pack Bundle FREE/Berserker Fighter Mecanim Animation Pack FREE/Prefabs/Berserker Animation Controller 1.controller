@@ -627,8 +627,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: fdbf6fd6689b3cb469cbc67d1bd744e5,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 3b63f0d7d94e6d645a2af1260193983c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -784,6 +783,12 @@ AnimatorController:
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: -1
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Celebrate
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   m_AnimatorLayers:
@@ -1623,7 +1628,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 16bb1925bd58d6d4f9650b36cfa7a8b4, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6305ab04536bd0347ad730f933a8e4ee, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

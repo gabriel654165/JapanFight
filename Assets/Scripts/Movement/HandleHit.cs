@@ -11,6 +11,7 @@ public class HandleHit : MonoBehaviour
     [SerializeField] private Part m_part;
     [SerializeField] private Animator m_animator;
     [SerializeField] private Collider[] m_boxToExclude;
+    [SerializeField] private Collider m_colliderToMaintain;
     private Health m_health;
 
     void Start()
@@ -72,6 +73,20 @@ public class HandleHit : MonoBehaviour
                         }
                     }
                     break;
+                case "HighKick":
+                    if (!m_health.isDead()) {
+                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                            m_health.Hit(12f);
+                            if (m_health.isDead()) {
+                                ChooseDeathAnim(currentAnim);
+                            } else {
+                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                            }
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -84,6 +99,10 @@ public class HandleHit : MonoBehaviour
     private void ChooseDeathAnim(string currentAnimName)
     {
         if (currentAnimName != "Brutal Assassination" && currentAnimName != "Death") {
+            // @note: to make the chracter able to toutch the ground, the collider goes up
+            Vector3 localPos = m_colliderToMaintain.gameObject.transform.localPosition;
+            m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y + 1, localPos.z);
+            
             // @note: random anim between 2 animations of death
             var randomIndex = Random.Range(0, 2);
             m_animator.SetInteger("Die", randomIndex);

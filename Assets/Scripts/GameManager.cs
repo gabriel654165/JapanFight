@@ -105,9 +105,9 @@ public class GameManager : MonoBehaviour
     private void InitPlayers()
     {
         m_playerPrefab1 = m_mapPrefabArray[m_indexPlayer1];
-        m_playerPrefab1 = m_mapPrefabArray[6];
+        m_playerPrefab1 = m_mapPrefabArray[0];
         m_playerPrefab2 = m_mapPrefabArray[m_indexPlayer2];
-        m_playerPrefab2 = m_mapPrefabArray[7];
+        m_playerPrefab2 = m_mapPrefabArray[5];
 
         // @debug purpose
         m_playerOne = Instantiate(m_playerPrefab1);
@@ -210,7 +210,8 @@ public class GameManager : MonoBehaviour
         }
 
         // @debug
-        m_playerOneWinRate = 1;
+        m_playerOneWinRate = 0;
+        m_playerTwoWinRate = 0;
     }
 
     private void Save()
@@ -281,14 +282,23 @@ public class GameManager : MonoBehaviour
         m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
         yield return new WaitForSeconds(4);
         
-        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[0], 0f, 10f);
+        Transform posTarget = new GameObject().transform;
+        posTarget.position =  new Vector3(targets[0].position.x, targets[0].position.y + 0.5f, targets[0].position.z);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 7f);
         yield return new WaitForSeconds(2f);
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration);
+        var randomIndex = UnityEngine.Random.Range(0, 3);
+        targets[0].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
+        targets[0].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
         yield return new WaitForSeconds(duration);
 
-        m_camera.GetComponent<CameraController>().TranslateToTarget(targets[1], 0f, 5f);
+        posTarget.position =  new Vector3(targets[1].position.x, targets[1].position.y + 0.5f, targets[1].position.z);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 3f);//creer un autre transform et move dessus
         yield return new WaitForSeconds(1.5f);
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration);
+        randomIndex = UnityEngine.Random.Range(0, 3);
+        targets[1].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
+        targets[1].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
         yield return new WaitForSeconds(duration);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
 

@@ -669,7 +669,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2953596690567903249}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.00136081, y: 0.0031072488, z: 0.0012862801}
@@ -1531,8 +1531,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.0119194, z: 0.7916928}
-  m_Center: {x: 0, y: 1.9405863, z: 0.13535383}
+  m_Size: {x: 1, y: 1.0119193, z: 1.2}
+  m_Center: {x: 0, y: 1.9405863, z: 0.03712649}
 --- !u!114 &7083106650842320264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1551,6 +1551,7 @@ MonoBehaviour:
   - {fileID: 1629032365353274073}
   - {fileID: 7603875704945863338}
   - {fileID: 2439444970332101940}
+  m_colliderToMaintain: {fileID: 6771038861176279037}
 --- !u!1 &7083106651134899566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,8 +1596,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.3388679, z: 0.7916928}
-  m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
+  m_Size: {x: 1, y: 1.338868, z: 1.2}
+  m_Center: {x: 0, y: 0.70267534, z: 0.021922091}
 --- !u!114 &7083106651134899560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1615,6 +1616,7 @@ MonoBehaviour:
   - {fileID: 1629032365353274073}
   - {fileID: 7603875704945863338}
   - {fileID: 2439444970332101940}
+  m_colliderToMaintain: {fileID: 6771038861176279037}
 --- !u!1 &7083106651942370175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,7 +1835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_animator: {fileID: 3545403250382934889}
-  m_speed: 5
+  m_speed: 2.5
   m_lock: 0
 --- !u!114 &3545403250382934677
 MonoBehaviour:
@@ -1939,19 +1941,7 @@ MonoBehaviour:
     m_ActionId: f5f88441-7305-434d-8647-3161e417a0d9
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
-        m_MethodName: SpecialAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 7d66b6e5-5644-4307-84e5-20e5a47b4b1f
     m_ActionName: Player/Special_attack[/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
@@ -2006,6 +1996,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 973e3328-209a-41b3-8ba8-2bee8924964e
     m_ActionName: Player/Movement[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3545403250382934676}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: Foot_attack_2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2479d4f3-6356-4747-89f0-1abb5e39c69d
+    m_ActionName: Player/Foot_attack_2[/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth,/Keyboard/alt]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

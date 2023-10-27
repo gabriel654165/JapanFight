@@ -522,7 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_animator: {fileID: 5658580691803913202}
-  m_speed: 5
+  m_speed: 2.5
   m_lock: 0
 --- !u!114 &5658580691803913102
 MonoBehaviour:
@@ -683,6 +683,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 973e3328-209a-41b3-8ba8-2bee8924964e
     m_ActionName: Player/Movement[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5658580691803913101}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: Foot_attack_2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2479d4f3-6356-4747-89f0-1abb5e39c69d
+    m_ActionName: Player/Foot_attack_2[/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth,/Keyboard/alt]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1282,7 +1298,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.0119194, z: 0.7916928}
+  m_Size: {x: 1, y: 1.0119194, z: 1.2}
   m_Center: {x: 0, y: 1.9405863, z: 0.13535383}
 --- !u!114 &2968367892674186375
 MonoBehaviour:
@@ -1302,6 +1318,7 @@ MonoBehaviour:
   - {fileID: 5243065173935780759}
   - {fileID: 8695393779651675793}
   - {fileID: 5706232084784846555}
+  m_colliderToMaintain: {fileID: 295078332931042181}
 --- !u!1 &2968367894258856410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1346,7 +1363,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.3388679, z: 0.7916928}
+  m_Size: {x: 1, y: 1.3388679, z: 1.2}
   m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
 --- !u!114 &2968367894258856408
 MonoBehaviour:
@@ -1366,6 +1383,7 @@ MonoBehaviour:
   - {fileID: 5243065173935780759}
   - {fileID: 8695393779651675793}
   - {fileID: 5706232084784846555}
+  m_colliderToMaintain: {fileID: 295078332931042181}
 --- !u!1 &3240716286247504445
 GameObject:
   m_ObjectHideFlags: 0
@@ -2443,7 +2461,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6353840336332868599}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.5259495, y: 1.654601, z: 1.6929922}

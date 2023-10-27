@@ -55,6 +55,15 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Foot_attack_2"",
+                    ""type"": ""Button"",
+                    ""id"": ""2479d4f3-6356-4747-89f0-1abb5e39c69d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""f5f88441-7305-434d-8647-3161e417a0d9"",
@@ -113,7 +122,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cf6170c3-d58a-4667-861f-cdcb0eda8750"",
-                    ""path"": ""<XInputController>/buttonEast"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox"",
@@ -124,7 +133,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2549bc25-2818-46c8-bf01-6a35bc7923b3"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -179,7 +188,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a86d5a8e-856c-419b-a41d-e07cf7c6f6c2"",
-                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox"",
@@ -190,7 +199,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bdd68b77-1554-453f-9949-8eafabdf3c0d"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -212,7 +221,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""64e1bc30-fd7e-44eb-bf77-a01b086abaff"",
-                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox"",
@@ -223,7 +232,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""14aa6ff2-edfb-47e2-a8ae-678e7eef59a5"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<XInputController>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -527,6 +536,39 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37a7d285-4211-48d6-9e8d-2fcd0f9fa072"",
+                    ""path"": ""<XInputController>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox"",
+                    ""action"": ""Foot_attack_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4768614-f4b8-41ed-9381-b79b9e5bed91"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Foot_attack_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""33a3a52b-4df6-4e4d-a90e-67ad45ca2151"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Foot_attack_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -550,6 +592,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
         m_Player_Fist_attack_1 = m_Player.FindAction("Fist_attack_1", throwIfNotFound: true);
         m_Player_Fist_attack_2 = m_Player.FindAction("Fist_attack_2", throwIfNotFound: true);
         m_Player_Foot_attack_1 = m_Player.FindAction("Foot_attack_1", throwIfNotFound: true);
+        m_Player_Foot_attack_2 = m_Player.FindAction("Foot_attack_2", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Special_attack = m_Player.FindAction("Special_attack", throwIfNotFound: true);
         m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
@@ -618,6 +661,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fist_attack_1;
     private readonly InputAction m_Player_Fist_attack_2;
     private readonly InputAction m_Player_Foot_attack_1;
+    private readonly InputAction m_Player_Foot_attack_2;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Special_attack;
     private readonly InputAction m_Player_Dodge;
@@ -631,6 +675,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
         public InputAction @Fist_attack_1 => m_Wrapper.m_Player_Fist_attack_1;
         public InputAction @Fist_attack_2 => m_Wrapper.m_Player_Fist_attack_2;
         public InputAction @Foot_attack_1 => m_Wrapper.m_Player_Foot_attack_1;
+        public InputAction @Foot_attack_2 => m_Wrapper.m_Player_Foot_attack_2;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Special_attack => m_Wrapper.m_Player_Special_attack;
         public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
@@ -655,6 +700,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 @Foot_attack_1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoot_attack_1;
                 @Foot_attack_1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoot_attack_1;
                 @Foot_attack_1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoot_attack_1;
+                @Foot_attack_2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoot_attack_2;
+                @Foot_attack_2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoot_attack_2;
+                @Foot_attack_2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFoot_attack_2;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
@@ -686,6 +734,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 @Foot_attack_1.started += instance.OnFoot_attack_1;
                 @Foot_attack_1.performed += instance.OnFoot_attack_1;
                 @Foot_attack_1.canceled += instance.OnFoot_attack_1;
+                @Foot_attack_2.started += instance.OnFoot_attack_2;
+                @Foot_attack_2.performed += instance.OnFoot_attack_2;
+                @Foot_attack_2.canceled += instance.OnFoot_attack_2;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -722,6 +773,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
         void OnFist_attack_1(InputAction.CallbackContext context);
         void OnFist_attack_2(InputAction.CallbackContext context);
         void OnFoot_attack_1(InputAction.CallbackContext context);
+        void OnFoot_attack_2(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSpecial_attack(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);

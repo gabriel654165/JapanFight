@@ -11,6 +11,7 @@ public class Jump : MonoBehaviour
     {
         //m_footCollider.isTrigger = true;
         m_jumpSpeed = 6.5f;
+        // @note: cannot move with velocity beacause the player is moving with positions
         m_rigidbody.AddForce(new Vector3(0, m_jumpSpeed, 0), ForceMode.Impulse);
     }
 

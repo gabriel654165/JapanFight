@@ -3364,7 +3364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_animator: {fileID: 7035274814327929975}
-  m_speed: 5
+  m_speed: 2.5
   m_lock: 0
 --- !u!114 &3981883558078277129
 MonoBehaviour:
@@ -3525,6 +3525,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 973e3328-209a-41b3-8ba8-2bee8924964e
     m_ActionName: Player/Movement[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3981883558078277130}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
+        m_MethodName: Foot_attack_2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2479d4f3-6356-4747-89f0-1abb5e39c69d
+    m_ActionName: Player/Foot_attack_2[/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth,/Keyboard/alt]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -4340,7 +4356,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5599391682284327874}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.32540223, y: 0.36614928, z: 0.20118266}
@@ -6341,7 +6357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8719666185456936709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6359,7 +6375,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.0119194, z: 0.7916928}
+  m_Size: {x: 1, y: 1.0119194, z: 1.2}
   m_Center: {x: 0, y: 1.9405863, z: 0.13535383}
 --- !u!114 &8719666185456936711
 MonoBehaviour:
@@ -6379,6 +6395,7 @@ MonoBehaviour:
   - {fileID: 1532044184317710270}
   - {fileID: 5700974632680521089}
   - {fileID: 7760085549745715203}
+  m_colliderToMaintain: {fileID: 7262592360458104753}
 --- !u!1 &8719666185720207585
 GameObject:
   m_ObjectHideFlags: 0
@@ -6405,7 +6422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8719666185720207585}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6423,7 +6440,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.3388679, z: 0.7916928}
+  m_Size: {x: 1, y: 1.3388679, z: 1.2}
   m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
 --- !u!114 &8719666185720207587
 MonoBehaviour:
@@ -6443,6 +6460,7 @@ MonoBehaviour:
   - {fileID: 1532044184317710270}
   - {fileID: 5700974632680521089}
   - {fileID: 7760085549745715203}
+  m_colliderToMaintain: {fileID: 7262592360458104753}
 --- !u!1 &8815249882918447462
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,8 +8,8 @@ public class MapMetaData : MonoBehaviour
     private int m_indexPlace = 0;
 
     private Tuple<int, Vector3>[] m_spawnPosP1 = new Tuple<int, Vector3>[] {
-        new Tuple<int, Vector3>(0, new Vector3(-5, 1, 0)),
-        new Tuple<int, Vector3>(0, new Vector3(-40, 1, 50)),
+        new Tuple<int, Vector3>(0, new Vector3(-5, 0, 0)),
+        new Tuple<int, Vector3>(0, new Vector3(-40, 0, 50)),
         new Tuple<int, Vector3>(1, new Vector3(28, 1, 75)),
         new Tuple<int, Vector3>(1, new Vector3(21, 1, 113)),
         new Tuple<int, Vector3>(2, new Vector3(-21, 1, 1)),
@@ -19,8 +19,8 @@ public class MapMetaData : MonoBehaviour
     };
 
     private Tuple<int, Vector3>[] m_spawnPosP2 = new Tuple<int, Vector3>[] {
-        new Tuple<int, Vector3>(0, new Vector3(5, 1, 0)),
-        new Tuple<int, Vector3>(0, new Vector3(-35, 1, 45)),
+        new Tuple<int, Vector3>(0, new Vector3(5, 0, 0)),
+        new Tuple<int, Vector3>(0, new Vector3(-35, 0, 45)),
         new Tuple<int, Vector3>(1, new Vector3(28, 1, 67)),
         new Tuple<int, Vector3>(1, new Vector3(12, 1, 113)),
         new Tuple<int, Vector3>(2, new Vector3(-21, 1, 7)),

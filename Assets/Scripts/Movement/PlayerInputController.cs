@@ -123,6 +123,16 @@ public class PlayerInputController : MonoBehaviour
             return;
         if (context.performed)
         {
+            m_animator.SetTrigger("Kick_1");
+        }
+    }
+
+    public void Foot_attack_2(InputAction.CallbackContext context)
+    {
+        if (m_lock)
+            return;
+        if (context.performed)
+        {
             m_animator.SetTrigger("Kick_2");
         }
     }
@@ -143,7 +153,9 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_lock)
             return;
-        if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkForward" || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkBackward")
+        var currentAnimName = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+        if (currentAnimName == "WalkForward" || currentAnimName == "WalkBackward"
+           || currentAnimName == "JumpUp" || currentAnimName == "JumpDown")
         {
             Vector2 move = GetComponent<PlayerInput>().actions["Movement"].ReadValue<Vector2>();
             transform.Translate(0, 0, ((m_invertX ? -move.x : move.x) * m_speed) * Time.deltaTime);
@@ -154,4 +166,21 @@ public class PlayerInputController : MonoBehaviour
     {
         m_invertX = shouldInvert;
     }
+
+    #region TEST
+    private Quaternion initialRotation;
+
+    public void SaveRotation()
+    {
+        initialRotation = gameObject.transform.rotation;
+    }
+    public void SetRotation(float rotationY)
+    {
+        gameObject.transform.Rotate(gameObject.transform.rotation.x, rotationY, gameObject.transform.rotation.z);
+    }
+    public void ResetInitialRotation()
+    {
+        gameObject.transform.rotation = initialRotation;
+    }
+    #endregion
 }
