@@ -10,6 +10,8 @@ public class PlayerInputController : MonoBehaviour
 
     [SerializeField] private Animator m_animator;
     [SerializeField] private float m_speed;
+    //@debug
+    [SerializeField] private bool m_lock = false;
     // private InputMaster m_inputMaster;
 
     public Animator GetAnimator() {return m_animator;}
@@ -33,8 +35,20 @@ public class PlayerInputController : MonoBehaviour
         // m_inputMaster.Player.Movement.canceled += Walk;
     }
 
+    public void Lock()
+    {
+        m_lock = true;
+    }
+    
+    public void Unlock()
+    {
+        m_lock = false;
+    }
+
     public void Walk(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         Vector2 analog = context.ReadValue<Vector2>();
 
         if(context.performed && analog.x != 0)
@@ -51,6 +65,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void Guard(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if(context.performed)
         {
             m_animator.SetBool("GuardIdle", true);
@@ -63,6 +79,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void Dodge(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if(context.performed)
         {
             m_animator.SetTrigger("Dodge");
@@ -71,6 +89,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void SpecialAttack(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if(context.performed)
         {
             m_animator.SetTrigger("SpecialAttack");
@@ -79,6 +99,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void Fist_attack_2(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if (context.performed)
         {
             m_animator.SetTrigger("Punch_1");
@@ -87,6 +109,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void Fist_attack_1(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if (context.performed)
         {
             m_animator.SetTrigger("Punch_2");
@@ -95,6 +119,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void Foot_attack_1(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if (context.performed)
         {
             m_animator.SetTrigger("Kick_2");
@@ -103,6 +129,8 @@ public class PlayerInputController : MonoBehaviour
 
     public void TriggerJump(InputAction.CallbackContext context)
     {
+        if (m_lock)
+            return;
         if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkForward"
             || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkBackward"
             || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle")
@@ -113,6 +141,8 @@ public class PlayerInputController : MonoBehaviour
 
     private void Update()
     {
+        if (m_lock)
+            return;
         if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkForward" || m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "WalkBackward")
         {
             Vector2 move = GetComponent<PlayerInput>().actions["Movement"].ReadValue<Vector2>();

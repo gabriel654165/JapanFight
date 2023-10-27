@@ -32,7 +32,7 @@ public class HandleHit : MonoBehaviour
                     if (!m_health.isDead()) {
                         var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-                        Debug.Log("Current animation = " + currentAnim);
+                        //Debug.Log("Current animation = " + currentAnim);
 
                         if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
                             m_health.Hit(10f);

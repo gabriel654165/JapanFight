@@ -68,8 +68,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Load();
-         m_mapMetaData = GetComponent<MapMetaData>();
 
+        m_mapMetaData = GetComponent<MapMetaData>();
         // @note: prefabs init
         m_camera = Instantiate(cameraPrefab);
         m_canvas = Instantiate(canvasPrefab);
@@ -79,11 +79,11 @@ public class GameManager : MonoBehaviour
         InitCanvas();
 
         // @note: launch round coroutines
+        var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
         if (m_playerOneWinRate == 0 && m_playerTwoWinRate == 0) {
-            var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
             StartCoroutine(StartNewGameCoroutine(targets));
         } else {
-            StartCoroutine(StartNewRoundCoroutine());
+            StartCoroutine(StartNewRoundCoroutine(targets));
         }
     }
 
@@ -105,7 +105,9 @@ public class GameManager : MonoBehaviour
     private void InitPlayers()
     {
         m_playerPrefab1 = m_mapPrefabArray[m_indexPlayer1];
+        m_playerPrefab1 = m_mapPrefabArray[6];
         m_playerPrefab2 = m_mapPrefabArray[m_indexPlayer2];
+        m_playerPrefab2 = m_mapPrefabArray[7];
 
         // @debug purpose
         m_playerOne = Instantiate(m_playerPrefab1);
@@ -206,6 +208,9 @@ public class GameManager : MonoBehaviour
         if (m_mapPrefabArray.Length <= m_indexPlayer1) {
             m_indexPlayer1 = 0;
         }
+
+        // @debug
+        m_playerOneWinRate = 1;
     }
 
     private void Save()
@@ -232,7 +237,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region COROUTINES
-    private IEnumerator PreRoundCoroutine()
+    private IEnumerator PreRoundCoroutine(List<Transform> targets)
     {
         Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
         Vector3 destScale = new Vector3(2f, 2f, 2f);
@@ -242,6 +247,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "FIGHT", Vector2.zero, duration);
         yield return new WaitForSeconds(duration);
+
+        foreach (var target in targets)
+            target.GetComponent<PlayerInputController>().Unlock();
     }
 
     private IEnumerator DeadPlayerCoroutine()
@@ -257,7 +265,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
-        Debug.Log("New game coroutine");
+        foreach (var target in targets)
+            target.GetComponent<PlayerInputController>().Lock();
+        
         Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         Vector2 offsetPopUp = new Vector2(-150, -150);
@@ -282,26 +292,27 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
 
-        yield return StartCoroutine(PreRoundCoroutine());
+        yield return StartCoroutine(PreRoundCoroutine(targets));
     }
 
 
-    private IEnumerator StartNewRoundCoroutine()
+    private IEnumerator StartNewRoundCoroutine(List<Transform> targets)
     {
-        Debug.Log("New round coroutine");
+        foreach (var target in targets)
+            target.GetComponent<PlayerInputController>().Lock();
+        
         //m_camera.transform.position = m_arraySpawnPosCam[m_indexPlace];
         m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
         //m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexPlace]);
         m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
         yield return new WaitForSeconds(1);
         
-        yield return StartCoroutine(PreRoundCoroutine());
+        yield return StartCoroutine(PreRoundCoroutine(targets));
     }
 
 
     private IEnumerator EndRoundCoroutine(Transform deadPlayer)
     {
-        Debug.Log("End coroutine");
         m_roundIsFinished = true;
         
         // @note: b&w background

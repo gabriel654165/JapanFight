@@ -6,10 +6,11 @@ public class IsGrounded : MonoBehaviour
 {
     [SerializeField] private Animator m_animator;
     [SerializeField] private Rigidbody m_rigidbody;
-    [SerializeField] private BoxCollider m_footCollider;
 
     void OnTriggerEnter(Collider collision)
     {
+        //Debug.Log("Collide with : " + LayerMask.LayerToName(collision.gameObject.layer));
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             m_animator.SetBool("Grounded", true);
@@ -21,8 +22,6 @@ public class IsGrounded : MonoBehaviour
     {   
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            // test (useless for the moment)
-            m_footCollider.isTrigger = false;
             m_animator.SetBool("Grounded", false);
         }
     }
