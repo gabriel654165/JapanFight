@@ -105,27 +105,31 @@ public class GameManager : MonoBehaviour
     private void InitPlayers()
     {
         m_playerPrefab1 = m_mapPrefabArray[m_indexPlayer1];
-        m_playerPrefab1 = m_mapPrefabArray[0];
         m_playerPrefab2 = m_mapPrefabArray[m_indexPlayer2];
-        m_playerPrefab2 = m_mapPrefabArray[5];
-
-        // @debug purpose
+        
         m_playerOne = Instantiate(m_playerPrefab1);
         m_playerTwo = Instantiate(m_playerPrefab2);
+
         // @note: controls binding to players
         /*try {
-            inputManager.playerPrefab = playerPrefab;
-            inputManager.JoinPlayer();
-            inputManager.JoinPlayer();
-            Player[] players = FindObjectsOfType<Player>();
-            //If one controller, the game crash
-            m_playerOne = players[0].gameObject;
-            m_playerTwo = players[1].gameObject;
+            PlayerInputManager.instance.playerPrefab = m_playerPrefab1;
+            var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
+            PlayerInputManager.instance.playerPrefab = m_playerPrefab2;
+            var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
+            
+            if (inputPlayer1 != null && inputPlayer2 != null) {
+                m_playerOne = inputPlayer1.gameObject;
+                m_playerTwo = inputPlayer2.gameObject;
+            } else {
+                Debug.Log("P1 or P2 is null");
+            }
+        
         } catch (Exception er) {
             Debug.Log(er.ToString());
         }*/
         
-        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
+        // @todo: replace the line bellow
+        //m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
         m_indexPlace = UnityEngine.Random.Range(0, 2);
@@ -150,10 +154,15 @@ public class GameManager : MonoBehaviour
                 cameraOverlayUI = overlayCamera.GetComponent<Camera>();
         m_canvas.worldCamera = cameraOverlayUI;
         m_canvas.sortingOrder = -100;
-        m_canvas.GetComponent<CanvasController>().SetGameManager(this);
+        m_canvas.GetComponent<CanvasController>().Init(this);
     }
     #endregion
-
+    
+    #region GET/SET
+    public List<int> GetPlayerIndexes()
+    {
+        return new List<int> {m_indexPlayer1, m_indexPlayer2};
+    }
     public List<GameObject> GetPlayerList()
     {
         return new List<GameObject>() {m_playerOne, m_playerTwo};
@@ -174,6 +183,7 @@ public class GameManager : MonoBehaviour
     {
         return m_camera.GetComponent<Camera>();
     }
+    #endregion
 
     #region PLAYERPREF
     
@@ -208,10 +218,6 @@ public class GameManager : MonoBehaviour
         if (m_mapPrefabArray.Length <= m_indexPlayer1) {
             m_indexPlayer1 = 0;
         }
-
-        // @debug
-        m_playerOneWinRate = 0;
-        m_playerTwoWinRate = 0;
     }
 
     private void Save()
@@ -237,6 +243,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region CALLBACKS
+    public void HandleHitCallBack()
+    {
+        m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct();
+        // @todo: controler vibration
+    }
+    #endregion
+
     #region COROUTINES
     private IEnumerator PreRoundCoroutine(List<Transform> targets)
     {
@@ -244,9 +258,9 @@ public class GameManager : MonoBehaviour
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         var duration = 1f;
 
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "READY", Vector2.zero, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "READY", Vector2.zero, duration, true);
         yield return new WaitForSeconds(duration);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "FIGHT", Vector2.zero, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "FIGHT", Vector2.zero, duration, true);
         yield return new WaitForSeconds(duration);
 
         foreach (var target in targets)
@@ -259,7 +273,7 @@ public class GameManager : MonoBehaviour
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         Vector2 offsetPopUp = new Vector2(0, -120);
         var duration = 2f;
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "DEAD", offsetPopUp, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "DEAD", offsetPopUp, duration, true);
         yield return new WaitForSeconds(duration);
     }
 
@@ -286,7 +300,7 @@ public class GameManager : MonoBehaviour
         posTarget.position =  new Vector3(targets[0].position.x, targets[0].position.y + 0.5f, targets[0].position.z);
         m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 7f);
         yield return new WaitForSeconds(2f);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration, false);
         var randomIndex = UnityEngine.Random.Range(0, 3);
         targets[0].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
         targets[0].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
@@ -295,7 +309,7 @@ public class GameManager : MonoBehaviour
         posTarget.position =  new Vector3(targets[1].position.x, targets[1].position.y + 0.5f, targets[1].position.z);
         m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 3f);//creer un autre transform et move dessus
         yield return new WaitForSeconds(1.5f);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration);
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration, false);
         randomIndex = UnityEngine.Random.Range(0, 3);
         targets[1].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
         targets[1].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");

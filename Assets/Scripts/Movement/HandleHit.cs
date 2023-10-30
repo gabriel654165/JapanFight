@@ -13,10 +13,12 @@ public class HandleHit : MonoBehaviour
     [SerializeField] private Collider[] m_boxToExclude;
     [SerializeField] private Collider m_colliderToMaintain;
     private Health m_health;
+    private GameManager m_gameManagerInstance;
 
     void Start()
     {
         m_health = transform.root.GetComponent<Health>();
+        m_gameManagerInstance = (GameManager)FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
 
     void OnTriggerEnter(Collider collision)
@@ -27,6 +29,7 @@ public class HandleHit : MonoBehaviour
                 if (collision == box)
                     return;
 
+            m_gameManagerInstance.HandleHitCallBack();
             switch (collision.transform.root.GetComponent<PlayerInputController>().GetAnimator().GetCurrentAnimatorClipInfo(0)[0].clip.name)
             {
                 case "Punch":

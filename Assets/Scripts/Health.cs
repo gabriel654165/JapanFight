@@ -34,6 +34,11 @@ public class Health : MonoBehaviour
         return;
     }
 
+    public float GetHealth()
+    {
+        return m_health;
+    }
+
     public float GetPrctLeftHealth()
     {
         return (m_health / m_maxHealth) * 100;
