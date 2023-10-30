@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//modify UI when hited
 public class Health : MonoBehaviour
 {
     [SerializeField] private float m_maxHealth = 200f;
