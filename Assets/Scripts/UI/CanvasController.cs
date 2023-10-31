@@ -39,9 +39,10 @@ public class CanvasController : MonoBehaviour
     [Header("Power")]
     [SerializeField] private Image m_imgOutlineCircleP1;
     [SerializeField] private Image m_imgOutlineCircleP2;
+    [SerializeField] private float m_durationFillPower = 1f;
     private float m_lastPowerValueP1 = 0;
     private float m_lastPowerValueP2 = 0;
-    
+
     [Header("Round Indicators")]
     [SerializeField] private TextMeshProUGUI m_textTimer;
     [SerializeField] private TextMeshProUGUI m_textRound;
@@ -127,13 +128,29 @@ public class CanvasController : MonoBehaviour
         float currentPowerP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
 
         if (m_lastPowerValueP1 != currentPowerP1) {
-            m_imgOutlineCircleP1.fillAmount = currentPowerP1;
-            m_lastPowerValueP1 = currentPowerP1;
+            //StartCoroutine(FillOutlineOverTime(m_imgOutlineCircleP1, m_durationFillPower, m_lastPowerValueP1, currentPowerP1));
+            StartCoroutine(FillOutlineOverTime(
+                m_imgOutlineCircleP1, m_durationFillPower, m_lastPowerValueP1, currentPowerP1, 
+                (float value) => { m_imgOutlineCircleP1.fillAmount = value },
+                () => { m_imgOutlineCircleP1.fillAmount = currentPowerP1; m_lastPowerValueP1 = currentPowerP1; })
+            );
         }
         if (m_lastPowerValueP2 != currentPowerP2) {
-            m_imgOutlineCircleP2.fillAmount = currentPowerP2;
-            m_lastPowerValueP2 = currentPowerP2;
+            //FillOutlineOverTime(m_imgOutlineCircleP2, m_durationFillPower, m_lastPowerValueP2, currentPowerP2);
         }
+    }
+
+    private IEnumerator FillOutlineOverTime(Image imgOutline, float duration, float srcVal, float destVal, Action debounceLogic, Action debounceFunction)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime <= duration) {
+            //je veux la ref de "m_imgOutlineCircleP1" pas "imgOutline"
+            debounceLogic(Mathf.Lerp(srcVal, destVal, (elapsedTime / duration));
+            //imgOutline.fillAmount = Mathf.Lerp(srcVal, destVal, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+        }
+        yield return null;
+        debounceFunction();
     }
 
     // @todo : faire descendre les prct dans une coroutine 1 par 1 pas d'un coup

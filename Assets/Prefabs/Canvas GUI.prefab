@@ -609,6 +609,7 @@ MonoBehaviour:
   m_imgBgCircleP2: {fileID: 7975894968439688299}
   m_imgOutlineCircleP1: {fileID: 2892316183926233489}
   m_imgOutlineCircleP2: {fileID: 4658775576626873908}
+  m_durationFillPower: 10
   m_textTimer: {fileID: 1521088290198350342}
   m_textRound: {fileID: 3199123935969497656}
   m_popUpPrefab: {fileID: 1941564133137016575, guid: 44f5f11d70d25c14d8209093be87f0dc,
