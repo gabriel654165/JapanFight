@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Power))]
 public class PlayerInputController : MonoBehaviour
 {
     private Rigidbody m_rigidbody;
@@ -11,15 +12,23 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private Animator m_animator;
     [SerializeField] private float m_speed;
     private bool m_lock = false;
+    private Power m_power;
+    private GameManager m_gameManagerInstance;
     // private InputMaster m_inputMaster;
 
     public Animator GetAnimator() {return m_animator;}
+
+    private void Start()
+    {
+        m_gameManagerInstance = (GameManager)FindObjectOfType<GameManager>();
+    }
 
     private void Awake()
     {
 //        m_inputMaster = new InputMaster();
 
         m_rigidbody = GetComponent<Rigidbody>();
+        m_power = GetComponent<Power>();
 
         // m_inputMaster.Enable();
         // m_inputMaster.Player.Fist_attack_1.performed += Fist_attack_1;
@@ -90,9 +99,13 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_lock)
             return;
-        if(context.performed)
+        if(context.performed && m_power.isCharged())
         {
+            Debug.Log("Special power used");
+            
             m_animator.SetTrigger("SpecialAttack");
+            m_power.ResetPowerCharge();
+            m_gameManagerInstance.HandleUsePowerCallBack();
         }
     }
 

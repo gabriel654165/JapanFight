@@ -127,13 +127,13 @@ public class CanvasController : MonoBehaviour
         m_textRound.text = "Round " + (m_refGameManager.GetCurrentRound() + 1).ToString();
     }
 
-    public void UpdatePlayerPowerCharge()
+    public void UpdatePlayerPowerCharge(bool forceUpdate = false)
     {
         List<GameObject> playerList = m_refGameManager.GetPlayerList();
         float currentPowerP1 = playerList[0].GetComponent<Power>().GetPowerCharge();
         float currentPowerP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
 
-        if (m_lastPowerValueP1 != currentPowerP1) {
+        if (m_lastPowerValueP1 != currentPowerP1 || forceUpdate) {
             StartCoroutine(LerpAndDebounceOverTime(
                 m_durationFillPower, 
                 m_lastPowerValueP1, 
@@ -142,7 +142,7 @@ public class CanvasController : MonoBehaviour
                 () => { m_imgOutlineCircleP1.fillAmount = currentPowerP1; m_lastPowerValueP1 = currentPowerP1; })
             );
         }
-        if (m_lastPowerValueP2 != currentPowerP2) {
+        if (m_lastPowerValueP2 != currentPowerP2 || forceUpdate) {
             StartCoroutine(LerpAndDebounceOverTime(
                 m_durationFillPower, 
                 m_lastPowerValueP2, 
@@ -153,7 +153,7 @@ public class CanvasController : MonoBehaviour
         }
     }
 
-    // @todo : faire descendre les prct dans une coroutine 1 par 1 pas d'un coup
+    // @todo : gradiant color from white to red (more the life prct is low)
     public void UpdatePlayerPrct()
     {
         List<GameObject> playerList = m_refGameManager.GetPlayerList();

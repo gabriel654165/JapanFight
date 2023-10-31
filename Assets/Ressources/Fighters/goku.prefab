@@ -1594,7 +1594,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8358965412654653376}
         m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: SpecialAttack
         m_Mode: 0

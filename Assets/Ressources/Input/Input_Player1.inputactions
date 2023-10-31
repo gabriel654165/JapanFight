@@ -286,6 +286,17 @@
                 },
                 {
                     "name": "",
+                    "id": "434d2866-7083-4ba6-977f-bce03b083c87",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special_attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "8f9a9c38-9f07-4339-ba0e-3f0ef0bbf42a",
                     "path": "<XInputController>/leftTrigger",
                     "interactions": "",

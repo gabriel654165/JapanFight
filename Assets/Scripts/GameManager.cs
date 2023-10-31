@@ -244,6 +244,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region CALLBACKS
+
     public void HandleHitCallBack()
     {
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct();
@@ -255,6 +256,12 @@ public class GameManager : MonoBehaviour
     {
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge();
     }
+
+    public void HandleUsePowerCallBack()
+    {
+        m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge(true);
+    }
+
     #endregion
 
     #region COROUTINES
