@@ -41,7 +41,6 @@ public class HandlePunch : MonoBehaviour
     {
         //Debug.Log("Current animation = " + currentAnim);
         if (!m_hasLandPunch) {
-            Debug.Log("ADD POWER");
             m_power.AddPowerCharge(m_PunchPropertyList[indexPunchProperty].powerToAdd);
             m_hasLandPunch = true;
         }

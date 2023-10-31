@@ -21,6 +21,7 @@ public class CanvasController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private TextMeshProUGUI m_textPrctP1;
     [SerializeField] private TextMeshProUGUI m_textPrctP2;
+    [SerializeField] private float m_durationSubstractHealth = 1f;
     private float m_lastHealthValueP1 = 0;
     private float m_lastHealthValueP2 = 0;
     private Animator m_animatorTextP1;
@@ -39,7 +40,7 @@ public class CanvasController : MonoBehaviour
     [Header("Power")]
     [SerializeField] private Image m_imgOutlineCircleP1;
     [SerializeField] private Image m_imgOutlineCircleP2;
-    [SerializeField] private float m_durationFillPower = 1f;
+    [SerializeField] private float m_durationFillPower = 10f;
     private float m_lastPowerValueP1 = 0;
     private float m_lastPowerValueP2 = 0;
 
@@ -120,7 +121,12 @@ public class CanvasController : MonoBehaviour
         m_textTimer.text = rTimeSpan.ToString(@"mm\:ss");
     }
 
-    // @todo: faire un Mathf.lerp du fillAmount
+    private void UpdateRound()
+    {
+        // @note: add 1 to GetCurrentRound to never display the round 0
+        m_textRound.text = "Round " + (m_refGameManager.GetCurrentRound() + 1).ToString();
+    }
+
     public void UpdatePlayerPowerCharge()
     {
         List<GameObject> playerList = m_refGameManager.GetPlayerList();
@@ -128,29 +134,23 @@ public class CanvasController : MonoBehaviour
         float currentPowerP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
 
         if (m_lastPowerValueP1 != currentPowerP1) {
-            //StartCoroutine(FillOutlineOverTime(m_imgOutlineCircleP1, m_durationFillPower, m_lastPowerValueP1, currentPowerP1));
-            StartCoroutine(FillOutlineOverTime(
-                m_imgOutlineCircleP1, m_durationFillPower, m_lastPowerValueP1, currentPowerP1, 
-                (float value) => { m_imgOutlineCircleP1.fillAmount = value },
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationFillPower, 
+                m_lastPowerValueP1, 
+                currentPowerP1, 
+                (value) => { m_imgOutlineCircleP1.fillAmount = value; return null; },
                 () => { m_imgOutlineCircleP1.fillAmount = currentPowerP1; m_lastPowerValueP1 = currentPowerP1; })
             );
         }
         if (m_lastPowerValueP2 != currentPowerP2) {
-            //FillOutlineOverTime(m_imgOutlineCircleP2, m_durationFillPower, m_lastPowerValueP2, currentPowerP2);
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationFillPower, 
+                m_lastPowerValueP2, 
+                currentPowerP2, 
+                (value) => { m_imgOutlineCircleP2.fillAmount = value; return null; },
+                () => { m_imgOutlineCircleP2.fillAmount = currentPowerP2; m_lastPowerValueP2 = currentPowerP2; })
+            );
         }
-    }
-
-    private IEnumerator FillOutlineOverTime(Image imgOutline, float duration, float srcVal, float destVal, Action debounceLogic, Action debounceFunction)
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime <= duration) {
-            //je veux la ref de "m_imgOutlineCircleP1" pas "imgOutline"
-            debounceLogic(Mathf.Lerp(srcVal, destVal, (elapsedTime / duration));
-            //imgOutline.fillAmount = Mathf.Lerp(srcVal, destVal, (elapsedTime / duration));
-            elapsedTime += Time.deltaTime;
-        }
-        yield return null;
-        debounceFunction();
     }
 
     // @todo : faire descendre les prct dans une coroutine 1 par 1 pas d'un coup
@@ -161,15 +161,29 @@ public class CanvasController : MonoBehaviour
         float currentHealthP2 = playerList[1].GetComponent<Health>().GetHealth();
 
         if (m_lastHealthValueP1 != currentHealthP1) {
+            float healthP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
+            
             ShakeText(m_textPrctP1, m_animatorTextP1, 3f);
-            m_textPrctP1.text = playerList[0].GetComponent<Health>().GetPrctLeftHealth().ToString() + "%";
-            m_lastHealthValueP1 = currentHealthP1;
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationSubstractHealth, 
+                m_lastHealthValueP1, 
+                healthP1, 
+                (float value) => { m_textPrctP1.text = ((int)value).ToString() + "%"; return null; },
+                () => { m_textPrctP1.text = healthP1.ToString() + "%"; m_lastHealthValueP1 = healthP1; })
+            );
         }
 
         if (m_lastHealthValueP2 != currentHealthP2) {
+            float healthP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
+            
             ShakeText(m_textPrctP2, m_animatorTextP2, 3f);
-            m_textPrctP2.text = playerList[1].GetComponent<Health>().GetPrctLeftHealth().ToString() + "%";
-            m_lastHealthValueP2 = currentHealthP2;
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationSubstractHealth, 
+                m_lastHealthValueP2, 
+                healthP2, 
+                (float value) => { m_textPrctP2.text = ((int)value).ToString() + "%"; return null; },
+                () => { m_textPrctP2.text = healthP2.ToString() + "%"; m_lastHealthValueP2 = healthP2; })
+            );
         }
     }
 
@@ -178,9 +192,19 @@ public class CanvasController : MonoBehaviour
         animator.SetTrigger("Shake");
     }
 
-    private void UpdateRound()
+    #region COROUTINES
+
+    private IEnumerator LerpAndDebounceOverTime(float duration, float srcVal, float destVal, Func<float, GameObject> debounceLogic, Action debounceFunction)
     {
-        // @note: add 1 to GetCurrentRound to never display the round 0
-        m_textRound.text = "Round " + (m_refGameManager.GetCurrentRound() + 1).ToString();
+        float elapsedTime = 0f;
+
+        while (elapsedTime <= duration) {   
+            debounceLogic(Mathf.Lerp(srcVal, destVal, (elapsedTime / duration)));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        debounceFunction();
     }
+
+    #endregion
 }

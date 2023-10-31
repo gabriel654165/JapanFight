@@ -248,12 +248,12 @@ public class GameManager : MonoBehaviour
     {
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct();
         // @todo: controler vibration
+        // @todo: shake camera
     }
 
     public void HandlePunchCallBack()
     {
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge();
-        // @todo: shake camera
     }
     #endregion
 
