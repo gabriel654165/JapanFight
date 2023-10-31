@@ -2902,7 +2902,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 789520984152884224}
   m_rigidbody: {fileID: 789520984152884227}
-  m_footCollider: {fileID: 850710515802799357}
 --- !u!1 &3622124472578757420
 GameObject:
   m_ObjectHideFlags: 0
@@ -5366,7 +5365,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7003986392501070257}
   - component: {fileID: 7003986392501070259}
-  - component: {fileID: 7003986392501070256}
   m_Layer: 0
   m_Name: HighPart
   m_TagString: Untagged
@@ -5402,24 +5400,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.3388679, z: 0.7916928}
   m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
---- !u!114 &7003986392501070256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7003986392501070270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec1ad3794449b14185640dfe5938f83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_part: 0
-  m_animator: {fileID: 789520984152884224}
-  m_boxToExclude:
-  - {fileID: 6583707513417539192}
-  - {fileID: 794714937854111045}
-  - {fileID: 850710515802799357}
 --- !u!1 &7003986392580425648
 GameObject:
   m_ObjectHideFlags: 0
@@ -5430,7 +5410,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7003986392580425651}
   - component: {fileID: 7003986392580425653}
-  - component: {fileID: 7003986392580425650}
   m_Layer: 0
   m_Name: LowPart
   m_TagString: Untagged
@@ -5466,24 +5445,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0119194, z: 0.7916928}
   m_Center: {x: 0, y: 1.9405863, z: 0.13535383}
---- !u!114 &7003986392580425650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7003986392580425648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec1ad3794449b14185640dfe5938f83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_part: 1
-  m_animator: {fileID: 789520984152884224}
-  m_boxToExclude:
-  - {fileID: 6583707513417539192}
-  - {fileID: 794714937854111045}
-  - {fileID: 850710515802799357}
 --- !u!1 &7003986392589433070
 GameObject:
   m_ObjectHideFlags: 0

@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 450545200938181033}
   - component: {fileID: 450545200938181035}
   - component: {fileID: 450545200938181032}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HighPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 450545202511387091}
   - component: {fileID: 450545202511387093}
   - component: {fileID: 450545202511387090}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LowPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3172,6 +3172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7133241942283906497}
   - component: {fileID: 7133241942283906496}
+  - component: {fileID: 3373513148720428974}
   m_Layer: 7
   m_Name: node_Left toe_-35440
   m_TagString: Untagged
@@ -3209,6 +3210,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.000013388764, y: 0.000029964172, z: 0.000011903109}
   m_Center: {x: -0.00000082459445, y: -0.0000067162314, z: 0.00000015009967}
+--- !u!114 &3373513148720428974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3140676285699881442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 2855675963170611178}
+  m_boxToExclude:
+  - {fileID: 450545200938181035}
+  - {fileID: 450545202511387093}
 --- !u!1 &3167015634755518710
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,6 +3657,7 @@ GameObject:
   - component: {fileID: 6740015575877320447}
   - component: {fileID: 450545202300537175}
   - component: {fileID: 450545202300537172}
+  - component: {fileID: 6150140721277799083}
   m_Layer: 6
   m_Name: node_Left wrist_-35312
   m_TagString: Untagged
@@ -3697,6 +3715,22 @@ CapsuleCollider:
   m_Height: 0.000027494883
   m_Direction: 1
   m_Center: {x: 0.000008460257, y: 1.0824092e-12, z: -0.000007934869}
+--- !u!114 &6150140721277799083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374659596831817397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 2855675963170611178}
+  m_boxToExclude:
+  - {fileID: 450545200938181035}
+  - {fileID: 450545202511387093}
 --- !u!1 &3415045092847296661
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,6 +4941,7 @@ GameObject:
   - component: {fileID: 294772076404057378}
   - component: {fileID: 4818158812201389447}
   - component: {fileID: 4818158812201389444}
+  - component: {fileID: 3276754435633417745}
   m_Layer: 6
   m_Name: node_Right wrist_-35322
   m_TagString: Untagged
@@ -4964,6 +4999,22 @@ CapsuleCollider:
   m_Height: 0.000019870398
   m_Direction: 1
   m_Center: {x: 0.000008460256, y: -0.0000038122405, z: -0.0000004864388}
+--- !u!114 &3276754435633417745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818158812201389445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 2855675963170611178}
+  m_boxToExclude:
+  - {fileID: 450545200938181035}
+  - {fileID: 450545202511387093}
 --- !u!1 &4849424715312278864
 GameObject:
   m_ObjectHideFlags: 0
@@ -9152,6 +9203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6025491222099950849}
   - component: {fileID: 8658319350782883315}
+  - component: {fileID: 6629319747499390898}
   m_Layer: 7
   m_Name: node_Right toe_-35186
   m_TagString: Untagged
@@ -9189,6 +9241,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.000013388764, y: 0.000030082665, z: 0.000010806695}
   m_Center: {x: -0.0000008245945, y: -0.0000066569705, z: -0.0000022737577}
+--- !u!114 &6629319747499390898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658319350782883312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 2855675963170611178}
+  m_boxToExclude:
+  - {fileID: 450545200938181035}
+  - {fileID: 450545202511387093}
 --- !u!1 &8678857439097240199
 GameObject:
   m_ObjectHideFlags: 0
@@ -9269,6 +9337,8 @@ GameObject:
   - component: {fileID: 8160886446351844757}
   - component: {fileID: 8160886446351844754}
   - component: {fileID: 8160886446351844755}
+  - component: {fileID: 875975174062874385}
+  - component: {fileID: 1847799217770831554}
   m_Layer: 0
   m_Name: LinkPlayer
   m_TagString: Untagged
@@ -9340,7 +9410,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 2855675963170611178}
   m_speed: 2.5
-  m_lock: 0
 --- !u!114 &8160886446351844756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9551,6 +9620,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &875975174062874385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8794010893159128874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38d49f74f149c8609c92853b05de7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxCharge: 100
+--- !u!114 &1847799217770831554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8794010893159128874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38d49f74f149c8609c92853b05de7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxCharge: 100
 --- !u!1 &8811059269309714659
 GameObject:
   m_ObjectHideFlags: 0

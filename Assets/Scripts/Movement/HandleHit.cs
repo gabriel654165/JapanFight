@@ -2,6 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class HitProperty {
+    
+    public string animationName { get; set; }
+    public float damage { get; set; }
+    public float coolDownUntilNextHit { get; set; }
+
+    public HitProperty(string animName, float dmg, float cd) {
+        animationName = animName;
+        damage = dmg;
+        coolDownUntilNextHit = cd;
+    }
+}
+
+//implem cooldown
 public class HandleHit : MonoBehaviour
 {
     public enum Part {
@@ -13,12 +28,37 @@ public class HandleHit : MonoBehaviour
     [SerializeField] private Collider[] m_boxToExclude;
     [SerializeField] private Collider m_colliderToMaintain;
     private Health m_health;
+    private bool m_hasBeenHited = false;
     private GameManager m_gameManagerInstance;
-
+    
+    private List<HitProperty> m_hitPropertyList = new List<HitProperty> {
+        new HitProperty("Punch", 10f, 1f),
+        new HitProperty("ZombiePunch", 10f, 1f),
+        new HitProperty("BarbareKick", 7f, 1f),
+        new HitProperty("HighKick", 12f, 1f),
+    };
+    
     void Start()
     {
         m_health = transform.root.GetComponent<Health>();
         m_gameManagerInstance = (GameManager)FindObjectOfType<GameManager>().GetComponent<GameManager>();
+    }
+
+    private void HandleHitLogic(int indexHitProperty)
+    {
+        m_hasBeenHited = true;
+        if (!m_health.isDead()) {
+            var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            //Debug.Log("Current animation = " + currentAnim);
+            if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                m_health.Hit(m_hitPropertyList[indexHitProperty].damage);
+                if (m_health.isDead()) {
+                    ChooseDeathAnim(currentAnim);
+                } else {
+                    m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                }
+            }
+        }
     }
 
     void OnTriggerEnter(Collider collision)
@@ -29,72 +69,29 @@ public class HandleHit : MonoBehaviour
                 if (collision == box)
                     return;
 
-            m_gameManagerInstance.HandleHitCallBack();
             switch (collision.transform.root.GetComponent<PlayerInputController>().GetAnimator().GetCurrentAnimatorClipInfo(0)[0].clip.name)
             {
                 case "Punch":
-                    if (!m_health.isDead()) {
-                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
-                        //Debug.Log("Current animation = " + currentAnim);
-
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(10f);
-                            if (m_health.isDead()) {
-                                ChooseDeathAnim(currentAnim);
-                            } else {
-                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
-                            }
-                        }
-                    }
+                    HandleHitLogic(0);
                     break;
                 case "ZombiePunch":
-                    if (!m_health.isDead()) {
-                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(10f);
-                            if (m_health.isDead()) {
-                                ChooseDeathAnim(currentAnim);
-                            } else {
-                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
-                            }
-                        }
-                    }
+                    HandleHitLogic(1);
                     break;
                 case "BarbareKick":
-                    if (!m_health.isDead()) {
-                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(7f);
-                            if (m_health.isDead()) {
-                                ChooseDeathAnim(currentAnim);
-                            } else {
-                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
-                            }
-                        }
-                    }
+                    HandleHitLogic(2);
                     break;
                 case "HighKick":
-                    if (!m_health.isDead()) {
-                        var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
-                        if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
-                            m_health.Hit(12f);
-                            if (m_health.isDead()) {
-                                ChooseDeathAnim(currentAnim);
-                            } else {
-                                m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
-                            }
-                        }
-                    }
+                    HandleHitLogic(3);
                     break;
                 default:
                     break;
             }
             if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle") {
                 m_animator.SetTrigger("BlockWithGuard");
+            }
+            if (m_hasBeenHited) {
+                m_gameManagerInstance.HandleHitCallBack();
+                m_hasBeenHited = false;
             }
         }
     }

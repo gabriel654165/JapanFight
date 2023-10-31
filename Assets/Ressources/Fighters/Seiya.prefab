@@ -170,6 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4745560655339702842}
   - component: {fileID: 1142811534232771743}
+  - component: {fileID: 1395892195395883777}
   m_Layer: 7
   m_Name: Bip001_L_Foot
   m_TagString: Untagged
@@ -206,6 +207,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.00136081, y: 0.0031072488, z: 0.0012862801}
   m_Center: {x: -0.00068792165, y: 0.0008060824, z: -0.00006394717}
+--- !u!114 &1395892195395883777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142811534232771741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 3545403250382934889}
+  m_boxToExclude:
+  - {fileID: 7083106650842320267}
+  - {fileID: 7083106651134899563}
 --- !u!1 &1543605126169110801
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1874583639667714283}
   - component: {fileID: 1874583639667714282}
+  - component: {fileID: 5298782362625877849}
   m_Layer: 7
   m_Name: Bip001_R_Foot
   m_TagString: Untagged
@@ -674,6 +692,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.00136081, y: 0.0031072488, z: 0.0012862801}
   m_Center: {x: -0.00068792165, y: 0.0008060824, z: -0.00006394717}
+--- !u!114 &5298782362625877849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2953596690567903249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 3545403250382934889}
+  m_boxToExclude:
+  - {fileID: 7083106650842320267}
+  - {fileID: 7083106651134899563}
 --- !u!1 &2975810839681177858
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,6 +943,7 @@ GameObject:
   - component: {fileID: 1629032365353274078}
   - component: {fileID: 1629032365353274072}
   - component: {fileID: 1629032365353274073}
+  - component: {fileID: 447939350694577602}
   m_Layer: 6
   m_Name: Bip001_R_Hand
   m_TagString: Untagged
@@ -964,6 +999,22 @@ CapsuleCollider:
   m_Height: 0.0020330448
   m_Direction: 1
   m_Center: {x: -0.00059943926, y: -0.0000000027244116, z: -0.0000006425442}
+--- !u!114 &447939350694577602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639192922041827949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 3545403250382934889}
+  m_boxToExclude:
+  - {fileID: 7083106650842320267}
+  - {fileID: 7083106651134899563}
 --- !u!1 &4698220673852991037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1549,7 @@ GameObject:
   - component: {fileID: 7083106650842320265}
   - component: {fileID: 7083106650842320267}
   - component: {fileID: 7083106650842320264}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HighPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1563,7 +1614,7 @@ GameObject:
   - component: {fileID: 7083106651134899561}
   - component: {fileID: 7083106651134899563}
   - component: {fileID: 7083106651134899560}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LowPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1695,6 +1746,7 @@ GameObject:
   - component: {fileID: 7603875704945863339}
   - component: {fileID: 7603875704945863381}
   - component: {fileID: 7603875704945863338}
+  - component: {fileID: 2346745013251408265}
   m_Layer: 6
   m_Name: Bip001_L_Hand
   m_TagString: Untagged
@@ -1750,6 +1802,22 @@ CapsuleCollider:
   m_Height: 0.0020330448
   m_Direction: 1
   m_Center: {x: -0.00059943926, y: -0.0000000027244116, z: -0.0000006425442}
+--- !u!114 &2346745013251408265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7174555680884162319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 3545403250382934889}
+  m_boxToExclude:
+  - {fileID: 7083106650842320267}
+  - {fileID: 7083106651134899563}
 --- !u!1 &7825058232171926441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,6 +1834,8 @@ GameObject:
   - component: {fileID: 3545403250382934890}
   - component: {fileID: 3545403250382934891}
   - component: {fileID: 3545403250382934888}
+  - component: {fileID: 1924660751201117164}
+  - component: {fileID: 755773765021651350}
   m_Layer: 0
   m_Name: Seiya
   m_TagString: Untagged
@@ -1836,7 +1906,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 3545403250382934889}
   m_speed: 2.5
-  m_lock: 0
 --- !u!114 &3545403250382934677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2047,6 +2116,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1924660751201117164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7825058232171926441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38d49f74f149c8609c92853b05de7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxCharge: 100
+--- !u!114 &755773765021651350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7825058232171926441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38d49f74f149c8609c92853b05de7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxCharge: 100
 --- !u!1 &7963610904863951988
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,9 +7,10 @@ using TMPro;
 using System;
 
 [System.Serializable]
-public class PlayerGUISprites {
+public class PlayerGUIProperties {
     public Sprite avatar;
     public Sprite avatarBg;
+    public Color backgroundColor;
 }
 
 [RequireComponent(typeof(Canvas))]
@@ -17,6 +18,7 @@ public class CanvasController : MonoBehaviour
 {
     private GameManager m_refGameManager;
 
+    [Header("Health")]
     [SerializeField] private TextMeshProUGUI m_textPrctP1;
     [SerializeField] private TextMeshProUGUI m_textPrctP2;
     private float m_lastHealthValueP1 = 0;
@@ -24,18 +26,31 @@ public class CanvasController : MonoBehaviour
     private Animator m_animatorTextP1;
     private Animator m_animatorTextP2;
 
+    [Header("Avatar")]
     [SerializeField] private Image m_imgAvatarP1;
     [SerializeField] private Image m_imgAvatarP2;
     [SerializeField] private Image m_imgAvatarBgP1;
     [SerializeField] private Image m_imgAvatarBgP2;
+
+    [Header("Background")]
+    [SerializeField] private Image m_imgBgCircleP1;
+    [SerializeField] private Image m_imgBgCircleP2;
+
+    [Header("Power")]
+    [SerializeField] private Image m_imgOutlineCircleP1;
+    [SerializeField] private Image m_imgOutlineCircleP2;
+    private float m_lastPowerValueP1 = 0;
+    private float m_lastPowerValueP2 = 0;
     
+    [Header("Round Indicators")]
     [SerializeField] private TextMeshProUGUI m_textTimer;
     [SerializeField] private TextMeshProUGUI m_textRound;
 
+    [Header("Prefabs")]
     [SerializeField] private GameObject m_popUpPrefab;
     [SerializeField] private GameObject m_popUpNoGlowPrefab;
 
-    [SerializeField] private List<PlayerGUISprites> m_avatarSpritesList;
+    [SerializeField] private List<PlayerGUIProperties> m_avatarSpritesList;
     
     void Start()
     {
@@ -54,9 +69,14 @@ public class CanvasController : MonoBehaviour
         m_imgAvatarP2.sprite = m_avatarSpritesList[playersIndexes[1]].avatar;
         m_imgAvatarBgP1.sprite = m_avatarSpritesList[playersIndexes[0]].avatarBg;
         m_imgAvatarBgP2.sprite = m_avatarSpritesList[playersIndexes[1]].avatarBg;
+        m_imgBgCircleP1.color = m_avatarSpritesList[playersIndexes[0]].backgroundColor;
+        m_imgBgCircleP2.color = m_avatarSpritesList[playersIndexes[1]].backgroundColor;
 
         m_lastHealthValueP1 = playerList[0].GetComponent<Health>().GetHealth();
         m_lastHealthValueP2 = playerList[1].GetComponent<Health>().GetHealth();
+        m_lastPowerValueP1 = playerList[0].GetComponent<Power>().GetPowerCharge();
+        m_lastPowerValueP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
+
         UpdatePlayerPrct();
     }
 
@@ -99,13 +119,31 @@ public class CanvasController : MonoBehaviour
         m_textTimer.text = rTimeSpan.ToString(@"mm\:ss");
     }
 
+    // @todo: faire un Mathf.lerp du fillAmount
+    public void UpdatePlayerPowerCharge()
+    {
+        List<GameObject> playerList = m_refGameManager.GetPlayerList();
+        float currentPowerP1 = playerList[0].GetComponent<Power>().GetPowerCharge();
+        float currentPowerP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
+
+        if (m_lastPowerValueP1 != currentPowerP1) {
+            m_imgOutlineCircleP1.fillAmount = currentPowerP1;
+            m_lastPowerValueP1 = currentPowerP1;
+        }
+        if (m_lastPowerValueP2 != currentPowerP2) {
+            m_imgOutlineCircleP2.fillAmount = currentPowerP2;
+            m_lastPowerValueP2 = currentPowerP2;
+        }
+    }
+
+    // @todo : faire descendre les prct dans une coroutine 1 par 1 pas d'un coup
     public void UpdatePlayerPrct()
     {
         List<GameObject> playerList = m_refGameManager.GetPlayerList();
         float currentHealthP1 = playerList[0].GetComponent<Health>().GetHealth();
         float currentHealthP2 = playerList[1].GetComponent<Health>().GetHealth();
 
-        if (m_lastHealthValueP1 != currentHealthP1) {        
+        if (m_lastHealthValueP1 != currentHealthP1) {
             ShakeText(m_textPrctP1, m_animatorTextP1, 3f);
             m_textPrctP1.text = playerList[0].GetComponent<Health>().GetPrctLeftHealth().ToString() + "%";
             m_lastHealthValueP1 = currentHealthP1;

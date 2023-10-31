@@ -10,8 +10,7 @@ public class PlayerInputController : MonoBehaviour
 
     [SerializeField] private Animator m_animator;
     [SerializeField] private float m_speed;
-    //@debug
-    [SerializeField] private bool m_lock = false;
+    private bool m_lock = false;
     // private InputMaster m_inputMaster;
 
     public Animator GetAnimator() {return m_animator;}

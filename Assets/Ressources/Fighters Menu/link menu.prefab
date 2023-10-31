@@ -1362,7 +1362,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 3901621610074694187}
   m_rigidbody: {fileID: 6973108216234293330}
-  m_footCollider: {fileID: 8321072966068948993}
 --- !u!1 &1337691358299852707
 GameObject:
   m_ObjectHideFlags: 0
@@ -1780,7 +1779,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1712659231198946322}
   - component: {fileID: 1712659231198946324}
-  - component: {fileID: 1712659231198946323}
   m_Layer: 0
   m_Name: LowPart
   m_TagString: Untagged
@@ -1816,26 +1814,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.3388679, z: 0.7916928}
   m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
---- !u!114 &1712659231198946323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712659231198946321}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec1ad3794449b14185640dfe5938f83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_part: 1
-  m_animator: {fileID: 3901621610074694187}
-  m_boxToExclude:
-  - {fileID: 6006033815983894597}
-  - {fileID: 1712659231124747413}
-  - {fileID: 8321072966068948993}
-  - {fileID: 5969810524392198566}
-  - {fileID: 1056568212132832897}
 --- !u!1 &1712659232512793687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,7 +1824,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1712659232512793704}
   - component: {fileID: 1712659232512793706}
-  - component: {fileID: 1712659232512793705}
   m_Layer: 0
   m_Name: HighPart
   m_TagString: Untagged
@@ -1882,26 +1859,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0119194, z: 0.7916928}
   m_Center: {x: 0, y: 1.9405863, z: 0.13535383}
---- !u!114 &1712659232512793705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1712659232512793687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec1ad3794449b14185640dfe5938f83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_part: 0
-  m_animator: {fileID: 3901621610074694187}
-  m_boxToExclude:
-  - {fileID: 6006033815983894597}
-  - {fileID: 1712659231124747413}
-  - {fileID: 8321072966068948993}
-  - {fileID: 5969810524392198566}
-  - {fileID: 1056568212132832897}
 --- !u!1 &1724308083889281724
 GameObject:
   m_ObjectHideFlags: 0
@@ -4200,7 +4157,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 3901621610074694187}
   m_rigidbody: {fileID: 6973108216234293330}
-  m_footCollider: {fileID: 8321072966068948993}
 --- !u!1 &4212908505099451703
 GameObject:
   m_ObjectHideFlags: 0

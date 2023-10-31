@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4386008658331688338}
   - component: {fileID: 55228647182176093}
   - component: {fileID: 55228647182176092}
+  - component: {fileID: 812398978484701598}
   m_Layer: 6
   m_Name: mixamorig:RightHand
   m_TagString: Untagged
@@ -68,6 +69,22 @@ CapsuleCollider:
   m_Height: 6.423101
   m_Direction: 1
   m_Center: {x: -0.13264972, y: 1.5849533, z: 0.5559983}
+--- !u!114 &812398978484701598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55228647182176091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 8358965412654653387}
+  m_boxToExclude:
+  - {fileID: 2776785551613517322}
+  - {fileID: 2776785550459792436}
 --- !u!1 &104013821665408131
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 941862378540971250}
   - component: {fileID: 1709943152625697486}
+  - component: {fileID: 635083284592836292}
   m_Layer: 7
   m_Name: mixamorig:RightToeBase
   m_TagString: Untagged
@@ -858,6 +876,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.055174, y: 12.374998, z: 4.5341606}
   m_Center: {x: 0.53251195, y: -3.1475012, z: 1.7670809}
+--- !u!114 &635083284592836292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709943152625697485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 8358965412654653387}
+  m_boxToExclude:
+  - {fileID: 2776785551613517322}
+  - {fileID: 2776785550459792436}
 --- !u!1 &1787659571349262583
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,6 +967,7 @@ GameObject:
   - component: {fileID: 9176070767470491545}
   - component: {fileID: 9176070767470491547}
   - component: {fileID: 9176070767470491546}
+  - component: {fileID: 2643666955625858498}
   m_Layer: 6
   m_Name: mixamorig:LeftHand
   m_TagString: Untagged
@@ -990,6 +1025,22 @@ CapsuleCollider:
   m_Height: 6.423101
   m_Direction: 1
   m_Center: {x: -0.13264972, y: 1.5849533, z: 0.5559983}
+--- !u!114 &2643666955625858498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948605485568797590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 8358965412654653387}
+  m_boxToExclude:
+  - {fileID: 2776785551613517322}
+  - {fileID: 2776785550459792436}
 --- !u!1 &2052636908172234603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1211,7 @@ GameObject:
   - component: {fileID: 2776785550459792434}
   - component: {fileID: 2776785550459792436}
   - component: {fileID: 2776785550459792435}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LowPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1225,7 +1276,7 @@ GameObject:
   - component: {fileID: 2776785551613517320}
   - component: {fileID: 2776785551613517322}
   - component: {fileID: 2776785551613517321}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HighPart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1362,6 +1413,7 @@ GameObject:
   - component: {fileID: 8358965412654653390}
   - component: {fileID: 8358965412654653389}
   - component: {fileID: 8358965412654653388}
+  - component: {fileID: 6179272542464672463}
   m_Layer: 0
   m_Name: goku
   m_TagString: Untagged
@@ -1437,7 +1489,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 8358965412654653387}
   m_speed: 2.5
-  m_lock: 0
 --- !u!114 &8358965412654653391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1660,6 +1711,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &6179272542464672463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3002492173473226507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38d49f74f149c8609c92853b05de7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_maxCharge: 100
 --- !u!1 &3057548271470967888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1949,6 +2013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9000173719147188980}
   - component: {fileID: 9000173719147188981}
+  - component: {fileID: 417014140336826995}
   m_Layer: 7
   m_Name: mixamorig:LeftToeBase
   m_TagString: Untagged
@@ -1985,6 +2050,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.055174, y: 12.374998, z: 4.5341606}
   m_Center: {x: 0.53251195, y: -3.1475012, z: 1.7670809}
+--- !u!114 &417014140336826995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4034915406932956599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4974e863473b1eeb6a7fd23aa85fbb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_animator: {fileID: 8358965412654653387}
+  m_boxToExclude:
+  - {fileID: 2776785551613517322}
+  - {fileID: 2776785550459792436}
 --- !u!1 &4053788810363794435
 GameObject:
   m_ObjectHideFlags: 0

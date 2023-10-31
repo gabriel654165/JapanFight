@@ -357,7 +357,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1546891299273072501}
   - component: {fileID: 1546891299273072503}
-  - component: {fileID: 1546891299273072500}
   m_Layer: 0
   m_Name: LowPart
   m_TagString: Untagged
@@ -393,24 +392,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0119194, z: 0.7916928}
   m_Center: {x: 0, y: 1.9405863, z: 0.13535383}
---- !u!114 &1546891299273072500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546891299273072498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec1ad3794449b14185640dfe5938f83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_part: 1
-  m_animator: {fileID: 5046384471074308501}
-  m_boxToExclude:
-  - {fileID: 7034880755730126885}
-  - {fileID: 2215192823596906582}
-  - {fileID: 8712076595819466339}
 --- !u!1 &1546891299517605778
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +402,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1546891299517605781}
   - component: {fileID: 1546891299517605783}
-  - component: {fileID: 1546891299517605780}
   m_Layer: 0
   m_Name: HighPart
   m_TagString: Untagged
@@ -457,24 +437,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.3388679, z: 0.7916928}
   m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
---- !u!114 &1546891299517605780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1546891299517605778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec1ad3794449b14185640dfe5938f83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_part: 0
-  m_animator: {fileID: 5046384471074308501}
-  m_boxToExclude:
-  - {fileID: 7034880755730126885}
-  - {fileID: 2215192823596906582}
-  - {fileID: 8712076595819466339}
 --- !u!1 &1842804602265058699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,4 +1900,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 5046384471074308501}
   m_rigidbody: {fileID: 5046384471074308500}
-  m_footCollider: {fileID: 8712076595819466339}
