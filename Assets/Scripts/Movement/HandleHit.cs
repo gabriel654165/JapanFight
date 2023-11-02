@@ -29,11 +29,11 @@ public class HandleHit : MonoBehaviour
             new HitProperty("ZombiePunch", 10f, 1f),
             new HitProperty("BarbareKick", 7f, 1f),
             new HitProperty("HighKick", 12f, 1f),
-            new HitProperty("Flying Kick", 20f, 1f),
+            new HitProperty("Flying Kick", 30f, 1f),
             new HitProperty("Armada", 20f, 1f),
-            new HitProperty("Uppercut Big", 20f, 1f),
-            new HitProperty("Kamehameha", 20f, 1f),
-            new HitProperty("Sword Swoosh Insane", 20f, 1f),
+            new HitProperty("Uppercut Big", 30f, 1f),
+            new HitProperty("Kamehameha", 50f, 1f),
+            new HitProperty("Sword Swoosh Insane", 30f, 1f),
         };
     }
 
@@ -64,7 +64,7 @@ public class HandleHit : MonoBehaviour
         }
         int collisionLayer = collision.gameObject.layer;
 
-        if (collisionLayer == LayerMask.NameToLayer("Hand") || collisionLayer == LayerMask.NameToLayer("Foot") || collisionLayer == LayerMask.NameToLayer("SpecialEffect")) {
+        if (collisionLayer == LayerMask.NameToLayer("Hand") || collisionLayer == LayerMask.NameToLayer("Foot") || collisionLayer == LayerMask.NameToLayer("SpecialAttack")) {
             foreach (var box in m_boxToExclude)
                 if (collision == box || collisionLayer == LayerMask.NameToLayer("Wall"))
                     return;
@@ -93,11 +93,11 @@ public class HandleHit : MonoBehaviour
                     HandleHitLogic(6);
                     break;
                 case "Kamehameha":
-                    // @todo: only if SpecialEffect layer hits
+                    // @todo: only if SpecialAttack layer hits
                     HandleHitLogic(7);
                     break;
                 case "Sword Swoosh Insane":
-                    // @todo: only if SpecialEffect layer hits
+                    // @todo: only if SpecialAttack layer hits
                     HandleHitLogic(8);
                     break;
                 default:

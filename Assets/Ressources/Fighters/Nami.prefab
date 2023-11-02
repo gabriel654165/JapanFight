@@ -522,6 +522,52 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.05068651, y: -0.033340335, z: 0.012930714}
     m_Extent: {x: 0.0456883, y: 0.044863462, z: 0.049962483}
   m_DirtyAABB: 0
+--- !u!1 &1197140520059922922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8872538391970448788}
+  - component: {fileID: 5907092320658508837}
+  m_Layer: 11
+  m_Name: l_weapon1_up
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8872538391970448788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197140520059922922}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1142613098322606629}
+  m_Father: {fileID: 4461086307856891476}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5907092320658508837
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197140520059922922}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.028120399, y: 2.036424, z: 0.032470647}
+  m_Center: {x: -0.6718656, y: 0.019201757, z: 1.3169491}
 --- !u!1 &1223253902442640166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,7 +1540,7 @@ Transform:
   - {fileID: 1968829388433603251}
   - {fileID: 4086392178119602141}
   - {fileID: 4839877714797162953}
-  - {fileID: 1142613098322606629}
+  - {fileID: 8872538391970448788}
   - {fileID: 8660364542530641988}
   - {fileID: 7298066304410855688}
   - {fileID: 1857849271794075641}
@@ -1555,6 +1601,9 @@ MonoBehaviour:
   m_animator: {fileID: 7712654643571385390}
   m_speed: 2.5
   m_specialPowerIdx: 0
+  m_ballEffectPrefab: {fileID: 0}
+  m_hueEffectSaturation: 0
+  m_effectDuration: 0.5
 --- !u!114 &3937033315489113314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2122,6 +2171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1142613098322606629}
   - component: {fileID: 26066634979448533}
+  - component: {fileID: 7420457634661892993}
   m_Layer: 8
   m_Name: l_weapon1
   m_TagString: Untagged
@@ -2136,13 +2186,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4788432671484154422}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4461086307856891476}
-  m_RootOrder: 7
+  m_Father: {fileID: 8872538391970448788}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &26066634979448533
 SkinnedMeshRenderer:
@@ -2198,6 +2248,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00013428926, y: 0.0019489527, z: -0.01920271}
     m_Extent: {x: 0.014060199, y: 0.016234994, z: 1.0182118}
   m_DirtyAABB: 0
+--- !u!65 &7420457634661892993
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4788432671484154422}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.028120399, y: 2.036424, z: 0.032470647}
+  m_Center: {x: -0.6718656, y: 0.019201757, z: 1.3169491}
 --- !u!1 &5044219908928830897
 GameObject:
   m_ObjectHideFlags: 0
@@ -3230,6 +3293,7 @@ MonoBehaviour:
   - {fileID: 415507953480581960}
   - {fileID: 3870916118033687693}
   - {fileID: 3090282376083674769}
+  - {fileID: 5907092320658508837}
   m_colliderToMaintain: {fileID: 4103417204499656401}
   m_hitPropertyList: []
 --- !u!1 &7687063623543809219
@@ -3344,6 +3408,7 @@ MonoBehaviour:
   - {fileID: 415507953480581960}
   - {fileID: 3870916118033687693}
   - {fileID: 3090282376083674769}
+  - {fileID: 5907092320658508837}
   m_colliderToMaintain: {fileID: 4103417204499656401}
   m_hitPropertyList: []
 --- !u!1 &7757609389252790679

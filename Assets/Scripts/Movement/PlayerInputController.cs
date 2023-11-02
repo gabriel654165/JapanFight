@@ -208,6 +208,7 @@ public class PlayerInputController : MonoBehaviour
             return;
         m_effect = Instantiate(m_ballEffectPrefab);
         m_effect.transform.SetParent(transform);
+        // @todo: if the enemy is behind, the player is gonna launch the effect behind him
         m_effect.transform.rotation = Quaternion.LookRotation(m_enemy.transform.position - transform.position);
         m_effect.transform.position = new Vector3(transform.position.x, transform.position.y + posToAddY, transform.position.z);
         m_effect.transform.GetComponent<RedHollowControl>().hue = m_hueEffectSaturation;
@@ -219,8 +220,9 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_effect == null)
             return;
+        // @todo: if the enemy is behind, the player is gonna launch the effect behind him
         m_effect.transform.rotation = Quaternion.LookRotation(m_enemy.transform.position - transform.position);
-        m_effect.transform.position = new Vector3(m_effect.transform.position.x + (m_isLeft ? -0.5f : 0.5f), m_effect.transform.position.y + 0.5f, m_effect.transform.position.z);
+        m_effect.transform.position = new Vector3(m_effect.transform.position.x + (m_isLeft ? -1f : 1f), m_effect.transform.position.y + 0.5f, m_effect.transform.position.z);
         m_effect.transform.transform.GetChild(0).GetComponent<Animator>().Play("Red Hollow - Charged");
         m_effect.transform.transform.GetChild(0).GetComponent<Animator>().Play("Red Hollow - Burst");
         StartCoroutine(DestroyEffectTimer(m_effect, m_effectDuration));
