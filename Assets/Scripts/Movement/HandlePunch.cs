@@ -39,7 +39,6 @@ public class HandlePunch : MonoBehaviour
 
     private void HandlePunchLogic(int indexPunchProperty)
     {
-        //Debug.Log("Current animation = " + currentAnim);
         if (!m_hasLandPunch) {
             m_power.AddPowerCharge(m_PunchPropertyList[indexPunchProperty].powerToAdd);
             m_hasLandPunch = true;
@@ -51,7 +50,7 @@ public class HandlePunch : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("HitBox") || collision.gameObject.layer == LayerMask.NameToLayer("HitBox"))
         {
             foreach (var box in m_boxToExclude)
-                if (collision == box)
+                if (collision == box || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
                     return;
 
             switch (m_playerInputController.GetAnimator().GetCurrentAnimatorClipInfo(0)[0].clip.name)
@@ -67,6 +66,21 @@ public class HandlePunch : MonoBehaviour
                     break;
                 case "HighKick":
                     HandlePunchLogic(3);
+                    break;
+                case "Flying Kick":
+                    // @todo: callback special power canvas (effect, idk which)
+                    break;
+                case "Armada":
+                    // @todo: callback special power canvas (effect, idk which)
+                    break;
+                case "Uppercut Big":
+                    // @todo: callback special power canvas (effect, idk which)
+                    break;
+                case "Kamehameha":
+                    // @todo: callback special power canvas (effect, idk which)
+                    break;
+                case "Sword Swoosh Insane":
+                    // @todo: callback special power canvas (effect, idk which)
                     break;
                 default:
                     break;

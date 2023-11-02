@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(er.ToString());
         }*/
         
-        // @todo: replace the line bellow
+        // @todo: REPLACE THE LINE BELLOW
         //m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
@@ -140,6 +140,9 @@ public class GameManager : MonoBehaviour
         // @note: make player face each other
         m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
         m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
+
+        m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo);
+        m_playerTwo.GetComponent<PlayerInputController>().Init(m_playerOne, true);
     }
 
     private void InitCanvas()
@@ -314,7 +317,7 @@ public class GameManager : MonoBehaviour
         m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 7f);
         yield return new WaitForSeconds(2f);
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration, false);
-        var randomIndex = UnityEngine.Random.Range(0, 3);
+        var randomIndex = UnityEngine.Random.Range(0, 9);
         targets[0].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
         targets[0].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
         yield return new WaitForSeconds(duration);
@@ -323,7 +326,7 @@ public class GameManager : MonoBehaviour
         m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 3f);//creer un autre transform et move dessus
         yield return new WaitForSeconds(1.5f);
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration, false);
-        randomIndex = UnityEngine.Random.Range(0, 3);
+        randomIndex = UnityEngine.Random.Range(0, 9);
         targets[1].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
         targets[1].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
         yield return new WaitForSeconds(duration);

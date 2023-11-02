@@ -2,59 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class HitProperty {
-    
-    public string animationName { get; set; }
-    public float damage { get; set; }
-    public float coolDownUntilNextHit { get; set; }
-
-    public HitProperty(string animName, float dmg, float cd) {
-        animationName = animName;
-        damage = dmg;
-        coolDownUntilNextHit = cd;
-    }
-}
-
-//implem cooldown
 public class HandleHit : MonoBehaviour
 {
-    public enum Part {
-        HIGH,
-        LOW
-    }
     [SerializeField] private Part m_part;
     [SerializeField] private Animator m_animator;
     [SerializeField] private Collider[] m_boxToExclude;
     [SerializeField] private Collider m_colliderToMaintain;
     private Health m_health;
-    private bool m_hasBeenHited = false;
+    private HandleHitManager m_handleHitManager; 
     private GameManager m_gameManagerInstance;
+    [SerializeField] private List<HitProperty> m_hitPropertyList;
     
-    private List<HitProperty> m_hitPropertyList = new List<HitProperty> {
-        new HitProperty("Punch", 10f, 1f),
-        new HitProperty("ZombiePunch", 10f, 1f),
-        new HitProperty("BarbareKick", 7f, 1f),
-        new HitProperty("HighKick", 12f, 1f),
-    };
-    
+    void Awake()
+    {
+        m_handleHitManager = transform.parent.GetComponent<HandleHitManager>();
+    }
+
     void Start()
     {
         m_health = transform.root.GetComponent<Health>();
         m_gameManagerInstance = (GameManager)FindObjectOfType<GameManager>().GetComponent<GameManager>();
+
+        // @note: init hitproperties hardly
+        m_hitPropertyList = new List<HitProperty> {
+            new HitProperty("Punch", 10f, 1f),
+            new HitProperty("ZombiePunch", 10f, 1f),
+            new HitProperty("BarbareKick", 7f, 1f),
+            new HitProperty("HighKick", 12f, 1f),
+            new HitProperty("Flying Kick", 20f, 1f),
+            new HitProperty("Armada", 20f, 1f),
+            new HitProperty("Uppercut Big", 20f, 1f),
+            new HitProperty("Kamehameha", 20f, 1f),
+            new HitProperty("Sword Swoosh Insane", 20f, 1f),
+        };
     }
 
     private void HandleHitLogic(int indexHitProperty)
     {
-        m_hasBeenHited = true;
         if (!m_health.isDead()) {
             var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-            //Debug.Log("Current animation = " + currentAnim);
+            
             if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+                m_handleHitManager.SetCoolDownTime(m_hitPropertyList[indexHitProperty].coolDownUntilNextHit);
+                m_handleHitManager.Hited();
                 m_health.Hit(m_hitPropertyList[indexHitProperty].damage);
                 if (m_health.isDead()) {
                     ChooseDeathAnim(currentAnim);
                 } else {
+                    // @todo: si specialPower, le faire tomber par terre
                     m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
                 }
             }
@@ -63,10 +58,15 @@ public class HandleHit : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Hand") || collision.gameObject.layer == LayerMask.NameToLayer("Foot"))
-        {
+        // @note: cooldown between hits
+        if (m_handleHitManager.HasBeenHited()) {
+            return;
+        }
+        int collisionLayer = collision.gameObject.layer;
+
+        if (collisionLayer == LayerMask.NameToLayer("Hand") || collisionLayer == LayerMask.NameToLayer("Foot") || collisionLayer == LayerMask.NameToLayer("SpecialEffect")) {
             foreach (var box in m_boxToExclude)
-                if (collision == box)
+                if (collision == box || collisionLayer == LayerMask.NameToLayer("Wall"))
                     return;
 
             switch (collision.transform.root.GetComponent<PlayerInputController>().GetAnimator().GetCurrentAnimatorClipInfo(0)[0].clip.name)
@@ -83,15 +83,31 @@ public class HandleHit : MonoBehaviour
                 case "HighKick":
                     HandleHitLogic(3);
                     break;
+                case "Flying Kick":
+                    HandleHitLogic(4);
+                    break;
+                case "Armada":
+                    HandleHitLogic(5);
+                    break;
+                case "Uppercut Big":
+                    HandleHitLogic(6);
+                    break;
+                case "Kamehameha":
+                    // @todo: only if SpecialEffect layer hits
+                    HandleHitLogic(7);
+                    break;
+                case "Sword Swoosh Insane":
+                    // @todo: only if SpecialEffect layer hits
+                    HandleHitLogic(8);
+                    break;
                 default:
                     break;
             }
             if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle") {
                 m_animator.SetTrigger("BlockWithGuard");
             }
-            if (m_hasBeenHited) {
+            if (m_handleHitManager.HasBeenHited()) {
                 m_gameManagerInstance.HandleHitCallBack();
-                m_hasBeenHited = false;
             }
         }
     }

@@ -15,8 +15,8 @@ TagManager:
   - Foot
   - Player
   - HitBox
-  - 
-  - 
+  - Wall
+  - SpecialAttack
   - 
   - 
   - 

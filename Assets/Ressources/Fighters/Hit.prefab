@@ -542,6 +542,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 5658580691803913202}
   m_speed: 2.5
+  m_specialPowerIdx: 5
+  m_ballEffectPrefab: {fileID: 1677334750579945605, guid: c02d9ef745b89564b82fa23b1939b5fb,
+    type: 3}
+  m_hueEffectSaturation: 0.7
 --- !u!114 &5658580691803913102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1284,6 +1288,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2968367892663149170}
+  - component: {fileID: 6985972652163268370}
   m_Layer: 0
   m_Name: Colliders
   m_TagString: Untagged
@@ -1310,6 +1315,18 @@ Transform:
   m_Father: {fileID: 1758512701445169544}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6985972652163268370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2968367892663149171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85bd30c12361c8b89024dfcd18cfb92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2968367892674186377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1392,7 @@ MonoBehaviour:
   - {fileID: 8695393779651675793}
   - {fileID: 5706232084784846555}
   m_colliderToMaintain: {fileID: 295078332931042181}
+  m_hitPropertyList: []
 --- !u!1 &2968367894258856410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,6 +1458,7 @@ MonoBehaviour:
   - {fileID: 8695393779651675793}
   - {fileID: 5706232084784846555}
   m_colliderToMaintain: {fileID: 295078332931042181}
+  m_hitPropertyList: []
 --- !u!1 &3240716286247504445
 GameObject:
   m_ObjectHideFlags: 0

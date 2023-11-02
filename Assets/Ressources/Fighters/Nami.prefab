@@ -1554,6 +1554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_animator: {fileID: 7712654643571385390}
   m_speed: 2.5
+  m_specialPowerIdx: 0
 --- !u!114 &3937033315489113314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,7 +2128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1142613098322606629
 Transform:
   m_ObjectHideFlags: 0
@@ -3230,6 +3231,7 @@ MonoBehaviour:
   - {fileID: 3870916118033687693}
   - {fileID: 3090282376083674769}
   m_colliderToMaintain: {fileID: 4103417204499656401}
+  m_hitPropertyList: []
 --- !u!1 &7687063623543809219
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,6 +3241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7687063623543809220}
+  - component: {fileID: 2979147685245713571}
   m_Layer: 0
   m_Name: Colliders
   m_TagString: Untagged
@@ -3265,6 +3268,18 @@ Transform:
   m_Father: {fileID: 4461086307856891476}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2979147685245713571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7687063623543809219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85bd30c12361c8b89024dfcd18cfb92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7687063623759101056
 GameObject:
   m_ObjectHideFlags: 0
@@ -3330,6 +3345,7 @@ MonoBehaviour:
   - {fileID: 3870916118033687693}
   - {fileID: 3090282376083674769}
   m_colliderToMaintain: {fileID: 4103417204499656401}
+  m_hitPropertyList: []
 --- !u!1 &7757609389252790679
 GameObject:
   m_ObjectHideFlags: 0

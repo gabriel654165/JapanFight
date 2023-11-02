@@ -153,6 +153,7 @@ public class CanvasController : MonoBehaviour
         }
     }
 
+    // @bug: both texts are shaking when the trigger is called
     // @todo : gradiant color from white to red (more the life prct is low)
     public void UpdatePlayerPrct()
     {
