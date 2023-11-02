@@ -6,27 +6,29 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Power))]
 public class PlayerInputController : MonoBehaviour
 {
+    private Power m_power;
+    private GameObject m_effect;
+
+    [Header("Movements")]
+    [SerializeField] private float m_speed;
     private Rigidbody m_rigidbody;
     private bool m_invertX = false;
-
-    [SerializeField] private Animator m_animator;
-    [SerializeField] private float m_speed;
-    [SerializeField] private int m_specialPowerIdx = 0;
-
     private bool m_lock = false;
+
+    [Header("Animations")]
+    [SerializeField] private Animator m_animator;
+    [SerializeField] private Collider m_colliderToMaintain;
     private Quaternion m_initialRotation;
 
+    [Header("Special Effect")]
     [SerializeField] private GameObject m_ballEffectPrefab;
     [Range(0.0f, 1.0f)]
     [SerializeField] private float m_hueEffectSaturation = 0;
     [SerializeField] private float m_effectDuration = 0.5f;
+    [SerializeField] private int m_specialPowerIdx = 0;
     private GameManager m_gameManagerInstance;
     private GameObject m_enemy;
     private bool m_isLeft = false;
-
-
-    private Power m_power;
-    private GameObject m_effect;
 
     // private InputMaster m_inputMaster;
 
@@ -227,6 +229,8 @@ public class PlayerInputController : MonoBehaviour
         m_effect.transform.transform.GetChild(0).GetComponent<Animator>().Play("Red Hollow - Burst");
         StartCoroutine(DestroyEffectTimer(m_effect, m_effectDuration));
     }
+
+    //BUG
     public void ResetAnimationEffects()
     {
         if (m_effect != null) {
@@ -299,6 +303,31 @@ public class PlayerInputController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+    }
+
+    #endregion
+
+    #region REGULAR CALLBACK ANIMATIONS
+
+    public void SetColliderToGround()
+    {
+        if (m_colliderToMaintain == null)
+            return;
+        
+        Vector3 localPos = m_colliderToMaintain.gameObject.transform.localPosition;
+        
+        m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y + 1, localPos.z);
+    }
+
+    // BUG 
+    public void ResetColliderToNormal()
+    {
+        if (m_colliderToMaintain == null)
+            return;
+        
+        Vector3 localPos = m_colliderToMaintain.gameObject.transform.localPosition;
+        
+        m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y - 1, localPos.z);
     }
 
     #endregion

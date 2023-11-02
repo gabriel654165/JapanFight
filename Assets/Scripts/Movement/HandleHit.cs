@@ -37,20 +37,22 @@ public class HandleHit : MonoBehaviour
         };
     }
 
-    private void HandleHitLogic(int indexHitProperty)
+    private void HandleHitLogic(int indexHitProperty, bool specialPower = false)
     {
         if (!m_health.isDead()) {
             var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
             
-            if (!(currentAnim == "HighHit" || currentAnim == "LowHit")) {
+            if (!(currentAnim == "HighHit" || currentAnim == "LowHit" || currentAnim == "Sweep Fall")) {
                 m_handleHitManager.SetCoolDownTime(m_hitPropertyList[indexHitProperty].coolDownUntilNextHit);
                 m_handleHitManager.Hited();
                 m_health.Hit(m_hitPropertyList[indexHitProperty].damage);
                 if (m_health.isDead()) {
                     ChooseDeathAnim(currentAnim);
                 } else {
-                    // @todo: si specialPower, le faire tomber par terre
-                    m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                    if (specialPower)
+                        m_animator.SetTrigger("SpecialHit");
+                    else
+                        m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
                 }
             }
         }
@@ -84,21 +86,25 @@ public class HandleHit : MonoBehaviour
                     HandleHitLogic(3);
                     break;
                 case "Flying Kick":
-                    HandleHitLogic(4);
+                    HandleHitLogic(4, true);
                     break;
                 case "Armada":
-                    HandleHitLogic(5);
+                    HandleHitLogic(5, true);
                     break;
                 case "Uppercut Big":
-                    HandleHitLogic(6);
+                    HandleHitLogic(6, true);
                     break;
                 case "Kamehameha":
-                    // @todo: only if SpecialAttack layer hits
-                    HandleHitLogic(7);
+                    // @note: for special powers hit with a external obj (not hand or foot)
+                    if (collisionLayer != LayerMask.NameToLayer("SpecialAttack"))
+                        return;
+                    HandleHitLogic(7, true);
                     break;
                 case "Sword Swoosh Insane":
-                    // @todo: only if SpecialAttack layer hits
-                    HandleHitLogic(8);
+                    // @note: for special powers hit with a external obj (not hand or foot)
+                    if (collisionLayer != LayerMask.NameToLayer("SpecialAttack"))
+                        return;
+                    HandleHitLogic(8, true);
                     break;
                 default:
                     break;
@@ -117,10 +123,10 @@ public class HandleHit : MonoBehaviour
         if (currentAnimName != "Brutal Assassination" && currentAnimName != "Death") {
             // @note: to make the chracter able to toutch the ground, the collider goes up
             Vector3 localPos = m_colliderToMaintain.gameObject.transform.localPosition;
-            m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y + 1, localPos.z);
             
+            m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y + 1, localPos.z);
             // @note: random anim between 2 animations of death
-            var randomIndex = Random.Range(0, 2);
+            var randomIndex = Random.Range(0, 4);
             m_animator.SetInteger("Die", randomIndex);
         }
     }

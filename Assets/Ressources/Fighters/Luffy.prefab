@@ -6455,8 +6455,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1796467b31108f64899beb9d89c1abd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_animator: {fileID: 3996659532818640724}
   m_speed: 2.5
+  m_animator: {fileID: 3996659532818640724}
+  m_colliderToMaintain: {fileID: 2274900016238094385}
+  m_ballEffectPrefab: {fileID: 0}
+  m_hueEffectSaturation: 0
+  m_effectDuration: 0.5
   m_specialPowerIdx: 6
 --- !u!114 &3996659532818640720
 MonoBehaviour:
