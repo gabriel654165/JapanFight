@@ -254,45 +254,35 @@ public class CanvasController : MonoBehaviour
         float srcSizeY = textRect.sizeDelta.y;
         float destSizeY = textRect.sizeDelta.y + scaleToAdd;
 
+        yield return ExtandText(textRect, srcSizeX, destSizeX, srcSizeY, destSizeY, timeToExtand);
+        yield return RetractText(textRect, srcSizeX, destSizeX, srcSizeY, destSizeY, timeToRetract);
+        yield return ExtandText(textRect, srcSizeX, destSizeX, srcSizeY, destSizeY, timeToExtand);
+        yield return RetractText(textRect, srcSizeX, destSizeX, srcSizeY, destSizeY, timeToRetract);
+    }
+
+    private IEnumerator ExtandText(RectTransform textRect, float srcSizeX, float destSizeX, float srcSizeY, float destSizeY, float duration)
+    {
         float elapsedTime = 0f;
 
         while (textRect.sizeDelta.x < destSizeX || textRect.sizeDelta.y < destSizeY) 
         {
-            float currentSizeX = Mathf.Lerp(srcSizeX, destSizeX, (elapsedTime / timeToExtand));
-            float currentSizeY = Mathf.Lerp(srcSizeY, destSizeY, (elapsedTime / timeToExtand));
+            float currentSizeX = Mathf.Lerp(srcSizeX, destSizeX, (elapsedTime / duration));
+            float currentSizeY = Mathf.Lerp(srcSizeY, destSizeY, (elapsedTime / duration));
             textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         textRect.sizeDelta = new Vector2(destSizeX, destSizeY);
+    }
 
-        elapsedTime = 0f;
+    private IEnumerator RetractText(RectTransform textRect, float srcSizeX, float destSizeX, float srcSizeY, float destSizeY, float duration)
+    {
+        float elapsedTime = 0f;
+
         while (textRect.sizeDelta.x > srcSizeX || textRect.sizeDelta.y > srcSizeY) 
         {
-            float currentSizeX = Mathf.Lerp(destSizeX, srcSizeX, (elapsedTime / timeToRetract));
-            float currentSizeY = Mathf.Lerp(destSizeY, srcSizeY, (elapsedTime / timeToRetract));
-            textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        textRect.sizeDelta = new Vector2(srcSizeX, srcSizeY);
-
-        elapsedTime = 0f;
-        while (textRect.sizeDelta.x < destSizeX || textRect.sizeDelta.y < destSizeY) 
-        {
-            float currentSizeX = Mathf.Lerp(srcSizeX, destSizeX, (elapsedTime / timeToExtand));
-            float currentSizeY = Mathf.Lerp(srcSizeY, destSizeY, (elapsedTime / timeToExtand));
-            textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        textRect.sizeDelta = new Vector2(destSizeX, destSizeY);
-
-        elapsedTime = 0f;
-        while (textRect.sizeDelta.x > srcSizeX || textRect.sizeDelta.y > srcSizeY) 
-        {
-            float currentSizeX = Mathf.Lerp(destSizeX, srcSizeX, (elapsedTime / timeToRetract));
-            float currentSizeY = Mathf.Lerp(destSizeY, srcSizeY, (elapsedTime / timeToRetract));
+            float currentSizeX = Mathf.Lerp(destSizeX, srcSizeX, (elapsedTime / duration));
+            float currentSizeY = Mathf.Lerp(destSizeY, srcSizeY, (elapsedTime / duration));
             textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
             elapsedTime += Time.deltaTime;
             yield return null;
