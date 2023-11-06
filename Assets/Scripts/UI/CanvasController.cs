@@ -21,6 +21,8 @@ public class CanvasController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private TextMeshProUGUI m_textPrctP1;
     [SerializeField] private TextMeshProUGUI m_textPrctP2;
+    [SerializeField] private Color m_colorLifeMax = Color.white;
+    [SerializeField] private Color m_colorLifeLow = Color.red;
     [SerializeField] private float m_durationSubstractHealth = 1f;
     private float m_lastHealthValueP1 = 0;
     private float m_lastHealthValueP2 = 0;
@@ -74,12 +76,10 @@ public class CanvasController : MonoBehaviour
         m_imgBgCircleP1.color = m_avatarSpritesList[playersIndexes[0]].backgroundColor;
         m_imgBgCircleP2.color = m_avatarSpritesList[playersIndexes[1]].backgroundColor;
 
-        m_lastHealthValueP1 = playerList[0].GetComponent<Health>().GetHealth();
-        m_lastHealthValueP2 = playerList[1].GetComponent<Health>().GetHealth();
+        m_lastHealthValueP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
+        m_lastHealthValueP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
         m_lastPowerValueP1 = playerList[0].GetComponent<Power>().GetPowerCharge();
         m_lastPowerValueP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
-
-        UpdatePlayerPrct();
     }
 
     void Update()
@@ -153,13 +153,43 @@ public class CanvasController : MonoBehaviour
         }
     }
 
-    // @bug: both texts are shaking when the trigger is called
-    // @todo : gradiant color from white to red (more the life prct is low)
+    private void UpdateHealthText(TextMeshProUGUI text, float value)
+    {
+        VertexGradient colorGradient = new VertexGradient();
+        float colorValue = value/100;
+
+        if (colorValue >= 0 && colorValue <= 0.5f)
+        {
+            colorGradient.topLeft = m_colorLifeLow * (2 * colorValue);
+            colorGradient.topRight = m_colorLifeLow * (2 * colorValue);
+            colorGradient.bottomLeft = m_colorLifeMax;
+            colorGradient.bottomRight = m_colorLifeMax;
+        }
+        else if (colorValue > 0.5f && colorValue <= 1)
+        {
+            colorGradient.topLeft = m_colorLifeLow;
+            colorGradient.topRight = m_colorLifeLow;
+            colorGradient.bottomLeft = m_colorLifeMax + m_colorLifeLow * (2 * colorValue - 1);
+            colorGradient.bottomRight = m_colorLifeMax + m_colorLifeLow * (2 * colorValue - 1);
+        }
+        
+        // @note: Ensure alpha is 1
+        colorGradient.topLeft.a = 1;
+        colorGradient.topRight.a = 1;
+        colorGradient.bottomLeft.a = 1;
+        colorGradient.bottomRight.a = 1;
+
+        text.enableVertexGradient = true;
+        text.colorGradient = colorGradient;
+
+        text.text = ((int)value).ToString() + "%";
+    }
+
     public void UpdatePlayerPrct()
     {
         List<GameObject> playerList = m_refGameManager.GetPlayerList();
-        float currentHealthP1 = playerList[0].GetComponent<Health>().GetHealth();
-        float currentHealthP2 = playerList[1].GetComponent<Health>().GetHealth();
+        float currentHealthP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
+        float currentHealthP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
 
         if (m_lastHealthValueP1 != currentHealthP1) {
             float healthP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
@@ -169,8 +199,8 @@ public class CanvasController : MonoBehaviour
                 m_durationSubstractHealth, 
                 m_lastHealthValueP1, 
                 healthP1, 
-                (float value) => { m_textPrctP1.text = ((int)value).ToString() + "%"; return null; },
-                () => { m_textPrctP1.text = healthP1.ToString() + "%"; m_lastHealthValueP1 = healthP1; })
+                (float value) => { UpdateHealthText(m_textPrctP1, value); return null; },
+                () => { UpdateHealthText(m_textPrctP1, healthP1); m_lastHealthValueP1 = healthP1; })
             );
         }
 
@@ -182,8 +212,8 @@ public class CanvasController : MonoBehaviour
                 m_durationSubstractHealth, 
                 m_lastHealthValueP2, 
                 healthP2, 
-                (float value) => { m_textPrctP2.text = ((int)value).ToString() + "%"; return null; },
-                () => { m_textPrctP2.text = healthP2.ToString() + "%"; m_lastHealthValueP2 = healthP2; })
+                (float value) => { UpdateHealthText(m_textPrctP2, value); return null; },
+                () => { UpdateHealthText(m_textPrctP2, healthP2); m_lastHealthValueP2 = healthP2; })
             );
         }
     }

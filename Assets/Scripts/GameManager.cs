@@ -250,9 +250,8 @@ public class GameManager : MonoBehaviour
 
     public void HandleHitCallBack()
     {
+        StartCoroutine(Rumble(0.25f));
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct();
-        // @todo: controler vibration
-        // @todo: shake camera
     }
 
     public void HandlePunchCallBack()
@@ -268,6 +267,13 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region COROUTINES
+    private IEnumerator Rumble(float time, float forceX = 0.123f, float forceY = 0.234f)
+    {
+        Gamepad.current.SetMotorSpeeds(forceX, forceY);
+        yield return new WaitForSeconds(time);
+        Gamepad.current.SetMotorSpeeds(0, 0);
+    }
+
     private IEnumerator PreRoundCoroutine(List<Transform> targets)
     {
         Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 

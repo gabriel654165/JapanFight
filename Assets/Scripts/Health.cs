@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
     private float m_health = 0;
     private bool m_isDead = false;
 
-    void Start()
+    void Awake()
     {
         m_health = m_maxHealth;
     }
@@ -35,6 +35,11 @@ public class Health : MonoBehaviour
     public float GetHealth()
     {
         return m_health;
+    }
+
+    public float GetMaxHealth()
+    {
+        return m_maxHealth;
     }
 
     public float GetPrctLeftHealth()
