@@ -49,6 +49,7 @@ public class CanvasController : MonoBehaviour
     [Header("Round Indicators")]
     [SerializeField] private TextMeshProUGUI m_textTimer;
     [SerializeField] private TextMeshProUGUI m_textRound;
+    [SerializeField] private TextMeshProUGUI m_textRoundNumber;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject m_popUpPrefab;
@@ -113,18 +114,39 @@ public class CanvasController : MonoBehaviour
         m_refGameManager = gameManager;
     }
 
+    Coroutine task1 = null;
+    Coroutine task2 = null;
+
     private void UpdateTimer() 
     {
-        double rTime = (double)m_refGameManager.GetRemainingTime();
-        var rTimeSpan = TimeSpan.FromSeconds(rTime);
+        float rTime = (float)m_refGameManager.GetRemainingTime();
+        var rTimeSpan = TimeSpan.FromSeconds((double)rTime);
+
+        float rTimeClamp = (int)Mathf.Abs(rTime);
+        //Debug.Log("rTime = " + rTimeClamp.ToString());
+
+        if (rTimeClamp == 60 && task1 == null) {
+            m_textTimer.color = new Color(1.0f, 0.64f, 0.0f);;
+            task1 = StartCoroutine(ScaleTextOnce(m_textTimer.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f));
+        }
+
+        if (rTimeClamp == 30 && task2 == null) {
+            m_textTimer.color = Color.red;
+            task2 = StartCoroutine(ScaleTextOnce(m_textTimer.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f));
+        }
+
+        if (rTimeClamp == 10 && rTimeClamp > 0) {
+            StartCoroutine(ScaleTextOnce(m_textTimer.GetComponent<RectTransform>(), 10f, 0.15f, 0.15f));
+        }
         
         m_textTimer.text = rTimeSpan.ToString(@"mm\:ss");
     }
 
     private void UpdateRound()
     {
+        m_textRound.text = "Round ";
         // @note: add 1 to GetCurrentRound to never display the round 0
-        m_textRound.text = "Round " + (m_refGameManager.GetCurrentRound() + 1).ToString();
+        m_textRoundNumber.text = (m_refGameManager.GetCurrentRound() + 1).ToString();
     }
 
     public void UpdatePlayerPowerCharge(bool forceUpdate = false)
@@ -160,17 +182,17 @@ public class CanvasController : MonoBehaviour
 
         if (colorValue >= 0 && colorValue <= 0.5f)
         {
-            colorGradient.topLeft = m_colorLifeLow * (2 * colorValue);
-            colorGradient.topRight = m_colorLifeLow * (2 * colorValue);
-            colorGradient.bottomLeft = m_colorLifeMax;
-            colorGradient.bottomRight = m_colorLifeMax;
+            colorGradient.topLeft = m_colorLifeMax * (2 * colorValue);
+            colorGradient.topRight = m_colorLifeMax * (2 * colorValue);
+            colorGradient.bottomLeft = m_colorLifeLow;
+            colorGradient.bottomRight = m_colorLifeLow;
         }
         else if (colorValue > 0.5f && colorValue <= 1)
         {
-            colorGradient.topLeft = m_colorLifeLow;
-            colorGradient.topRight = m_colorLifeLow;
-            colorGradient.bottomLeft = m_colorLifeMax + m_colorLifeLow * (2 * colorValue - 1);
-            colorGradient.bottomRight = m_colorLifeMax + m_colorLifeLow * (2 * colorValue - 1);
+            colorGradient.topLeft = m_colorLifeMax;
+            colorGradient.topRight = m_colorLifeMax;
+            colorGradient.bottomLeft = m_colorLifeLow + m_colorLifeMax * (2 * colorValue - 1);
+            colorGradient.bottomRight = m_colorLifeLow + m_colorLifeMax * (2 * colorValue - 1);
         }
         
         // @note: Ensure alpha is 1
@@ -224,6 +246,59 @@ public class CanvasController : MonoBehaviour
     }
 
     #region COROUTINES
+
+    private IEnumerator ScaleTextOnce(RectTransform textRect, float scaleToAdd, float timeToExtand, float timeToRetract)
+    {
+        float srcSizeX = textRect.sizeDelta.x;
+        float destSizeX = textRect.sizeDelta.x + scaleToAdd;
+        float srcSizeY = textRect.sizeDelta.y;
+        float destSizeY = textRect.sizeDelta.y + scaleToAdd;
+
+        float elapsedTime = 0f;
+
+        while (textRect.sizeDelta.x < destSizeX || textRect.sizeDelta.y < destSizeY) 
+        {
+            float currentSizeX = Mathf.Lerp(srcSizeX, destSizeX, (elapsedTime / timeToExtand));
+            float currentSizeY = Mathf.Lerp(srcSizeY, destSizeY, (elapsedTime / timeToExtand));
+            textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        textRect.sizeDelta = new Vector2(destSizeX, destSizeY);
+
+        elapsedTime = 0f;
+        while (textRect.sizeDelta.x > srcSizeX || textRect.sizeDelta.y > srcSizeY) 
+        {
+            float currentSizeX = Mathf.Lerp(destSizeX, srcSizeX, (elapsedTime / timeToRetract));
+            float currentSizeY = Mathf.Lerp(destSizeY, srcSizeY, (elapsedTime / timeToRetract));
+            textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        textRect.sizeDelta = new Vector2(srcSizeX, srcSizeY);
+
+        elapsedTime = 0f;
+        while (textRect.sizeDelta.x < destSizeX || textRect.sizeDelta.y < destSizeY) 
+        {
+            float currentSizeX = Mathf.Lerp(srcSizeX, destSizeX, (elapsedTime / timeToExtand));
+            float currentSizeY = Mathf.Lerp(srcSizeY, destSizeY, (elapsedTime / timeToExtand));
+            textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        textRect.sizeDelta = new Vector2(destSizeX, destSizeY);
+
+        elapsedTime = 0f;
+        while (textRect.sizeDelta.x > srcSizeX || textRect.sizeDelta.y > srcSizeY) 
+        {
+            float currentSizeX = Mathf.Lerp(destSizeX, srcSizeX, (elapsedTime / timeToRetract));
+            float currentSizeY = Mathf.Lerp(destSizeY, srcSizeY, (elapsedTime / timeToRetract));
+            textRect.sizeDelta = new Vector2(currentSizeX, currentSizeY);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        textRect.sizeDelta = new Vector2(srcSizeX, srcSizeY);
+    }
 
     private IEnumerator LerpAndDebounceOverTime(float duration, float srcVal, float destVal, Func<float, GameObject> debounceLogic, Action debounceFunction)
     {

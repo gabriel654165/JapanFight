@@ -14,12 +14,12 @@ public class GameManager : MonoBehaviour
     private static GameManager m_instance;
 
     // @note: Rules
-    private float m_gameDuration = 60 * 3;
+    [SerializeField] private float m_gameDuration = 180;
+    [SerializeField] private bool m_roundIsFinished = false;
     private float m_timer = 0f;
     private int m_nbRoundsToWin = 2;
     private int m_playerOneWinRate = 0;
     private int m_playerTwoWinRate = 0;
-    [SerializeField] private bool m_roundIsFinished = false;
 
     // @note: Singleton obj
     private GameObject m_camera;
@@ -269,9 +269,13 @@ public class GameManager : MonoBehaviour
     #region COROUTINES
     private IEnumerator Rumble(float time, float forceX = 0.123f, float forceY = 0.234f)
     {
-        Gamepad.current.SetMotorSpeeds(forceX, forceY);
+        if (Gamepad.current != null)
+            Gamepad.current.SetMotorSpeeds(forceX, forceY);
+
         yield return new WaitForSeconds(time);
-        Gamepad.current.SetMotorSpeeds(0, 0);
+
+        if (Gamepad.current != null)
+            Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
     private IEnumerator PreRoundCoroutine(List<Transform> targets)

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00cc0d0c1ec8ec62abe03c2d69bc1820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_gameDuration: 180
   m_roundIsFinished: 0
   m_indexPlace: 0
   m_mapPrefabArray:

@@ -42,7 +42,7 @@ public class HandleHit : MonoBehaviour
         if (!m_health.isDead()) {
             var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
             
-            if (!(currentAnim == "HighHit" || currentAnim == "LowHit" || currentAnim == "Sweep Fall")) {
+            if (!(currentAnim == "HighHit" || currentAnim == "LowHit" || currentAnim == "Sweep Fall" || currentAnim == "Standing Up")) {
                 m_handleHitManager.SetCoolDownTime(m_hitPropertyList[indexHitProperty].coolDownUntilNextHit);
                 m_handleHitManager.Hited();
                 m_health.Hit(m_hitPropertyList[indexHitProperty].damage);
