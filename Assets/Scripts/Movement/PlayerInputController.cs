@@ -98,7 +98,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_lock)
             return;
-        if(context.performed)
+        if (context.performed)
         {
             m_animator.SetBool("GuardIdle", true);
         }
@@ -112,7 +112,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_lock)
             return;
-        if(context.performed)
+        if (context.performed)
         {
             m_animator.SetTrigger("Dodge");
         }

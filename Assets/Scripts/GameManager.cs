@@ -43,10 +43,10 @@ public class GameManager : MonoBehaviour
     // @note: prefabs
     public GameObject cameraPrefab;
     public Canvas canvasPrefab;
-    private GameObject m_playerPrefab1;
-    private GameObject m_playerPrefab2;
     public PlayerInputManager inputManager;
     public VolumeProfile profileVolume;
+    private GameObject m_playerPrefab1;
+    private GameObject m_playerPrefab2;
 
     public static GameManager Instance {
         get {
@@ -110,13 +110,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void OnPlayerJoined(PlayerInput playerInput) 
+    { 
+        Debug.Log("Player Joined");
+    }
+
+    public void OnPlayerLeft(PlayerInput playerInput) 
+    { 
+        Debug.Log("Player Left");
+    }
+
     private void InitPlayers()
     {
         m_playerPrefab1 = m_mapPrefabArray[m_indexPlayer1];
         m_playerPrefab2 = m_mapPrefabArray[m_indexPlayer2];
-        
-        m_playerOne = Instantiate(m_playerPrefab1);
-        m_playerTwo = Instantiate(m_playerPrefab2);
+
+        // SHOULD WORK ON LINUX
+        PlayerInputManager.instance.playerPrefab = m_playerPrefab1;
+        var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
+        PlayerInputManager.instance.playerPrefab = m_playerPrefab2;
+        var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
+
+        Debug.Log(InputSystem.devices.ToArray()[2].name);
+        Debug.Log(InputSystem.devices.ToArray()[3].name);
+
+        if (inputPlayer1 != null && inputPlayer2 != null) {
+            m_playerOne = inputPlayer1.gameObject;
+            m_playerTwo = inputPlayer2.gameObject;
+        } else {
+            Debug.Log("INPUT PLAYERS NULL");
+        }
+
+        // WORKING ON WINDOWS
+        //m_playerOne = Instantiate(m_playerPrefab1);
+        //m_playerTwo = Instantiate(m_playerPrefab2);
 
         // @note: controls binding to players
         /*try {
@@ -135,7 +162,7 @@ public class GameManager : MonoBehaviour
         } catch (Exception er) {
             Debug.Log(er.ToString());
         }*/
-        
+
         m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
