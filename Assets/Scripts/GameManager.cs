@@ -136,8 +136,7 @@ public class GameManager : MonoBehaviour
             Debug.Log(er.ToString());
         }*/
         
-        // @todo: REPLACE THE LINE BELLOW
-        //m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
+        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         // @note: 2 map pos so random from 0 to 1
         m_indexPlace = UnityEngine.Random.Range(0, 2);
@@ -394,13 +393,17 @@ public class GameManager : MonoBehaviour
         foreach (var target in targets)
             target.GetComponent<PlayerInputController>().Lock();
         
+        // @note: reset player transforms
         m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
         m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
         m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
         m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
 
-        m_canvas.GetComponent<CanvasController>().SetRoundFromString("Sudden Death");
-        m_canvas.GetComponent<CanvasController>().EnableTimer(false);
+        // @note: update camera
+        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
+        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
+        
+        // @note: reset player properties
         foreach (var target in targets)
         {
             target.GetComponent<Health>().SetHealth(2);
@@ -410,11 +413,11 @@ public class GameManager : MonoBehaviour
             target.GetComponent<Animator>().Play("Idle");
         }
 
+        // @note: update canvas
+        m_canvas.GetComponent<CanvasController>().SetRoundFromString("Sudden Death");
+        m_canvas.GetComponent<CanvasController>().EnableTimer(false);
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct(true);
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge(true);
-        
-        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
-        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
 
         SetVoronoiScreenShader(0.25f);
 
