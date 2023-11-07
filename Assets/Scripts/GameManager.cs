@@ -7,6 +7,10 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using System.Reflection;
+using UnityEngine.Experimental.Rendering.Universal;
+using Cyan;
+using System.Linq;
 
 [RequireComponent(typeof(MapMetaData))]
 public class GameManager : MonoBehaviour
@@ -78,6 +82,9 @@ public class GameManager : MonoBehaviour
         InitPlayers();
         InitCamera();
         InitCanvas();
+
+        // @note: reset screen shader
+        SetVoronoiScreenShader(0);
 
         // @note: launch round coroutines
         var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
@@ -181,6 +188,18 @@ public class GameManager : MonoBehaviour
     public int GetCurrentRound()
     {
         return m_playerOneWinRate + m_playerTwoWinRate;
+    }
+
+    private void SetVoronoiScreenShader(float value)
+    {
+        var pipeline = ((UniversalRenderPipelineAsset)GraphicsSettings.renderPipelineAsset);
+        FieldInfo propertyInfo = pipeline.GetType().GetField("m_RendererDataList", BindingFlags.Instance | BindingFlags.NonPublic );
+        var scriptableRendererData = ((ScriptableRendererData[])propertyInfo?.GetValue(pipeline))?[0];
+        var renderObject = scriptableRendererData.rendererFeatures.OfType<Blit>().FirstOrDefault();
+        Material material = renderObject.settings.blitMaterial;
+
+        if (material != null)
+            material.SetFloat("_FullScreenIntensity", value);
     }
 
     // @todo: should return the ref ?
@@ -386,7 +405,9 @@ public class GameManager : MonoBehaviour
         {
             target.GetComponent<Health>().SetHealth(2);
             target.GetComponent<Power>().ResetPowerCharge();
+            // @todo: cancel callbacks or animations
             target.GetComponent<Animator>().SetBool("Idle", true);
+            target.GetComponent<Animator>().Play("Idle");
         }
 
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct(true);
@@ -394,6 +415,8 @@ public class GameManager : MonoBehaviour
         
         m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
         m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
+
+        SetVoronoiScreenShader(0.25f);
 
         yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"SUDDEN DEATH", "READY", "FIGHT"}));
     }

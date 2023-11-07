@@ -126,7 +126,7 @@ public class HandleHit : MonoBehaviour
             
             m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y + 1, localPos.z);
             // @note: random anim between 2 animations of death
-            var randomIndex = Random.Range(0, 4);
+            var randomIndex = Random.Range(0, 2);
             m_animator.SetInteger("Die", randomIndex);
         }
     }
