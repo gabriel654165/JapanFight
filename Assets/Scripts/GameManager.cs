@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     // @note: Rules
     [SerializeField] private float m_gameDuration = 180;
     [SerializeField] private bool m_roundIsFinished = false;
+    [SerializeField] private bool m_roundAsStarted = false;
+    [SerializeField] private bool m_suddenDeathOn = false;
     private float m_timer = 0f;
     private int m_nbRoundsToWin = 2;
     private int m_playerOneWinRate = 0;
@@ -34,7 +36,6 @@ public class GameManager : MonoBehaviour
     private int m_indexPlayer2 = 0;
     [SerializeField] private GameObject[] m_mapPrefabArray;
 
-    
     // @note: prefabs
     public GameObject cameraPrefab;
     public Canvas canvasPrefab;
@@ -158,6 +159,7 @@ public class GameManager : MonoBehaviour
         m_canvas.worldCamera = cameraOverlayUI;
         m_canvas.sortingOrder = -100;
         m_canvas.GetComponent<CanvasController>().Init(this);
+        m_canvas.GetComponent<CanvasController>().SetRound(GetCurrentRound());
     }
     #endregion
     
@@ -233,15 +235,22 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (m_roundIsFinished)
+        if (m_roundIsFinished || (!m_roundAsStarted && !m_suddenDeathOn))
             return;
+        bool someoneIsDead = m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead();
+        
         m_timer += Time.deltaTime;
-        if (m_timer > m_gameDuration) {
-            Save();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (m_timer > m_gameDuration && !m_suddenDeathOn) {
+            if (!someoneIsDead) {
+                var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
+                StartCoroutine(SuddenDeathRoundCoroutine(targets));
+            } else {
+                Save();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
         }
 
-        if (m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead()) {
+        if (someoneIsDead) {
             StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
         }
     }
@@ -278,19 +287,20 @@ public class GameManager : MonoBehaviour
             Gamepad.current.SetMotorSpeeds(0, 0);
     }
 
-    private IEnumerator PreRoundCoroutine(List<Transform> targets)
+    private IEnumerator PreRoundCoroutine(List<Transform> targets, List<string> textToDisplay)
     {
         Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         var duration = 1f;
 
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "READY", Vector2.zero, duration, true);
-        yield return new WaitForSeconds(duration);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "FIGHT", Vector2.zero, duration, true);
-        yield return new WaitForSeconds(duration);
+        foreach (var text in textToDisplay) {
+            m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, text, Vector2.zero, duration, true);
+            yield return new WaitForSeconds(duration);
+        }
 
         foreach (var target in targets)
             target.GetComponent<PlayerInputController>().Unlock();
+        m_roundAsStarted = true;
     }
 
     private IEnumerator DeadPlayerCoroutine()
@@ -302,7 +312,6 @@ public class GameManager : MonoBehaviour
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "DEAD", offsetPopUp, duration, true);
         yield return new WaitForSeconds(duration);
     }
-
 
     private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
@@ -342,9 +351,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
 
-        yield return StartCoroutine(PreRoundCoroutine(targets));
+        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"READY", "FIGHT"}));
     }
-
 
     private IEnumerator StartNewRoundCoroutine(List<Transform> targets)
     {
@@ -357,9 +365,38 @@ public class GameManager : MonoBehaviour
         m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
         yield return new WaitForSeconds(1);
         
-        yield return StartCoroutine(PreRoundCoroutine(targets));
+        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"READY", "FIGHT"}));
     }
 
+    private IEnumerator SuddenDeathRoundCoroutine(List<Transform> targets) 
+    {
+        m_suddenDeathOn = true;
+
+        foreach (var target in targets)
+            target.GetComponent<PlayerInputController>().Lock();
+        
+        m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
+        m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
+        m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
+        m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
+
+        m_canvas.GetComponent<CanvasController>().SetRoundFromString("Sudden Death");
+        m_canvas.GetComponent<CanvasController>().EnableTimer(false);
+        foreach (var target in targets)
+        {
+            target.GetComponent<Health>().SetHealth(2);
+            target.GetComponent<Power>().ResetPowerCharge();
+            target.GetComponent<Animator>().SetBool("Idle", true);
+        }
+
+        m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct(true);
+        m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge(true);
+        
+        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
+        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
+
+        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"SUDDEN DEATH", "READY", "FIGHT"}));
+    }
 
     private IEnumerator EndRoundCoroutine(Transform deadPlayer)
     {
@@ -381,7 +418,7 @@ public class GameManager : MonoBehaviour
             colorAdjustments.saturation.overrideState = true;
             colorAdjustments.saturation.value = 100f;
         }
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(6);
 
         yield return StartCoroutine(DeadPlayerCoroutine());
 

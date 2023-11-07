@@ -81,12 +81,12 @@ public class CanvasController : MonoBehaviour
         m_lastHealthValueP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
         m_lastPowerValueP1 = playerList[0].GetComponent<Power>().GetPowerCharge();
         m_lastPowerValueP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
+        UpdatePlayerPrct(true);
     }
 
     void Update()
     {
         UpdateTimer();
-        UpdateRound();
     }
 
     public void SpawnTextPopUp(Vector3 initialScale, Vector3 destScale, string textContent, Vector2 offset, float duration, bool shouldGlow = false)
@@ -114,6 +114,30 @@ public class CanvasController : MonoBehaviour
         m_refGameManager = gameManager;
     }
 
+    #region ROUNDS
+
+    public void SetRoundFromString(string roundName)
+    {
+        m_textRound.text = roundName;
+        m_textRound.GetComponent<RectTransform>().localPosition = new Vector3(
+            0,
+            m_textRound.GetComponent<RectTransform>().localPosition.y,
+            m_textRound.GetComponent<RectTransform>().localPosition.z
+        );
+        m_textRoundNumber.gameObject.SetActive(false);
+    }
+
+    public void SetRound(int round)
+    {
+        m_textRound.text = "Round ";
+        // @note: add 1 to GetCurrentRound to never display the round 0
+        m_textRoundNumber.text = (round + 1).ToString();
+    }
+    #endregion
+
+    #region TIMER
+
+    // @todo: remove these lines
     Coroutine task1 = null;
     Coroutine task2 = null;
 
@@ -142,12 +166,14 @@ public class CanvasController : MonoBehaviour
         m_textTimer.text = rTimeSpan.ToString(@"mm\:ss");
     }
 
-    private void UpdateRound()
+    public void EnableTimer(bool state)
     {
-        m_textRound.text = "Round ";
-        // @note: add 1 to GetCurrentRound to never display the round 0
-        m_textRoundNumber.text = (m_refGameManager.GetCurrentRound() + 1).ToString();
+        m_textTimer.gameObject.SetActive(state);
     }
+
+    #endregion
+
+    #region POWER
 
     public void UpdatePlayerPowerCharge(bool forceUpdate = false)
     {
@@ -171,6 +197,41 @@ public class CanvasController : MonoBehaviour
                 currentPowerP2, 
                 (value) => { m_imgOutlineCircleP2.fillAmount = value; return null; },
                 () => { m_imgOutlineCircleP2.fillAmount = currentPowerP2; m_lastPowerValueP2 = currentPowerP2; })
+            );
+        }
+    }
+
+    #endregion
+
+    #region HEALTH
+
+    public void UpdatePlayerPrct(bool forceUpdate = false)
+    {
+        List<GameObject> playerList = m_refGameManager.GetPlayerList();
+        float currentHealthP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
+        float currentHealthP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
+
+        if (m_lastHealthValueP1 != currentHealthP1 || forceUpdate) {
+            if (!forceUpdate)
+                ShakeText(m_textPrctP1, m_animatorTextP1, 3f);
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationSubstractHealth, 
+                m_lastHealthValueP1, 
+                currentHealthP1, 
+                (float value) => { UpdateHealthText(m_textPrctP1, value); return null; },
+                () => { UpdateHealthText(m_textPrctP1, currentHealthP1); m_lastHealthValueP1 = currentHealthP1; })
+            );
+        }
+
+        if (m_lastHealthValueP2 != currentHealthP2 || forceUpdate) {
+            if (!forceUpdate)
+                ShakeText(m_textPrctP2, m_animatorTextP2, 3f);
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationSubstractHealth, 
+                m_lastHealthValueP2, 
+                currentHealthP2, 
+                (float value) => { UpdateHealthText(m_textPrctP2, value); return null; },
+                () => { UpdateHealthText(m_textPrctP2, currentHealthP2); m_lastHealthValueP2 = currentHealthP2; })
             );
         }
     }
@@ -207,38 +268,7 @@ public class CanvasController : MonoBehaviour
         text.text = ((int)value).ToString() + "%";
     }
 
-    public void UpdatePlayerPrct()
-    {
-        List<GameObject> playerList = m_refGameManager.GetPlayerList();
-        float currentHealthP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
-        float currentHealthP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
-
-        if (m_lastHealthValueP1 != currentHealthP1) {
-            float healthP1 = playerList[0].GetComponent<Health>().GetPrctLeftHealth();
-            
-            ShakeText(m_textPrctP1, m_animatorTextP1, 3f);
-            StartCoroutine(LerpAndDebounceOverTime(
-                m_durationSubstractHealth, 
-                m_lastHealthValueP1, 
-                healthP1, 
-                (float value) => { UpdateHealthText(m_textPrctP1, value); return null; },
-                () => { UpdateHealthText(m_textPrctP1, healthP1); m_lastHealthValueP1 = healthP1; })
-            );
-        }
-
-        if (m_lastHealthValueP2 != currentHealthP2) {
-            float healthP2 = playerList[1].GetComponent<Health>().GetPrctLeftHealth();
-            
-            ShakeText(m_textPrctP2, m_animatorTextP2, 3f);
-            StartCoroutine(LerpAndDebounceOverTime(
-                m_durationSubstractHealth, 
-                m_lastHealthValueP2, 
-                healthP2, 
-                (float value) => { UpdateHealthText(m_textPrctP2, value); return null; },
-                () => { UpdateHealthText(m_textPrctP2, healthP2); m_lastHealthValueP2 = healthP2; })
-            );
-        }
-    }
+    #endregion
 
     public void ShakeText(TextMeshProUGUI text, Animator animator, float duration)
     {

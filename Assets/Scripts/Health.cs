@@ -13,6 +13,11 @@ public class Health : MonoBehaviour
         m_health = m_maxHealth;
     }
 
+    public void SetHealth(float health)
+    {
+        m_health = health;
+    }
+
     // @todo: mettre un coolDown avant de prendre un prochain hit ?
     public void Hit(float damages)
     {
