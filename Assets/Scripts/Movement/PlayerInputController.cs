@@ -122,8 +122,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (m_lock)
             return;
-        // @debug: remove commentaries
-        if (context.performed/* && m_power.isCharged()*/)
+        if (context.performed && m_power.isCharged())
         {
             m_animator.SetInteger("SpecialAttackIdx", m_specialPowerIdx);
             m_animator.SetTrigger("SpecialAttack");
