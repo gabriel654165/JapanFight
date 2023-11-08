@@ -68224,7 +68224,7 @@ AnimationClip:
     functionName: SetPositionX
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 1.5
+    floatParameter: 3
     intParameter: 0
     messageOptions: 0
   - time: 1.4333333

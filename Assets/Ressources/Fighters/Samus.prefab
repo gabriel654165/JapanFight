@@ -3399,7 +3399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1796467b31108f64899beb9d89c1abd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 2.5
+  m_speed: 3
   m_animator: {fileID: 7035274814327929975}
   m_colliderToMaintain: {fileID: 7262592360458104753}
   m_ballEffectPrefab: {fileID: 0}
@@ -4439,8 +4439,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.32540223, y: 0.36614928, z: 0.20118266}
-  m_Center: {x: 0.025661347, y: -0.045319926, z: -0.0044878814}
+  m_Size: {x: 0.32540226, y: 0.17088088, z: 0.20118266}
+  m_Center: {x: 0.025661524, y: -0.1429541, z: -0.004487864}
 --- !u!114 &1852059308693942830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5395,7 +5395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6917896289658950672}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.019, y: -0.043, z: -0.10166645}
+  m_LocalPosition: {x: 0.019, y: -0.01, z: -0.10166645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6009,7 +6009,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7981932844529863913}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.019, y: -0.043, z: -0.10166645}
+  m_LocalPosition: {x: 0.019, y: 0.026, z: -0.10166645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6567,8 +6567,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.3388679, z: 1.2}
-  m_Center: {x: 0, y: 0.70267534, z: 0.13535383}
+  m_Size: {x: 1, y: 1.2636784, z: 1.2}
+  m_Center: {x: 0, y: 0.74027014, z: 0.13535386}
 --- !u!114 &8719666185720207587
 MonoBehaviour:
   m_ObjectHideFlags: 0

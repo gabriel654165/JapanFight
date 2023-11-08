@@ -58,11 +58,7 @@ public class CanvasController : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject m_popUpPrefab;
     [SerializeField] private GameObject m_popUpNoGlowPrefab;
-
     [SerializeField] private List<PlayerGUIProperties> m_avatarSpritesList;
-
-    //private int m_disolvePowertP1 = Shader.PropertyToID("_DisolvePower");
-    //private int m_disolvePowertP2 = Shader.PropertyToID("_DisolvePower");
     
     void Start()
     {
@@ -76,11 +72,6 @@ public class CanvasController : MonoBehaviour
         // @note: spawn right avatar
         var playersIndexes = m_refGameManager.GetPlayerIndexes();
         List<GameObject> playerList = m_refGameManager.GetPlayerList();
-
-        //Material mat1 = Instantiate(m_imgOutlineCircleP1.material);
-        //m_imgOutlineCircleP1.material = mat1;
-        //Material mat2 = Instantiate(m_imgOutlineCircleP2.material);
-        //m_imgOutlineCircleP2.material = mat2;
 
         m_imgAvatarP1.sprite = m_avatarSpritesList[playersIndexes[0]].avatar;
         m_imgAvatarP2.sprite = m_avatarSpritesList[playersIndexes[1]].avatar;
@@ -222,7 +213,7 @@ public class CanvasController : MonoBehaviour
 
     private void UpdatePowerMaterial(float currentPowerP1, float currentPowerP2, List<GameObject> playerList, bool forceUpdate = false)
     {
-        float maxPower = 2;
+        float maxPower = 3;
         float maxSpeed = 30;
 
         if (m_lastPowerValueP1 != currentPowerP1 || forceUpdate) {
@@ -284,7 +275,6 @@ public class CanvasController : MonoBehaviour
                 StartCoroutine(ScaleTextUntilCondition(m_imgOutlineCircleP2.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[1].GetComponent<Power>().GetPowerCharge() >= 1); }));
                 StartCoroutine(ScaleTextUntilCondition(m_imgBgCircleP2.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[1].GetComponent<Power>().GetPowerCharge() >= 1); }));
                 StartCoroutine(ScaleTextUntilCondition(m_textControlSpecialPowerP2.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[1].GetComponent<Power>().GetPowerCharge() >= 1); }));
-                
                 //StartCoroutine(ShadeImage(m_imgOutlineCircleP2));
             }
         } else {

@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
         }
 
         // @note: 2 map pos so random from 0 to 1 to set position by mapMetaData
-        m_indexPlace = UnityEngine.Random.Range(0, 2);
+        m_indexPlace = UnityEngine.Random.Range(0, 3);// pas tjr 2
         m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
         m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
 
@@ -142,8 +142,13 @@ public class GameManager : MonoBehaviour
 
         m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
-        m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo);
-        m_playerTwo.GetComponent<PlayerInputController>().Init(m_playerOne, true);
+        if (m_playerOne.transform.position.x < m_playerTwo.transform.position.x) {
+            m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo, true);
+            m_playerTwo.GetComponent<PlayerInputController>().Init(m_playerOne);
+        } else {
+            m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo);
+            m_playerTwo.GetComponent<PlayerInputController>().Init(m_playerOne, true);
+        }
     }
 
     private void InitCanvas()
@@ -270,6 +275,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //c le contraire des fois le player de gauche est le p2
     private void HandlePlayerDirections()
     {
         if (m_playerOne == null || m_playerTwo == null)
@@ -280,24 +286,24 @@ public class GameManager : MonoBehaviour
 
         if (m_playerOne.transform.position.x > m_playerTwo.transform.position.x && PlayerOneIsLeft) 
         {
-            m_playerOne.GetComponent<PlayerInputController>().SetIsLeft(false);
-            m_playerTwo.GetComponent<PlayerInputController>().SetIsLeft(true);
+            m_playerOne.GetComponent<PlayerInputController>().SetIsLeft(!PlayerOneIsLeft);
+            m_playerTwo.GetComponent<PlayerInputController>().SetIsLeft(!PlayerTwoIsLeft);
             m_playerOne.transform.rotation = m_rightPlayerRotation;
             m_playerTwo.transform.rotation = m_leftPlayerRotation;
-            m_playerOne.GetComponent<PlayerInputController>().InvertX(true);
-            m_playerTwo.GetComponent<PlayerInputController>().InvertX(false);
+            m_playerOne.GetComponent<PlayerInputController>().InvertX(PlayerOneIsLeft);
+            m_playerTwo.GetComponent<PlayerInputController>().InvertX(PlayerTwoIsLeft);
             m_playerOne.GetComponent<PlayerInputController>().SaveRotation();
             m_playerTwo.GetComponent<PlayerInputController>().SaveRotation();
         } 
         else if (m_playerOne.transform.position.x < m_playerTwo.transform.position.x && !PlayerOneIsLeft) 
         {
-            m_playerOne.GetComponent<PlayerInputController>().SetIsLeft(true);
-            m_playerTwo.GetComponent<PlayerInputController>().SetIsLeft(false);
+            m_playerOne.GetComponent<PlayerInputController>().SetIsLeft(!PlayerOneIsLeft);
+            m_playerTwo.GetComponent<PlayerInputController>().SetIsLeft(!PlayerTwoIsLeft);
 
             m_playerOne.transform.rotation = m_leftPlayerRotation;
             m_playerTwo.transform.rotation = m_rightPlayerRotation;
-            m_playerOne.GetComponent<PlayerInputController>().InvertX(false);
-            m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
+            m_playerOne.GetComponent<PlayerInputController>().InvertX(PlayerOneIsLeft);
+            m_playerTwo.GetComponent<PlayerInputController>().InvertX(PlayerTwoIsLeft);
 
             m_playerOne.GetComponent<PlayerInputController>().SaveRotation();
             m_playerTwo.GetComponent<PlayerInputController>().SaveRotation();

@@ -9,8 +9,6 @@ public class IsGrounded : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        //Debug.Log("Collide with : " + LayerMask.LayerToName(collision.gameObject.layer));
-
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             m_animator.SetBool("Grounded", true);

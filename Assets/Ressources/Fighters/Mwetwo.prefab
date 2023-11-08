@@ -1907,13 +1907,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1796467b31108f64899beb9d89c1abd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 2.5
+  m_speed: 3
   m_animator: {fileID: 4368003293662466473}
   m_colliderToMaintain: {fileID: 3563488156093862459}
   m_ballEffectPrefab: {fileID: 0}
   m_hueEffectSaturation: 0
   m_effectDuration: 0.5
   m_specialPowerIdx: 6
+  m_isLeft: 0
 --- !u!114 &7673692924713962455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2538,8 +2539,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.022892088, y: 0.006456825, z: 0.010276849}
-  m_Center: {x: 0.0006522855, y: 0.00044756697, z: 0.0006948749}
+  m_Size: {x: 0.012758573, y: 0.003789783, z: 0.008499135}
+  m_Center: {x: 0.002263947, y: -0.0008859556, z: 0.00049005507}
 --- !u!114 &6198880830751559286
 MonoBehaviour:
   m_ObjectHideFlags: 0

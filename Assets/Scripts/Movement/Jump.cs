@@ -9,7 +9,6 @@ public class Jump : MonoBehaviour
 
     public void ComputeJump()
     {
-        //m_footCollider.isTrigger = true;
         m_jumpSpeed = 6.5f;
         // @note: cannot move with velocity beacause the player is moving with positions
         m_rigidbody.AddForce(new Vector3(0, m_jumpSpeed, 0), ForceMode.Impulse);
@@ -20,12 +19,3 @@ public class Jump : MonoBehaviour
         GetComponent<Animator>().ResetTrigger("Jump");
     }
 }
-
-
-// comme on a un collider au pied droit
-// quand on fait une animation ou le pied droit se souleve le player rentre dans le sol
-// TODO : 
-//  Soit mettre un collider sous son cul qui bouge pas en fonction des animations
-//   -> soucis -> des fois les qui isGrounded sera trop haut et il groundera jamais
-//   -> SOLUTION mettre un collider istrigger un peu plus bas du collider qui collide et utiliser les deux : un pour collide et un pour grounded
-//  Soit utiliser un raycast

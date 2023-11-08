@@ -540,7 +540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1796467b31108f64899beb9d89c1abd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 2.5
+  m_speed: 3
   m_animator: {fileID: 5658580691803913202}
   m_colliderToMaintain: {fileID: 295078332931042181}
   m_ballEffectPrefab: {fileID: 1677334750579945605, guid: c02d9ef745b89564b82fa23b1939b5fb,
@@ -548,6 +548,7 @@ MonoBehaviour:
   m_hueEffectSaturation: 0.7
   m_effectDuration: 0.5
   m_specialPowerIdx: 5
+  m_isLeft: 0
 --- !u!114 &5658580691803913102
 MonoBehaviour:
   m_ObjectHideFlags: 0

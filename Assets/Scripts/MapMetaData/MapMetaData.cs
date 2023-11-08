@@ -10,6 +10,8 @@ public class MapMetaData : MonoBehaviour
     private Tuple<int, Vector3>[] m_spawnPosP1 = new Tuple<int, Vector3>[] {
         new Tuple<int, Vector3>(0, new Vector3(-5, 0, 0)),
         new Tuple<int, Vector3>(0, new Vector3(-40, 0, 50)),
+        new Tuple<int, Vector3>(0, new Vector3(4.71f , 9.75f, 36.47f)),
+
         new Tuple<int, Vector3>(1, new Vector3(28, 1, 75)),
         new Tuple<int, Vector3>(1, new Vector3(21, 1, 113)),
         new Tuple<int, Vector3>(2, new Vector3(-21, 1, 1)),
@@ -21,6 +23,8 @@ public class MapMetaData : MonoBehaviour
     private Tuple<int, Vector3>[] m_spawnPosP2 = new Tuple<int, Vector3>[] {
         new Tuple<int, Vector3>(0, new Vector3(5, 0, 0)),
         new Tuple<int, Vector3>(0, new Vector3(-35, 0, 45)),
+        new Tuple<int, Vector3>(0, new Vector3(12.7f, 9.75f, 35.72f)),
+        
         new Tuple<int, Vector3>(1, new Vector3(28, 1, 67)),
         new Tuple<int, Vector3>(1, new Vector3(12, 1, 113)),
         new Tuple<int, Vector3>(2, new Vector3(-21, 1, 7)),
@@ -32,6 +36,8 @@ public class MapMetaData : MonoBehaviour
     private Tuple<int, Vector3>[] m_spawnPosCam = new Tuple<int, Vector3>[] {
         new Tuple<int, Vector3>(0, new Vector3(0, 0, 10)),
         new Tuple<int, Vector3>(0, new Vector3(-37.5f, 0, 47.5f)),
+        new Tuple<int, Vector3>(0, new Vector3(-5.6f, 11.4f, 22.4f)),
+
         new Tuple<int, Vector3>(1, new Vector3(76, 4, 71)),
         new Tuple<int, Vector3>(1, new Vector3(16.5f, 4, 80)),
         new Tuple<int, Vector3>(2, new Vector3(-25, 1, 4)),
@@ -43,6 +49,8 @@ public class MapMetaData : MonoBehaviour
     private Tuple<int, Vector3>[] m_cameraOffset = new Tuple<int, Vector3>[] {
         new Tuple<int, Vector3>(0, new Vector3(0, 2.5f, -30)),
         new Tuple<int, Vector3>(0, new Vector3(-20, 2.5f, -20)),
+        new Tuple<int, Vector3>(0, new Vector3(-5, 2.5f, -30)),
+
         new Tuple<int, Vector3>(1, new Vector3(-30, 2.5f, 0)),
         new Tuple<int, Vector3>(1, new Vector3(0, 2.5f, 25)),
         new Tuple<int, Vector3>(2, new Vector3(-25, 1, 0)),
