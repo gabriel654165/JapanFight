@@ -252,9 +252,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Button With One Modifier"",
+                    ""name"": ""One Modifier"",
                     ""id"": ""a1fc3725-43cd-4bbb-9ae7-8aaf72a47cc3"",
-                    ""path"": ""ButtonWithOneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -274,7 +274,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button"",
+                    ""name"": ""Binding"",
                     ""id"": ""6f44e45a-57ad-4b62-ab73-fe1e7849ca38"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -285,9 +285,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button With One Modifier"",
+                    ""name"": ""One Modifier"",
                     ""id"": ""63f38092-2161-461c-b68c-e4913a090b0b"",
-                    ""path"": ""ButtonWithOneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -307,7 +307,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button"",
+                    ""name"": ""Binding"",
                     ""id"": ""1a36d2e6-f540-4125-a49c-31c3c2e64aeb"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
@@ -318,9 +318,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button With One Modifier"",
+                    ""name"": ""One Modifier"",
                     ""id"": ""419f8b2b-6ab8-47e1-ba85-ba97310f6937"",
-                    ""path"": ""ButtonWithOneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -340,7 +340,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button"",
+                    ""name"": ""Binding"",
                     ""id"": ""0281f983-f0ad-4320-a100-ed7c86ec2fb3"",
                     ""path"": ""<XInputController>/rightTrigger"",
                     ""interactions"": """",
@@ -351,9 +351,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button With One Modifier"",
+                    ""name"": ""One Modifier"",
                     ""id"": ""1ec25232-0284-4164-ad78-e306d292e882"",
-                    ""path"": ""ButtonWithOneModifier(overrideModifiersNeedToBePressedFirst=true)"",
+                    ""path"": ""OneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -373,7 +373,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Button"",
+                    ""name"": ""Binding"",
                     ""id"": ""dd36d944-ce3e-413a-94bf-0d4c421f0545"",
                     ""path"": ""<XInputController>/leftTrigger"",
                     ""interactions"": """",
