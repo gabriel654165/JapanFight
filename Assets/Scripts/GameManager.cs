@@ -117,6 +117,8 @@ public class GameManager : MonoBehaviour
 
     private void InitPlayers()
     {
+        InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
+
         PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer1];
         var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
         PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer2];

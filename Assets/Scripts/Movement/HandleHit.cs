@@ -37,8 +37,15 @@ public class HandleHit : MonoBehaviour
         };
     }
 
+    public Animator GetAnimator() { return m_animator; }
+
     private void HandleHitLogic(int indexHitProperty, bool specialPower = false)
     {
+        if (m_animator?.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle" && !specialPower) {
+            m_animator.SetTrigger("BlockWithGuard");
+            return;
+        }
+
         if (!m_health.isDead()) {
             var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
             
@@ -46,13 +53,16 @@ public class HandleHit : MonoBehaviour
                 m_handleHitManager.SetCoolDownTime(m_hitPropertyList[indexHitProperty].coolDownUntilNextHit);
                 m_handleHitManager.Hited();
                 m_health.Hit(m_hitPropertyList[indexHitProperty].damage);
+                
                 if (m_health.isDead()) {
                     ChooseDeathAnim(currentAnim);
                 } else {
-                    if (specialPower)
+                    if (specialPower) {
                         m_animator.SetTrigger("SpecialHit");
-                    else
+                    } else {
+                        StartCoroutine(LerpColorMaterial(0.5f));
                         m_animator.SetTrigger(m_part == Part.HIGH ? "HighHit" : "LowHit");
+                    }
                 }
             }
         }
@@ -109,9 +119,6 @@ public class HandleHit : MonoBehaviour
                 default:
                     break;
             }
-            if (m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle") {
-                m_animator.SetTrigger("BlockWithGuard");
-            }
             if (m_handleHitManager.HasBeenHited()) {
                 m_gameManagerInstance.HandleHitCallBack();
             }
@@ -129,5 +136,42 @@ public class HandleHit : MonoBehaviour
             var randomIndex = Random.Range(0, 2);
             m_animator.SetInteger("Die", randomIndex);
         }
+    }
+
+    private IEnumerator LerpColorMaterial(float duration)
+    {
+        Renderer[] m_spriteRenderers = transform.root.GetComponentsInChildren<Renderer>();
+        Material[] m_materials;
+        
+        // @note: find materials
+        int nbMaterials = 0;
+        for (int i = 0; i < m_spriteRenderers.Length; i++) {
+            foreach (var material in m_spriteRenderers[i].materials)
+                nbMaterials++;
+        }
+
+        m_materials = new Material[nbMaterials];
+        for (int i = 0, j = 0; j < nbMaterials; i++) {
+            foreach (var material in m_spriteRenderers[i].materials) {
+                m_materials[j] = material;
+                j++;
+            }
+        }
+
+        // @note: lerp material color
+        float elapsedTime = 0f;
+
+        for (int i = 0; i < m_materials.Length; i++) 
+            m_materials[i].color = Color.red;
+
+        while (elapsedTime <= duration) {
+            Color lerpedColor = Color.Lerp(Color.red, Color.white, (elapsedTime / duration));
+
+            elapsedTime += Time.deltaTime;
+            for (int i = 0; i < m_materials.Length; i++) 
+                m_materials[i].color = lerpedColor;
+            yield return null;
+        }
+
     }
 }

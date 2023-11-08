@@ -37,8 +37,12 @@ public class HandlePunch : MonoBehaviour
         m_gameManagerInstance = (GameManager)FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
 
-    private void HandlePunchLogic(int indexPunchProperty)
+    private void HandlePunchLogic(int indexPunchProperty, Collider collision, bool specialPower = false)
     {
+        if (collision?.GetComponent<HandleHit>().GetAnimator()?.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle" && !specialPower) {
+            return;
+        }
+        
         if (!m_hasLandPunch) {
             m_power.AddPowerCharge(m_PunchPropertyList[indexPunchProperty].powerToAdd);
             m_hasLandPunch = true;
@@ -56,16 +60,16 @@ public class HandlePunch : MonoBehaviour
             switch (m_playerInputController.GetAnimator().GetCurrentAnimatorClipInfo(0)[0].clip.name)
             {
                 case "Punch":
-                    HandlePunchLogic(0);
+                    HandlePunchLogic(0, collision);
                     break;
                 case "ZombiePunch":
-                    HandlePunchLogic(1);
+                    HandlePunchLogic(1, collision);
                     break;
                 case "BarbareKick":
-                    HandlePunchLogic(2);
+                    HandlePunchLogic(2, collision);
                     break;
                 case "HighKick":
-                    HandlePunchLogic(3);
+                    HandlePunchLogic(3, collision);
                     break;
                 case "Flying Kick":
                     // @todo: callback special power canvas (effect, idk which)

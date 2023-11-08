@@ -506,9 +506,9 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7881834970200936982, guid: 1b4af78d973d2304e86058de7e4e52ab, type: 3}
-  - {fileID: -3539236244545911927, guid: 1b4af78d973d2304e86058de7e4e52ab, type: 3}
-  - {fileID: -5828599444491462777, guid: 1b4af78d973d2304e86058de7e4e52ab, type: 3}
+  - {fileID: 2100000, guid: a52a69bfb81f8a54eaf938329cd489b4, type: 2}
+  - {fileID: 2100000, guid: 71d86f0b611d63b41be554ce88fb26fa, type: 2}
+  - {fileID: 2100000, guid: adfa9a0f456bc6843ba249d7c5cbc718, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3406,6 +3406,7 @@ MonoBehaviour:
   m_hueEffectSaturation: 0
   m_effectDuration: 0.5
   m_specialPowerIdx: 1
+  m_isLeft: 0
 --- !u!114 &3981883558078277129
 MonoBehaviour:
   m_ObjectHideFlags: 0
