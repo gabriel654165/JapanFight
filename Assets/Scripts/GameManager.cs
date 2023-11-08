@@ -325,8 +325,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region COROUTINES
-    private IEnumerator Rumble(float time, float forceX = 0.123f, float forceY = 0.234f)
+    private IEnumerator Rumble(float time, float forceX = 0.350f, float forceY = 0.350f)
     {
+        // @bug: not always the same gamepad
         if (Gamepad.current != null)
             Gamepad.current.SetMotorSpeeds(forceX, forceY);
 
@@ -450,7 +451,7 @@ public class GameManager : MonoBehaviour
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPrct(true);
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge(true);
 
-        SetVoronoiScreenShader(0.25f);
+        SetVoronoiScreenShader(0.15f);
 
         yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"SUDDEN DEATH", "READY", "FIGHT"}));
     }

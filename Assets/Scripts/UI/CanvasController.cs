@@ -42,9 +42,13 @@ public class CanvasController : MonoBehaviour
     [Header("Power")]
     [SerializeField] private Image m_imgOutlineCircleP1;
     [SerializeField] private Image m_imgOutlineCircleP2;
+    [SerializeField] private TextMeshProUGUI m_textControlSpecialPowerP1;
+    [SerializeField] private TextMeshProUGUI m_textControlSpecialPowerP2;
     [SerializeField] private float m_durationFillPower = 10f;
     private float m_lastPowerValueP1 = 0;
     private float m_lastPowerValueP2 = 0;
+    private bool m_playerOneIsCharged = false;
+    private bool m_playerTwoIsCharged = false;
 
     [Header("Round Indicators")]
     [SerializeField] private TextMeshProUGUI m_textTimer;
@@ -56,6 +60,9 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private GameObject m_popUpNoGlowPrefab;
 
     [SerializeField] private List<PlayerGUIProperties> m_avatarSpritesList;
+
+    //private int m_disolvePowertP1 = Shader.PropertyToID("_DisolvePower");
+    //private int m_disolvePowertP2 = Shader.PropertyToID("_DisolvePower");
     
     void Start()
     {
@@ -69,6 +76,11 @@ public class CanvasController : MonoBehaviour
         // @note: spawn right avatar
         var playersIndexes = m_refGameManager.GetPlayerIndexes();
         List<GameObject> playerList = m_refGameManager.GetPlayerList();
+
+        //Material mat1 = Instantiate(m_imgOutlineCircleP1.material);
+        //m_imgOutlineCircleP1.material = mat1;
+        //Material mat2 = Instantiate(m_imgOutlineCircleP2.material);
+        //m_imgOutlineCircleP2.material = mat2;
 
         m_imgAvatarP1.sprite = m_avatarSpritesList[playersIndexes[0]].avatar;
         m_imgAvatarP2.sprite = m_avatarSpritesList[playersIndexes[1]].avatar;
@@ -181,6 +193,13 @@ public class CanvasController : MonoBehaviour
         float currentPowerP1 = playerList[0].GetComponent<Power>().GetPowerCharge();
         float currentPowerP2 = playerList[1].GetComponent<Power>().GetPowerCharge();
 
+        UpdatePowerValues(currentPowerP1, currentPowerP2, playerList, forceUpdate);
+        UpdatePowerMaterial(currentPowerP1, currentPowerP2, playerList, forceUpdate);
+        PowerBeatWhenFilled(currentPowerP1, currentPowerP2, playerList);
+    }
+
+    private void UpdatePowerValues(float currentPowerP1, float currentPowerP2, List<GameObject> playerList, bool forceUpdate = false)
+    {
         if (m_lastPowerValueP1 != currentPowerP1 || forceUpdate) {
             StartCoroutine(LerpAndDebounceOverTime(
                 m_durationFillPower, 
@@ -198,6 +217,79 @@ public class CanvasController : MonoBehaviour
                 (value) => { m_imgOutlineCircleP2.fillAmount = value; return null; },
                 () => { m_imgOutlineCircleP2.fillAmount = currentPowerP2; m_lastPowerValueP2 = currentPowerP2; })
             );
+        }
+    }
+
+    private void UpdatePowerMaterial(float currentPowerP1, float currentPowerP2, List<GameObject> playerList, bool forceUpdate = false)
+    {
+        float maxPower = 2;
+        float maxSpeed = 30;
+
+        if (m_lastPowerValueP1 != currentPowerP1 || forceUpdate) {
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationFillPower,
+                m_imgOutlineCircleP1.material.GetFloat("_DisolvePower"),
+                maxPower * currentPowerP1,
+                (value) => { m_imgOutlineCircleP1.material.SetFloat("_DisolvePower", value); return null; },
+                () => { m_imgOutlineCircleP1.material.SetFloat("_DisolvePower", maxPower * currentPowerP1); }
+            ));
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationFillPower,
+                m_imgOutlineCircleP1.material.GetFloat("_DisolveSpeed"),
+                maxSpeed * currentPowerP1,
+                (value) => { m_imgOutlineCircleP1.material.SetFloat("_DisolveSpeed", value); return null; },
+                () => { m_imgOutlineCircleP1.material.SetFloat("_DisolveSpeed", maxSpeed * currentPowerP1); }
+            ));
+        }
+
+        if (m_lastPowerValueP2 != currentPowerP2 || forceUpdate) {
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationFillPower,
+                m_imgOutlineCircleP2.material.GetFloat("_DisolvePower"),
+                maxPower * currentPowerP2,
+                (value) => { m_imgOutlineCircleP2.material.SetFloat("_DisolvePower", value); return null; },
+                () => { m_imgOutlineCircleP2.material.SetFloat("_DisolvePower", maxPower * currentPowerP2); }
+            ));
+            StartCoroutine(LerpAndDebounceOverTime(
+                m_durationFillPower,
+                m_imgOutlineCircleP2.material.GetFloat("_DisolveSpeed"),
+                maxSpeed * currentPowerP2,
+                (value) => { m_imgOutlineCircleP2.material.SetFloat("_DisolveSpeed", value); return null; },
+                () => { m_imgOutlineCircleP2.material.SetFloat("_DisolveSpeed", maxSpeed * currentPowerP2); }
+            ));
+        }
+
+    }
+
+    //idea : apply the fire material to the shadow of player
+    private void PowerBeatWhenFilled(float currentPowerP1, float currentPowerP2, List<GameObject> playerList)
+    {
+        if (currentPowerP1 >= 1) {
+            if (!m_playerOneIsCharged) {
+                m_playerOneIsCharged = true;
+                m_textControlSpecialPowerP1.gameObject.SetActive(true);
+                StartCoroutine(ScaleTextUntilCondition(m_imgOutlineCircleP1.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[0].GetComponent<Power>().GetPowerCharge() >= 1); }));
+                StartCoroutine(ScaleTextUntilCondition(m_imgBgCircleP1.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[0].GetComponent<Power>().GetPowerCharge() >= 1); }));
+                StartCoroutine(ScaleTextUntilCondition(m_textControlSpecialPowerP1.GetComponent<RectTransform>(), 20f, 0.1f, 0.1f, (value) => { return (playerList[0].GetComponent<Power>().GetPowerCharge() >= 1); }));
+                //StartCoroutine(ShadeImage(m_imgOutlineCircleP1));
+            }
+        } else {
+            m_textControlSpecialPowerP1.gameObject.SetActive(false);
+            m_playerOneIsCharged = false;
+        }
+        if (currentPowerP2 >= 1) {
+            if (!m_playerTwoIsCharged) {
+                m_playerTwoIsCharged = true;
+                m_textControlSpecialPowerP2.gameObject.SetActive(true);
+                StartCoroutine(ScaleTextUntilCondition(m_imgOutlineCircleP2.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[1].GetComponent<Power>().GetPowerCharge() >= 1); }));
+                StartCoroutine(ScaleTextUntilCondition(m_imgBgCircleP2.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[1].GetComponent<Power>().GetPowerCharge() >= 1); }));
+                StartCoroutine(ScaleTextUntilCondition(m_textControlSpecialPowerP2.GetComponent<RectTransform>(), 20f, 0.25f, 0.1f, (value) => { return (playerList[1].GetComponent<Power>().GetPowerCharge() >= 1); }));
+                
+                //StartCoroutine(ShadeImage(m_imgOutlineCircleP2));
+            }
+        } else {
+            m_textControlSpecialPowerP2.gameObject.SetActive(false);
+            m_playerTwoIsCharged = false;
         }
     }
 
@@ -276,6 +368,20 @@ public class CanvasController : MonoBehaviour
     }
 
     #region COROUTINES
+
+    private IEnumerator ScaleTextUntilCondition(RectTransform textRect, float scaleToAdd, float timeToExtand, float timeToRetract, Func<float, bool> condition)
+    {
+        while (condition(0))
+        {
+            float srcSizeX = textRect.sizeDelta.x;
+            float destSizeX = textRect.sizeDelta.x + scaleToAdd;
+            float srcSizeY = textRect.sizeDelta.y;
+            float destSizeY = textRect.sizeDelta.y + scaleToAdd;
+
+            yield return ExtandText(textRect, srcSizeX, destSizeX, srcSizeY, destSizeY, timeToExtand);
+            yield return RetractText(textRect, srcSizeX, destSizeX, srcSizeY, destSizeY, timeToRetract);
+        }
+    }
 
     private IEnumerator ScaleTextOnce(RectTransform textRect, float scaleToAdd, float timeToExtand, float timeToRetract)
     {

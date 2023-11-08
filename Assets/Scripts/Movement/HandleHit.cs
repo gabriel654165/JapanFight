@@ -164,7 +164,7 @@ public class HandleHit : MonoBehaviour
         for (int i = 0; i < m_materials.Length; i++) 
             m_materials[i].color = Color.red;
 
-        while (elapsedTime <= duration) {
+        while (elapsedTime < duration) {
             Color lerpedColor = Color.Lerp(Color.red, Color.white, (elapsedTime / duration));
 
             elapsedTime += Time.deltaTime;

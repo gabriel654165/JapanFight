@@ -10,7 +10,7 @@ public class SolveShader : MonoBehaviour
     private Material[] m_materials;
 
     private int m_solveAmount = Shader.PropertyToID("_SolveAmount");
-    private int m_verticalSolveAmount = Shader.PropertyToID("_VerticalSolve"); 
+    private int m_verticalSolveAmount = Shader.PropertyToID("_VerticalSolve");
 
     void Start()
     {

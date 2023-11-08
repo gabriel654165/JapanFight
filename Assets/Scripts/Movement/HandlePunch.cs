@@ -24,10 +24,10 @@ public class HandlePunch : MonoBehaviour
     private GameManager m_gameManagerInstance;
 
     private List<PunchProperty> m_PunchPropertyList = new List<PunchProperty> {
-        new PunchProperty("Punch", 12f),
-        new PunchProperty("ZombiePunch", 12f),
-        new PunchProperty("BarbareKick", 15f),
-        new PunchProperty("HighKick", 15f),
+        new PunchProperty("Punch", 5f),
+        new PunchProperty("ZombiePunch", 7f),
+        new PunchProperty("BarbareKick", 5f),
+        new PunchProperty("HighKick", 7f),
     };
 
     void Start()
