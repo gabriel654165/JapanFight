@@ -272,19 +272,33 @@ public class GameManager : MonoBehaviour
     {
         if (m_playerOne == null || m_playerTwo == null)
             return;
+        
+        bool PlayerOneIsLeft = m_playerOne.GetComponent<PlayerInputController>().IsLeft();
+        bool PlayerTwoIsLeft = m_playerTwo.GetComponent<PlayerInputController>().IsLeft();
 
-        if (m_playerOne.transform.position.x > m_playerTwo.transform.position.x) {
+        if (m_playerOne.transform.position.x > m_playerTwo.transform.position.x && PlayerOneIsLeft) 
+        {
+            m_playerOne.GetComponent<PlayerInputController>().SetIsLeft(false);
+            m_playerTwo.GetComponent<PlayerInputController>().SetIsLeft(true);
             m_playerOne.transform.rotation = m_rightPlayerRotation;
             m_playerTwo.transform.rotation = m_leftPlayerRotation;
-            
             m_playerOne.GetComponent<PlayerInputController>().InvertX(true);
             m_playerTwo.GetComponent<PlayerInputController>().InvertX(false);
-        } else {
+            m_playerOne.GetComponent<PlayerInputController>().SaveRotation();
+            m_playerTwo.GetComponent<PlayerInputController>().SaveRotation();
+        } 
+        else if (m_playerOne.transform.position.x < m_playerTwo.transform.position.x && !PlayerOneIsLeft) 
+        {
+            m_playerOne.GetComponent<PlayerInputController>().SetIsLeft(true);
+            m_playerTwo.GetComponent<PlayerInputController>().SetIsLeft(false);
+
             m_playerOne.transform.rotation = m_leftPlayerRotation;
             m_playerTwo.transform.rotation = m_rightPlayerRotation;
-
             m_playerOne.GetComponent<PlayerInputController>().InvertX(false);
             m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
+
+            m_playerOne.GetComponent<PlayerInputController>().SaveRotation();
+            m_playerTwo.GetComponent<PlayerInputController>().SaveRotation();
         }
     }
 

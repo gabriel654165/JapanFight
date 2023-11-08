@@ -28,7 +28,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private int m_specialPowerIdx = 0;
     private GameManager m_gameManagerInstance;
     private GameObject m_enemy;
-    private bool m_isLeft = false;
+    public bool m_isLeft = false;
 
     // private InputMaster m_inputMaster;
 
@@ -74,6 +74,16 @@ public class PlayerInputController : MonoBehaviour
     public void Unlock()
     {
         m_lock = false;
+    }
+
+    public bool IsLeft()
+    {
+        return m_isLeft;
+    }
+
+    public void SetIsLeft(bool isLeft)
+    {
+        m_isLeft = isLeft;
     }
 
     public void Walk(InputAction.CallbackContext context)
@@ -203,6 +213,7 @@ public class PlayerInputController : MonoBehaviour
 
     #region ANIMATION EFFECTS
 
+    // @todo: rename with CamelCase
     public void spawnEffect(float posToAddY)
     {
         if (m_ballEffectPrefab == null)
@@ -223,7 +234,7 @@ public class PlayerInputController : MonoBehaviour
             return;
         // @todo: if the enemy is behind, the player is gonna launch the effect behind him
         m_effect.transform.rotation = Quaternion.LookRotation(m_enemy.transform.position - transform.position);
-        m_effect.transform.position = new Vector3(m_effect.transform.position.x + (m_isLeft ? -1f : 1f), m_effect.transform.position.y + 0.5f, m_effect.transform.position.z);
+        m_effect.transform.position = new Vector3(m_effect.transform.position.x + (m_isLeft ? 1f : -1f), m_effect.transform.position.y + 0.5f, m_effect.transform.position.z);
         m_effect.transform.transform.GetChild(0).GetComponent<Animator>().Play("Red Hollow - Charged");
         m_effect.transform.transform.GetChild(0).GetComponent<Animator>().Play("Red Hollow - Burst");
         StartCoroutine(DestroyEffectTimer(m_effect, m_effectDuration));
@@ -274,7 +285,7 @@ public class PlayerInputController : MonoBehaviour
     public void SetPositionX(float posToAddX)
     {
         float duration = 0.5f;
-        StartCoroutine(MovePositionOverTimeX(transform.localPosition.x, transform.localPosition.x + (m_isLeft ? -posToAddX : posToAddX), duration));
+        StartCoroutine(MovePositionOverTimeX(transform.localPosition.x, transform.localPosition.x + (m_isLeft ? posToAddX : -posToAddX), duration));
     }
 
     private IEnumerator MovePositionOverTimeX(float srcPosX, float destPosX, float duration)
