@@ -48,6 +48,10 @@ public class GameManager : MonoBehaviour
     private GameObject m_playerPrefab1;
     private GameObject m_playerPrefab2;
 
+    //@note: rotation players
+    private Quaternion m_leftPlayerRotation;
+    private Quaternion m_rightPlayerRotation;
+
     public static GameManager Instance {
         get {
             if (m_instance == null) {
@@ -96,6 +100,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region INIT COMPONENTS
+
     private void InitCamera()
     {
         m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
@@ -110,70 +115,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnPlayerJoined(PlayerInput playerInput) 
-    { 
-        Debug.Log("Player Joined");
-    }
-
-    public void OnPlayerLeft(PlayerInput playerInput) 
-    { 
-        Debug.Log("Player Left");
-    }
-
     private void InitPlayers()
     {
-        m_playerPrefab1 = m_mapPrefabArray[m_indexPlayer1];
-        m_playerPrefab2 = m_mapPrefabArray[m_indexPlayer2];
-
-        // SHOULD WORK ON LINUX
-        PlayerInputManager.instance.playerPrefab = m_playerPrefab1;
+        PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer1];
         var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
-        PlayerInputManager.instance.playerPrefab = m_playerPrefab2;
+        PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer2];
         var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
-
-        Debug.Log(InputSystem.devices.ToArray()[2].name);
-        Debug.Log(InputSystem.devices.ToArray()[3].name);
 
         if (inputPlayer1 != null && inputPlayer2 != null) {
             m_playerOne = inputPlayer1.gameObject;
             m_playerTwo = inputPlayer2.gameObject;
-        } else {
-            Debug.Log("INPUT PLAYERS NULL");
         }
 
-        // WORKING ON WINDOWS
-        //m_playerOne = Instantiate(m_playerPrefab1);
-        //m_playerTwo = Instantiate(m_playerPrefab2);
-
-        // @note: controls binding to players
-        /*try {
-            PlayerInputManager.instance.playerPrefab = m_playerPrefab1;
-            var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
-            PlayerInputManager.instance.playerPrefab = m_playerPrefab2;
-            var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
-            
-            if (inputPlayer1 != null && inputPlayer2 != null) {
-                m_playerOne = inputPlayer1.gameObject;
-                m_playerTwo = inputPlayer2.gameObject;
-            } else {
-                Debug.Log("P1 or P2 is null");
-            }
-        
-        } catch (Exception er) {
-            Debug.Log(er.ToString());
-        }*/
-
-        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
-
-        // @note: 2 map pos so random from 0 to 1
+        // @note: 2 map pos so random from 0 to 1 to set position by mapMetaData
         m_indexPlace = UnityEngine.Random.Range(0, 2);
-        
         m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
         m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
 
-        // @note: make player face each other
-        m_playerOne.transform.rotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
-        m_playerTwo.transform.rotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
+        // @note: rotation, make players face each others
+        m_leftPlayerRotation = Quaternion.LookRotation(m_playerTwo.transform.position - m_playerOne.transform.position);
+        m_rightPlayerRotation = Quaternion.LookRotation(m_playerOne.transform.position - m_playerTwo.transform.position);
+        m_playerOne.transform.rotation = m_leftPlayerRotation;
+        m_playerTwo.transform.rotation = m_rightPlayerRotation;
+
+        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo);
         m_playerTwo.GetComponent<PlayerInputController>().Init(m_playerOne, true);
@@ -194,6 +159,7 @@ public class GameManager : MonoBehaviour
         m_canvas.GetComponent<CanvasController>().Init(this);
         m_canvas.GetComponent<CanvasController>().SetRound(GetCurrentRound());
     }
+
     #endregion
     
     #region GET/SET
@@ -280,6 +246,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        HandlePlayerDirections();
+
         if (m_roundIsFinished || (!m_roundAsStarted && !m_suddenDeathOn))
             return;
         bool someoneIsDead = m_playerOne.GetComponent<Health>().isDead() || m_playerTwo.GetComponent<Health>().isDead();
@@ -297,6 +265,26 @@ public class GameManager : MonoBehaviour
 
         if (someoneIsDead) {
             StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
+        }
+    }
+
+    private void HandlePlayerDirections()
+    {
+        if (m_playerOne == null || m_playerTwo == null)
+            return;
+
+        if (m_playerOne.transform.position.x > m_playerTwo.transform.position.x) {
+            m_playerOne.transform.rotation = m_rightPlayerRotation;
+            m_playerTwo.transform.rotation = m_leftPlayerRotation;
+            
+            m_playerOne.GetComponent<PlayerInputController>().InvertX(true);
+            m_playerTwo.GetComponent<PlayerInputController>().InvertX(false);
+        } else {
+            m_playerOne.transform.rotation = m_leftPlayerRotation;
+            m_playerTwo.transform.rotation = m_rightPlayerRotation;
+
+            m_playerOne.GetComponent<PlayerInputController>().InvertX(false);
+            m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
         }
     }
 

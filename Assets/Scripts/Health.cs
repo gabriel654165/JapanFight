@@ -18,7 +18,6 @@ public class Health : MonoBehaviour
         m_health = health;
     }
 
-    // @todo: mettre un coolDown avant de prendre un prochain hit ?
     public void Hit(float damages)
     {
         if (m_health - damages < 0)
