@@ -58,6 +58,7 @@ public class HandleHit : MonoBehaviour
                     ChooseDeathAnim(currentAnim);
                 } else {
                     if (specialPower) {
+                        StartCoroutine(LerpColorMaterial(1f));
                         m_animator.SetTrigger("SpecialHit");
                     } else {
                         StartCoroutine(LerpColorMaterial(0.5f));
