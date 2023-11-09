@@ -292,7 +292,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Modifier"",
                     ""id"": ""17a02630-f43d-44d9-8c22-7579e093b0ce"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -303,7 +303,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Binding"",
                     ""id"": ""6f44e45a-57ad-4b62-ab73-fe1e7849ca38"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -325,7 +325,7 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Modifier"",
                     ""id"": ""09b1f52b-ded1-44d0-aea8-b71f9848444b"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -336,76 +336,10 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Binding"",
                     ""id"": ""1a36d2e6-f540-4125-a49c-31c3c2e64aeb"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Special_attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""419f8b2b-6ab8-47e1-ba85-ba97310f6937"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Special_attack"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Modifier"",
-                    ""id"": ""f37635ad-d42d-495f-ae2b-66e7a82df66c"",
-                    ""path"": ""<XInputController>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox"",
-                    ""action"": ""Special_attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Binding"",
-                    ""id"": ""0281f983-f0ad-4320-a100-ed7c86ec2fb3"",
-                    ""path"": ""<XInputController>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox"",
-                    ""action"": ""Special_attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""One Modifier"",
-                    ""id"": ""1ec25232-0284-4164-ad78-e306d292e882"",
-                    ""path"": ""OneModifier"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Special_attack"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Modifier"",
-                    ""id"": ""d19875ea-b0f2-4add-8435-c6741b440823"",
-                    ""path"": ""<XInputController>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox"",
-                    ""action"": ""Special_attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Binding"",
-                    ""id"": ""dd36d944-ce3e-413a-94bf-0d4c421f0545"",
-                    ""path"": ""<XInputController>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox"",
                     ""action"": ""Special_attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
