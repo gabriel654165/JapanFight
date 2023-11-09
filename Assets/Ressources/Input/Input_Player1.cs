@@ -116,6 +116,33 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""295fe5cc-2c22-4c03-b0d2-0a4aedba25bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""7b68b1e1-4b73-4a25-86a6-713683583959"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Quit"",
+                    ""type"": ""Button"",
+                    ""id"": ""dcedb457-46a8-47c5-a480-749cd2e6e8f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -646,6 +673,39 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                     ""action"": ""Foot_attack_2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f842e46b-72ce-4c4c-ac63-bc1653f259c2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4564716e-0eba-4a21-b65e-cc3886ca35e8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ce0df59-1d2f-4dd7-9bb4-d5d5495000ac"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -676,6 +736,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
         m_Player_High_block = m_Player.FindAction("High_block", throwIfNotFound: true);
         m_Player_Low_block = m_Player.FindAction("Low_block", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
+        m_Player_Quit = m_Player.FindAction("Quit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -745,6 +808,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_High_block;
     private readonly InputAction m_Player_Low_block;
     private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Restart;
+    private readonly InputAction m_Player_Quit;
     public struct PlayerActions
     {
         private @Input_Player1 m_Wrapper;
@@ -759,6 +825,9 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
         public InputAction @High_block => m_Wrapper.m_Player_High_block;
         public InputAction @Low_block => m_Wrapper.m_Player_Low_block;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Restart => m_Wrapper.m_Player_Restart;
+        public InputAction @Quit => m_Wrapper.m_Player_Quit;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -798,6 +867,15 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Restart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @Restart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @Restart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRestart;
+                @Quit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuit;
+                @Quit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuit;
+                @Quit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnQuit;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -832,6 +910,15 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Restart.started += instance.OnRestart;
+                @Restart.performed += instance.OnRestart;
+                @Restart.canceled += instance.OnRestart;
+                @Quit.started += instance.OnQuit;
+                @Quit.performed += instance.OnQuit;
+                @Quit.canceled += instance.OnQuit;
             }
         }
     }
@@ -857,5 +944,8 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
         void OnHigh_block(InputAction.CallbackContext context);
         void OnLow_block(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
 }

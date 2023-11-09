@@ -193,6 +193,31 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
+
+    public void Pause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            m_gameManagerInstance.Pause();
+        }
+    }
+
+    public void Restart(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            m_gameManagerInstance.Restart();
+        }
+    }
+
+    public void Quit(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            m_gameManagerInstance.Quit();
+        }
+    }
+
     private void Update()
     {
         if (m_lock)
@@ -329,7 +354,7 @@ public class PlayerInputController : MonoBehaviour
         m_colliderToMaintain.gameObject.transform.localPosition = new Vector3(localPos.x, localPos.y + 1, localPos.z);
     }
 
-    // BUG 
+    // @todo: maybe make alerp to avoid jump from player
     public void ResetColliderToNormal()
     {
         if (m_colliderToMaintain == null)
