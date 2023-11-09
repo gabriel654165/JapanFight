@@ -173,6 +173,7 @@ public class HandleHit : MonoBehaviour
                 m_materials[i].color = lerpedColor;
             yield return null;
         }
-
+        for (int i = 0; i < m_materials.Length; i++) 
+            m_materials[i].color = Color.white;
     }
 }

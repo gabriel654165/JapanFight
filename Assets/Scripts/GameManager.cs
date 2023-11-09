@@ -129,8 +129,11 @@ public class GameManager : MonoBehaviour
             m_playerTwo = inputPlayer2.gameObject;
         }
 
-        // @note: 2 map pos so random from 0 to 1 to set position by mapMetaData
-        m_indexPlace = UnityEngine.Random.Range(0, 3);// pas tjr 2
+        // @note: Random on differents map places for the round
+        m_indexPlace = UnityEngine.Random.Range(0, m_mapMetaData.GetNbSpawnPos());
+        Debug.Log("m_mapMetaData.GetNbSpawnPos() = " + m_mapMetaData.GetNbSpawnPos().ToString());
+        Debug.Log("m_indexPlace = " + m_indexPlace.ToString());
+        m_indexPlace = 0;
         m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
         m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
 

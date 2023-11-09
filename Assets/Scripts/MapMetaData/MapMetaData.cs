@@ -5,8 +5,6 @@ using System;
 
 public class MapMetaData : MonoBehaviour
 {
-    private int m_indexPlace = 0;
-
     private Tuple<int, Vector3>[] m_spawnPosP1 = new Tuple<int, Vector3>[] {
         new Tuple<int, Vector3>(0, new Vector3(-5, 0, 0)),
         new Tuple<int, Vector3>(0, new Vector3(-40, 0, 50)),
@@ -36,7 +34,7 @@ public class MapMetaData : MonoBehaviour
     private Tuple<int, Vector3>[] m_spawnPosCam = new Tuple<int, Vector3>[] {
         new Tuple<int, Vector3>(0, new Vector3(0, 0, 10)),
         new Tuple<int, Vector3>(0, new Vector3(-37.5f, 0, 47.5f)),
-        new Tuple<int, Vector3>(0, new Vector3(-5.6f, 11.4f, 22.4f)),
+        new Tuple<int, Vector3>(0, new Vector3(11.5f, 10.7f, 103.9f)),
 
         new Tuple<int, Vector3>(1, new Vector3(76, 4, 71)),
         new Tuple<int, Vector3>(1, new Vector3(16.5f, 4, 80)),
@@ -75,6 +73,17 @@ public class MapMetaData : MonoBehaviour
             }
         }
         return arraySpawnPos[placeIndex];
+    }
+
+    public int GetNbSpawnPos()
+    {
+        int nbSpawnPos = 0;
+        int mapIndex = GetMapIndex();
+
+        foreach (var row in m_spawnPosP1)
+            if (row.Item1 == mapIndex)
+                nbSpawnPos++;
+        return nbSpawnPos;
     }
 
     public Vector3 GetSpawnPosP1(int placeIndex)
