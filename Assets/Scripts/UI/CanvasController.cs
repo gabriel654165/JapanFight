@@ -55,9 +55,17 @@ public class CanvasController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_textRound;
     [SerializeField] private TextMeshProUGUI m_textRoundNumber;
 
+    [Header("Win Rate")]
+    [SerializeField] private GameObject m_containerBarP1;
+    [SerializeField] private GameObject m_containerBarP2;
+    [SerializeField] private Vector3 m_offsetBetweenBars;
+    [SerializeField] private Vector3 m_InitialPosP1;
+    [SerializeField] private Vector3 m_InitialPosP2;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject m_popUpPrefab;
     [SerializeField] private GameObject m_popUpNoGlowPrefab;
+    [SerializeField] private GameObject m_winRoundBar;
     [SerializeField] private List<PlayerGUIProperties> m_avatarSpritesList;
     
     void Start()
@@ -116,6 +124,31 @@ public class CanvasController : MonoBehaviour
     {
         m_refGameManager = gameManager;
     }
+
+    #region WIN RATE BARS
+
+    public void SetWinRateBars(int playerOneWinRate, int playerTwoWinRate)
+    {
+        Debug.Log(playerOneWinRate);
+        Debug.Log(playerTwoWinRate);
+        for (int i = 0; i < playerOneWinRate; ++i)
+        {
+            var bar = Instantiate(m_winRoundBar);
+            bar.transform.SetParent(m_containerBarP1.transform);
+            bar.GetComponent<RectTransform>().localPosition = new Vector3(m_InitialPosP1.x + ((i * m_offsetBetweenBars.x) * -1), 0, 0);
+            bar.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        }
+
+        for (int i = 0; i < playerTwoWinRate; ++i)
+        {
+            var bar = Instantiate(m_winRoundBar);
+            bar.transform.SetParent(m_containerBarP2.transform);
+            bar.GetComponent<RectTransform>().localPosition = new Vector3(m_InitialPosP2.x + (i * m_offsetBetweenBars.x), 0, 0);
+            bar.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    #endregion
 
     #region ROUNDS
 

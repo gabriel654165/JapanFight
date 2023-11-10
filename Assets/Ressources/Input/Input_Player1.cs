@@ -247,6 +247,17 @@ public partial class @Input_Player1 : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""18ee5255-d50e-47ab-b1b1-4456834e80aa"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""64e1bc30-fd7e-44eb-bf77-a01b086abaff"",
                     ""path"": ""<Gamepad>/rightStick/up"",
                     ""interactions"": """",

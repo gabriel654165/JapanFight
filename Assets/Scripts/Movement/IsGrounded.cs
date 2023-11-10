@@ -15,6 +15,15 @@ public class IsGrounded : MonoBehaviour
             m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, 0, m_rigidbody.velocity.z);
         }
     }
+    
+    void OnTriggerStay(Collider collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") && m_animator.GetBool("false"))
+        {
+            m_animator.SetBool("Grounded", true);
+            m_rigidbody.velocity = new Vector3(m_rigidbody.velocity.x, 0, m_rigidbody.velocity.z);
+        }
+    }
 
     void OnTriggerExit(Collider collision)
     {   

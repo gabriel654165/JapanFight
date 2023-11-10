@@ -889,9 +889,16 @@ MonoBehaviour:
   m_textTimer: {fileID: 1521088290198350342}
   m_textRound: {fileID: 3199123935969497656}
   m_textRoundNumber: {fileID: 2994990546245617229}
+  m_containerBarP1: {fileID: 5184789916789806267}
+  m_containerBarP2: {fileID: 4480925402833157170}
+  m_offsetBetweenBars: {x: 13, y: 0, z: 0}
+  m_InitialPosP1: {x: 13, y: 0, z: 0}
+  m_InitialPosP2: {x: -13, y: 0, z: 0}
   m_popUpPrefab: {fileID: 1941564133137016575, guid: 44f5f11d70d25c14d8209093be87f0dc,
     type: 3}
   m_popUpNoGlowPrefab: {fileID: 1941564133137016575, guid: 593c2abad2b5e43b1b0a321117c20b55,
+    type: 3}
+  m_winRoundBar: {fileID: 8694491195437367000, guid: e3069d5703017fd4eb969a13282477c8,
     type: 3}
   m_avatarSpritesList:
   - avatar: {fileID: 21300000, guid: 088600f13dfb4cc49aee9bd06e8b2a66, type: 3}
@@ -1178,6 +1185,7 @@ RectTransform:
   - {fileID: 5484397831785258304}
   - {fileID: 1521088289621387785}
   - {fileID: 1521088289651759580}
+  - {fileID: 3856159323304828144}
   m_Father: {fileID: 1521088289689159514}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1295,6 +1303,7 @@ RectTransform:
   - {fileID: 7373335367387571724}
   - {fileID: 1521088290070966674}
   - {fileID: 1521088289574449792}
+  - {fileID: 8811354879869228683}
   m_Father: {fileID: 1521088289689159514}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1725,6 +1734,78 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4480925402833157170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8811354879869228683}
+  m_Layer: 5
+  m_Name: WinBarContainer P2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8811354879869228683
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4480925402833157170}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1521088290877905105}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 81.66968, y: 197.67201}
+  m_SizeDelta: {x: 37.868835, y: 24.7647}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &5184789916789806267
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3856159323304828144}
+  m_Layer: 5
+  m_Name: WinBarContainer P1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3856159323304828144
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184789916789806267}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1521088290248479968}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 205.1708, y: -0.49362183}
+  m_SizeDelta: {x: 37.832344, y: 24.76471}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7212152609422269126
 GameObject:
   m_ObjectHideFlags: 0

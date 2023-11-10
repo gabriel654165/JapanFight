@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool m_roundAsStarted = false;
     [SerializeField] private bool m_suddenDeathOn = false;
     private float m_timer = 0f;
-    private int m_nbRoundsToWin = 2;
+    private int m_nbRoundsToWin = 3;
     private int m_playerOneWinRate = 0;
     private int m_playerTwoWinRate = 0;
 
@@ -133,7 +133,6 @@ public class GameManager : MonoBehaviour
 
         // @note: Random on differents map places for the round
         m_indexPlace = UnityEngine.Random.Range(0, m_mapMetaData.GetNbSpawnPos());
-        m_indexPlace = 0;
         m_playerOne.transform.position = m_mapMetaData.GetSpawnPosP1(m_indexPlace);
         m_playerTwo.transform.position = m_mapMetaData.GetSpawnPosP2(m_indexPlace);
 
@@ -168,6 +167,7 @@ public class GameManager : MonoBehaviour
         m_canvas.sortingOrder = -100;
         m_canvas.GetComponent<CanvasController>().Init(this);
         m_canvas.GetComponent<CanvasController>().SetRound(GetCurrentRound());
+        m_canvas.GetComponent<CanvasController>().SetWinRateBars(m_playerOneWinRate, m_playerTwoWinRate);
     }
 
     #endregion
@@ -508,9 +508,17 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"SUDDEN DEATH", "READY", "FIGHT"}));
     }
 
+    // @todo: ecrire quel player a win
     private IEnumerator EndRoundCoroutine(Transform deadPlayer)
     {
         m_roundIsFinished = true;
+
+        // @note: add score to alive player
+        m_playerOneWinRate += m_playerOne.GetComponent<Health>().isDead() ? 0 : 1;
+        m_playerTwoWinRate += m_playerTwo.GetComponent<Health>().isDead() ? 0 : 1;
+
+        // @note: save and reload
+        Save();
         
         // @note: b&w background
         ColorAdjustments colorAdjustments;
@@ -532,12 +540,6 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(DeadPlayerCoroutine());
 
-        // @note: add score to alive player
-        m_playerOneWinRate += m_playerOne.GetComponent<Health>().isDead() ? 0 : 1;
-        m_playerTwoWinRate += m_playerTwo.GetComponent<Health>().isDead() ? 0 : 1;
-
-        // @note: save and reload
-        Save();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     #endregion
