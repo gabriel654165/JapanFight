@@ -17,10 +17,10 @@ TagManager:
   - HitBox
   - Wall
   - SpecialAttack
-  - 
-  - 
-  - 
-  - 
+  - ColliderToMaintain
+  - Level
+  - Particles
+  - UI BG
   - 
   - 
   - 

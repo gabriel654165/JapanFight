@@ -59,6 +59,17 @@ public partial class @Input_Menu : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": """",
+                    ""id"": ""24376122-c005-4c35-b445-2fdb28addc08"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
                     ""name"": ""Horizontal"",
                     ""id"": ""16a8a930-1116-4306-9a74-085ffb70cc7b"",
                     ""path"": ""OneModifier"",

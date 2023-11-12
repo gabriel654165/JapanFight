@@ -75,13 +75,19 @@ public class MenuController : MonoBehaviour
     {
         PlayerInputManager.instance.playerPrefab = m_cursorPlayerPrefab;
         // @note: warning if the two controllers are not the 2 and 3 crash
-        var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
-        var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
+        // var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
+        // var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
+        
+        // if (inputPlayer1 != null && inputPlayer2 != null) {
+        //     m_cursorP1 = inputPlayer1.gameObject;
+        //     m_cursorP2 = inputPlayer2.gameObject;
+        // }
 
-        if (inputPlayer1 != null && inputPlayer2 != null) {
-            m_cursorP1 = inputPlayer1.gameObject;
-            m_cursorP2 = inputPlayer2.gameObject;
-        }
+        // @debug: remove this
+        m_cursorP1 = Instantiate(m_cursorPlayerPrefab);
+        m_cursorP2 = Instantiate(m_cursorPlayerPrefab);
+        // !debug
+
         m_cursorP1.transform.SetParent(m_canvas.transform);
         m_cursorP2.transform.SetParent(m_canvas.transform);
         m_cursorP1.gameObject.GetComponent<CursorController>().Init(this);
@@ -94,8 +100,10 @@ public class MenuController : MonoBehaviour
         m_selectedFieldP2 = Instantiate(m_selectedFieldPrefab);
         m_selectedFieldP1.transform.SetParent(m_containerSelect.transform);
         m_selectedFieldP2.transform.SetParent(m_containerSelect.transform);
-        m_selectedFieldP1.transform.position = new Vector3(m_centerPosSelectFields.x - m_offsetSelectField.x, m_centerPosSelectFields.y + m_offsetSelectField.y, m_centerPosSelectFields.z + m_offsetSelectField.z);
-        m_selectedFieldP2.transform.position = new Vector3(m_centerPosSelectFields.x + m_offsetSelectField.x, m_centerPosSelectFields.y + m_offsetSelectField.y, m_centerPosSelectFields.z + m_offsetSelectField.z);
+        m_selectedFieldP1.transform.localPosition = new Vector3(m_centerPosSelectFields.x - m_offsetSelectField.x, m_centerPosSelectFields.y + m_offsetSelectField.y, m_centerPosSelectFields.z + m_offsetSelectField.z);
+        m_selectedFieldP2.transform.localPosition = new Vector3(m_centerPosSelectFields.x + m_offsetSelectField.x, m_centerPosSelectFields.y + m_offsetSelectField.y, m_centerPosSelectFields.z + m_offsetSelectField.z);
+        m_selectedFieldP1.transform.localScale = new Vector3(1, 1, 1);
+        m_selectedFieldP2.transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void InitChoosePlayerUI()
@@ -123,8 +131,10 @@ public class MenuController : MonoBehaviour
             newButtonP2.GetComponent<ButtonMenu>().SetEventCallBack(() => { SetPlayerTwo(m_posPlayer2, playerName, newIndex, m_playerPrefabDictionary[playerName]); });
             newButtonP1.transform.SetParent(m_containerButtonPlayer.transform);
             newButtonP2.transform.SetParent(m_containerButtonPlayer.transform);
-            newButtonP1.transform.position = lastPos - m_offsetSideButton;
-            newButtonP2.transform.position = lastPos + m_offsetSideButton;
+            newButtonP1.transform.localPosition = lastPos - m_offsetSideButton;
+            newButtonP2.transform.localPosition = lastPos + m_offsetSideButton;
+            newButtonP1.transform.localScale = new Vector3(1, 1, 1);
+            newButtonP2.transform.localScale = new Vector3(1, 1, 1);
             lastPos = new Vector3(m_initialCenterPosButton.x + m_offsetCenterButton.x, lastPos.y + m_offsetCenterButton.y, m_initialCenterPosButton.z + m_offsetCenterButton.z);
             lastPos = new Vector3(m_initialCenterPosButton.x + m_offsetCenterButton.x, lastPos.y + m_offsetCenterButton.y, m_initialCenterPosButton.z + m_offsetCenterButton.z);
             index++;
@@ -150,7 +160,8 @@ public class MenuController : MonoBehaviour
             newMapButton.GetComponent<ButtonMenu>().SetText(mapName);
             newMapButton.GetComponent<ButtonMenu>().SetEventCallBack(() => { SetMap(mapName, m_mapPrefabDictionary); });
             newMapButton.transform.SetParent(m_containerButtonMap.transform);
-            newMapButton.transform.position = lastPos;
+            newMapButton.transform.localPosition = lastPos;
+            newMapButton.transform.localScale = new Vector3(1, 1, 1);
             lastPos = new Vector3(m_initialCenterPosButton.x, lastPos.y + m_offsetCenterButton.y * 2, m_initialCenterPosButton.z);
         }
     }
@@ -203,6 +214,7 @@ public class MenuController : MonoBehaviour
 
     public void Select(bool state)
     {
+        // @todo: mettre un ecran avant, play, quit, settings, credits
         if (!playerHasBeenChoosen) {
             SelectPlayer(state);
         } else {
@@ -245,6 +257,7 @@ public class MenuController : MonoBehaviour
 
     private void NextStep()
     {
+        // @todo: mettre un ecran avant, play, quit, settings, credits
         if (m_cptSelect >= 2 && m_containerButtonPlayer.activeSelf && !playerHasBeenChoosen) {
             playerHasBeenChoosen = true;
             StartCoroutine(NextStepCoroutine());
@@ -279,7 +292,6 @@ public class MenuController : MonoBehaviour
 
     private void Save()
     {
-
         PlayerPrefs.SetInt("indexPlayer1", m_indexPlayer1);
         PlayerPrefs.SetInt("indexPlayer2", m_indexPlayer2);
         PlayerPrefs.Save();
