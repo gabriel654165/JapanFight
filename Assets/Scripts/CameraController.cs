@@ -66,6 +66,16 @@ public class CameraController : MonoBehaviour
         m_offset = offset;
     }
 
+    public void SetSmooth(float smoothTime)
+    {
+        m_smoothTime = smoothTime;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        m_speedMovement = speed;
+    }
+
 
     private void Zoom()
     {

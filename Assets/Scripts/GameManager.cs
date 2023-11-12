@@ -119,9 +119,9 @@ public class GameManager : MonoBehaviour
     {
         InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
 
-        //m_playerOne = Instantiate(m_mapPrefabArray[m_indexPlayer1]);
-        //m_playerTwo = Instantiate(m_mapPrefabArray[m_indexPlayer2]);
-        PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer1];
+        m_playerOne = Instantiate(m_mapPrefabArray[m_indexPlayer1]);
+        m_playerTwo = Instantiate(m_mapPrefabArray[m_indexPlayer2]);
+        /*PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer1];
         var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
         PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer2];
         var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         if (inputPlayer1 != null && inputPlayer2 != null) {
             m_playerOne = inputPlayer1.gameObject;
             m_playerTwo = inputPlayer2.gameObject;
-        }
+        }*/
 
         // @note: Random on differents map places for the round
         m_indexPlace = UnityEngine.Random.Range(0, m_mapMetaData.GetNbSpawnPos());
@@ -142,7 +142,8 @@ public class GameManager : MonoBehaviour
         m_playerOne.transform.rotation = m_leftPlayerRotation;
         m_playerTwo.transform.rotation = m_rightPlayerRotation;
 
-        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
+        // @debug: uncomment this line
+        //m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         if (m_playerOne.transform.position.x < m_playerTwo.transform.position.x) {
             m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo, true);
@@ -167,7 +168,7 @@ public class GameManager : MonoBehaviour
         m_canvas.sortingOrder = -100;
         m_canvas.GetComponent<CanvasController>().Init(this);
         m_canvas.GetComponent<CanvasController>().SetRound(GetCurrentRound());
-        m_canvas.GetComponent<CanvasController>().SetWinRateBars(m_playerOneWinRate, m_playerTwoWinRate);
+        m_canvas.GetComponent<CanvasController>().SetWinRateBars(m_playerOneWinRate, m_playerTwoWinRate, m_nbRoundsToWin);
     }
 
     #endregion
@@ -244,6 +245,10 @@ public class GameManager : MonoBehaviour
         if (m_mapPrefabArray.Length <= m_indexPlayer1) {
             m_indexPlayer1 = 0;
         }
+
+        // @debug: to remove
+        m_playerOneWinRate = 2;
+        m_playerTwoWinRate = 2;
     }
 
     private void Save()
@@ -265,8 +270,7 @@ public class GameManager : MonoBehaviour
         m_timer += Time.deltaTime;
         if (m_timer > m_gameDuration && !m_suddenDeathOn) {
             if (!someoneIsDead) {
-                var targets = new List<Transform>{m_playerOne.transform, m_playerTwo.transform};
-                StartCoroutine(SuddenDeathRoundCoroutine(targets));
+                StartCoroutine(SuddenDeathRoundCoroutine(new List<Transform>{m_playerOne.transform, m_playerTwo.transform}));
             } else {
                 Save();
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -274,7 +278,14 @@ public class GameManager : MonoBehaviour
         }
 
         if (someoneIsDead) {
-            StartCoroutine(EndRoundCoroutine(m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform));
+            if (m_playerOne.GetComponent<Health>().isDead() && m_playerTwo.GetComponent<Health>().isDead()) {
+                StartCoroutine(SuddenDeathRoundCoroutine(new List<Transform>{m_playerOne.transform, m_playerTwo.transform}));
+            } else {
+                StartCoroutine(EndRoundCoroutine(
+                    m_playerOne.GetComponent<Health>().isDead() ? m_playerTwo.transform : m_playerOne.transform,
+                    m_playerOne.GetComponent<Health>().isDead() ? m_playerOne.transform : m_playerTwo.transform
+                ));
+            }
         }
     }
 
@@ -377,16 +388,63 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region COROUTINES
-    private IEnumerator Rumble(float time, float forceX = 0.350f, float forceY = 0.350f)
+
+    private IEnumerator StartNewGameCoroutine(List<Transform> targets)
     {
-        // @bug: not always the same gamepad
-        if (Gamepad.current != null)
-            Gamepad.current.SetMotorSpeeds(forceX, forceY);
+        foreach (var target in targets)
+            target.GetComponent<PlayerInputController>().Lock();
+        
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        Vector3 destScale = new Vector3(2f, 2f, 2f);
+        Vector2 offsetPopUp = new Vector2(-150, -150);
+        float duration = 3f;
+        var startingPos = new Vector3(m_mapMetaData.GetCamoffset(m_indexPlace).x, 200, m_mapMetaData.GetCamoffset(m_indexPlace).z);
+        
+        m_camera.GetComponent<CameraController>().SetOffset(startingPos);
+        yield return new WaitForSeconds(1);
+        m_camera.GetComponent<CameraController>().SetSmooth(1f);//try with 0.75
+        m_camera.GetComponent<CameraController>().SetSpeed(1f);
+        yield return new WaitForSeconds(1);
+        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
+        yield return new WaitForSeconds(4);
+        m_camera.GetComponent<CameraController>().SetSmooth(0.05f);
+        m_camera.GetComponent<CameraController>().SetSpeed(20);
+        
+        Transform posTarget = new GameObject().transform;
+        posTarget.position =  new Vector3(targets[0].position.x, targets[0].position.y + 0.5f, targets[0].position.z);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 7f);
+        yield return new WaitForSeconds(2f);
+        // @todo: write the name of the player ?
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration, false);
+        var randomIndex = UnityEngine.Random.Range(0, 9);
+        targets[0].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
+        targets[0].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
+        yield return new WaitForSeconds(duration);
 
-        yield return new WaitForSeconds(time);
+        posTarget.position =  new Vector3(targets[1].position.x, targets[1].position.y + 0.5f, targets[1].position.z);
+        m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 3f);//creer un autre transform et move dessus
+        yield return new WaitForSeconds(1.5f);
+        // @todo: write the name of the player ?
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration, false);
+        randomIndex = UnityEngine.Random.Range(0, 9);
+        targets[1].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
+        targets[1].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
+        yield return new WaitForSeconds(duration);
+        m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
 
-        if (Gamepad.current != null)
-            Gamepad.current.SetMotorSpeeds(0, 0);
+        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"READY", "FIGHT"}));
+    }
+
+    private IEnumerator StartNewRoundCoroutine(List<Transform> targets)
+    {
+        foreach (var target in targets)
+            target.GetComponent<PlayerInputController>().Lock();
+        
+        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
+        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
+        yield return new WaitForSeconds(1);
+        
+        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"READY", "FIGHT"}));
     }
 
     private IEnumerator PreRoundCoroutine(List<Transform> targets, List<string> textToDisplay)
@@ -405,69 +463,78 @@ public class GameManager : MonoBehaviour
         m_roundAsStarted = true;
     }
 
-    private IEnumerator DeadPlayerCoroutine()
+    // @todo: ecrire quel player a win
+    private IEnumerator EndRoundCoroutine(Transform winner, Transform loser)
     {
-        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
-        Vector3 destScale = new Vector3(2f, 2f, 2f);
-        Vector2 offsetPopUp = new Vector2(0, -120);
-        var duration = 2f;
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "DEAD", offsetPopUp, duration, true);
-        yield return new WaitForSeconds(duration);
-    }
+        m_roundIsFinished = true;
 
-    private IEnumerator StartNewGameCoroutine(List<Transform> targets)
-    {
-        foreach (var target in targets)
-            target.GetComponent<PlayerInputController>().Lock();
+        // @note: add score to alive player
+        bool playerOneWon = m_playerTwo.GetComponent<Health>().isDead() ? true : false;
+        bool playerTwoWon = m_playerOne.GetComponent<Health>().isDead() ? true : false;
         
-        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
-        Vector3 destScale = new Vector3(2f, 2f, 2f);
-        Vector2 offsetPopUp = new Vector2(-150, -150);
-        float duration = 3f;
-        //var startingPos = new Vector3(m_arrayCameraOffset[m_indexPlace].x, 200, m_arrayCameraOffset[m_indexPlace].z);
-        var startingPos = new Vector3(m_mapMetaData.GetCamoffset(m_indexPlace).x, 200, m_mapMetaData.GetCamoffset(m_indexPlace).z);
-        
-        m_camera.GetComponent<CameraController>().SetOffset(startingPos);
-        yield return new WaitForSeconds(1);
-        //m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset);
-        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
-        yield return new WaitForSeconds(4);
-        
-        Transform posTarget = new GameObject().transform;
-        posTarget.position =  new Vector3(targets[0].position.x, targets[0].position.y + 0.5f, targets[0].position.z);
-        m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 7f);
-        yield return new WaitForSeconds(2f);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration, false);
-        var randomIndex = UnityEngine.Random.Range(0, 9);
-        targets[0].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
-        targets[0].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
-        yield return new WaitForSeconds(duration);
+        m_playerOneWinRate += playerOneWon ? 1 : 0;
+        m_playerTwoWinRate += playerTwoWon ? 1 : 0;
 
-        posTarget.position =  new Vector3(targets[1].position.x, targets[1].position.y + 0.5f, targets[1].position.z);
-        m_camera.GetComponent<CameraController>().TranslateToTarget(posTarget, -0.5f, 3f);//creer un autre transform et move dessus
+        // @note: save and reload
+        Save();
+        
+        // @note: b&w background
+        ColorAdjustments colorAdjustments;
+        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            colorAdjustments.saturation.overrideState = true;
+            colorAdjustments.saturation.value = -100f;
+        }
+        // @note: slowmotion
+        Time.timeScale = 0.25f;
         yield return new WaitForSeconds(1.5f);
-        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration, false);
-        randomIndex = UnityEngine.Random.Range(0, 9);
-        targets[1].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
-        targets[1].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
-        yield return new WaitForSeconds(duration);
-        m_camera.GetComponent<CameraController>().m_isFollowingTargets = true;
+        Time.timeScale = 1f;
 
-        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"READY", "FIGHT"}));
+        yield return StartCoroutine(m_canvas.GetComponent<CanvasController>().AddWinRateBar(playerOneWon, playerTwoWon, m_playerOneWinRate, m_playerTwoWinRate));
+        yield return new WaitForSeconds(2);
+
+        if (m_playerOneWinRate >= m_nbRoundsToWin || m_playerTwoWinRate >= m_nbRoundsToWin) {
+            yield return StartCoroutine(WinnerCoroutine(winner, loser));
+
+            // @todo: display les player save dans le menu 
+            SceneManager.LoadScene("Menu");
+        } else {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
-    private IEnumerator StartNewRoundCoroutine(List<Transform> targets)
+    private IEnumerator WinnerCoroutine(Transform winner, Transform loser)
     {
-        foreach (var target in targets)
-            target.GetComponent<PlayerInputController>().Lock();
-        
-        //m_camera.transform.position = m_arraySpawnPosCam[m_indexPlace];
-        m_camera.transform.position = m_mapMetaData.GetSpawnPosCam(m_indexPlace);
-        //m_camera.GetComponent<CameraController>().SetOffset(m_arrayCameraOffset[m_indexPlace]);
-        m_camera.GetComponent<CameraController>().SetOffset(m_mapMetaData.GetCamoffset(m_indexPlace));
+        float duration = 5;
+        var randomIndex = UnityEngine.Random.Range(0, 9);   
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        Vector3 destScale = new Vector3(2.25f, 2.25f, 2.25f);
+        Vector2 offsetPopUp = new Vector2(0, -120);
+
+        // @note: color background
+        ColorAdjustments colorAdjustments;
+        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
+            //yield return StartCoroutine(EndGameCoroutine());
+            colorAdjustments.saturation.overrideState = true;
+            colorAdjustments.saturation.value = 100f;
+        }
+
+        // @note: Lock player inputs
+        winner.GetComponent<PlayerInputController>().Lock();
+        loser.GetComponent<PlayerInputController>().Lock();
+
+        // @note: translate cam to dead player
+        m_camera.GetComponent<CameraController>().TranslateToTarget(loser, 2f, 10f);
+        yield return new WaitForSeconds(4);
+        // @note: translate camera to alive player
+        m_camera.GetComponent<CameraController>().TranslateToTarget(winner, 0f, 0f);
+        winner.gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
+        winner.gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
+
         yield return new WaitForSeconds(1);
-        
-        yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"READY", "FIGHT"}));
+        m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "WINNER", offsetPopUp, duration, false);
+        yield return new WaitForSeconds(duration);
+
+        //@todo: mettre un recap des coups, des pouvoirs speciaux etc
     }
 
     private IEnumerator SuddenDeathRoundCoroutine(List<Transform> targets) 
@@ -508,40 +575,18 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(PreRoundCoroutine(targets, new List<string> {"SUDDEN DEATH", "READY", "FIGHT"}));
     }
 
-    // @todo: ecrire quel player a win
-    private IEnumerator EndRoundCoroutine(Transform deadPlayer)
+    private IEnumerator Rumble(float time, float forceX = 0.350f, float forceY = 0.350f)
     {
-        m_roundIsFinished = true;
+        // @bug: not always the same gamepad
+        if (Gamepad.current != null)
+            Gamepad.current.SetMotorSpeeds(forceX, forceY);
 
-        // @note: add score to alive player
-        m_playerOneWinRate += m_playerOne.GetComponent<Health>().isDead() ? 0 : 1;
-        m_playerTwoWinRate += m_playerTwo.GetComponent<Health>().isDead() ? 0 : 1;
+        yield return new WaitForSeconds(time);
 
-        // @note: save and reload
-        Save();
-        
-        // @note: b&w background
-        ColorAdjustments colorAdjustments;
-        if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
-            colorAdjustments.saturation.overrideState = true;
-            colorAdjustments.saturation.value = -100f;
-        }
-        // @note: slowmotion
-        Time.timeScale = 0.25f;
-        yield return new WaitForSeconds(1);
-
-        Time.timeScale = 1f;
-        m_camera.GetComponent<CameraController>().TranslateToTarget(deadPlayer, 2f, 10f);
-         if (profileVolume.TryGet<ColorAdjustments>(out colorAdjustments)) {
-            colorAdjustments.saturation.overrideState = true;
-            colorAdjustments.saturation.value = 100f;
-        }
-        yield return new WaitForSeconds(6);
-
-        yield return StartCoroutine(DeadPlayerCoroutine());
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (Gamepad.current != null)
+            Gamepad.current.SetMotorSpeeds(0, 0);
     }
+
     #endregion
 
 }

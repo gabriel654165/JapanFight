@@ -25,15 +25,15 @@ public class HandleHit : MonoBehaviour
 
         // @note: init hitproperties hardly
         m_hitPropertyList = new List<HitProperty> {
-            new HitProperty("Punch", 10f, 1f),
-            new HitProperty("ZombiePunch", 10f, 1f),
-            new HitProperty("BarbareKick", 7f, 1f),
-            new HitProperty("HighKick", 12f, 1f),
-            new HitProperty("Flying Kick", 30f, 1f),
-            new HitProperty("Armada", 20f, 1f),
-            new HitProperty("Uppercut Big", 30f, 1f),
-            new HitProperty("Kamehameha", 50f, 1f),
-            new HitProperty("Sword Swoosh Insane", 30f, 1f),
+            new HitProperty("Punch", 50f, 1.5f),//10f, 1.5f
+            new HitProperty("ZombiePunch", 10f, 1.5f),
+            new HitProperty("BarbareKick", 7f, 1.5f),
+            new HitProperty("HighKick", 12f, 1.5f),
+            new HitProperty("Flying Kick", 30f, 1.5f),
+            new HitProperty("Armada", 20f, 1.5f),
+            new HitProperty("Uppercut Big", 30f, 1.5f),
+            new HitProperty("Kamehameha", 50f, 1.5f),
+            new HitProperty("Sword Swoosh Insane", 30f, 1.5f),
         };
     }
 

@@ -127,21 +127,58 @@ public class CanvasController : MonoBehaviour
 
     #region WIN RATE BARS
 
-    public void SetWinRateBars(int playerOneWinRate, int playerTwoWinRate)
+    private IEnumerator AddWinRateBarByPlayer(GameObject containerBar, Vector3 initialPos, Vector3 srcScale, Vector3 destScale, float duration)
     {
-        Debug.Log(playerOneWinRate);
-        Debug.Log(playerTwoWinRate);
-        for (int i = 0; i < playerOneWinRate; ++i)
+        float elapsedTime = 0f;
+        GameObject bar = Instantiate(m_winRoundBar);
+
+        bar.GetComponent<RawImage>().color = Color.yellow;
+        bar.transform.SetParent(containerBar.transform);
+        bar.GetComponent<RectTransform>().localPosition = initialPos;
+        bar.GetComponent<RectTransform>().localScale = srcScale;
+
+        while (elapsedTime <= duration) 
         {
-            var bar = Instantiate(m_winRoundBar);
+            bar.GetComponent<RectTransform>().localScale = Vector3.Lerp(srcScale, destScale, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    public IEnumerator AddWinRateBar(bool playerOneWon, bool playerTwoWon, int playerOneWinRate, int playerTwoWinRate)
+    {
+        float duration = 2f;
+        Vector3 srcScale = new Vector3(0.01f, 0.01f, 0.01f);
+        Vector3 destScale = new Vector3(1f, 1f, 1f);
+
+        if (playerOneWon)
+            yield return AddWinRateBarByPlayer(m_containerBarP1, new Vector3(m_InitialPosP1.x + (((playerOneWinRate - 1) * m_offsetBetweenBars.x) * -1), 0, 0), srcScale, destScale, duration);
+        if (playerTwoWon)
+            yield return AddWinRateBarByPlayer(m_containerBarP2, new Vector3(m_InitialPosP2.x + ((playerTwoWinRate - 1) * m_offsetBetweenBars.x), 0, 0), srcScale, destScale, duration);
+    }
+
+    public void SetWinRateBars(int playerOneWinRate, int playerTwoWinRate, int nbRoundsToWin)
+    {
+        for (int i = 0; i < nbRoundsToWin; ++i)
+        {
+            GameObject bar = Instantiate(m_winRoundBar);
+
+            if (i < playerOneWinRate)
+                bar.GetComponent<RawImage>().color = Color.white;
+            else
+                bar.GetComponent<RawImage>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
             bar.transform.SetParent(m_containerBarP1.transform);
             bar.GetComponent<RectTransform>().localPosition = new Vector3(m_InitialPosP1.x + ((i * m_offsetBetweenBars.x) * -1), 0, 0);
             bar.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
 
-        for (int i = 0; i < playerTwoWinRate; ++i)
+        for (int i = 0; i < nbRoundsToWin; ++i)
         {
-            var bar = Instantiate(m_winRoundBar);
+            GameObject bar = Instantiate(m_winRoundBar);
+            if (i < playerTwoWinRate)
+                bar.GetComponent<RawImage>().color = Color.white;
+            else
+                bar.GetComponent<RawImage>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
             bar.transform.SetParent(m_containerBarP2.transform);
             bar.GetComponent<RectTransform>().localPosition = new Vector3(m_InitialPosP2.x + (i * m_offsetBetweenBars.x), 0, 0);
             bar.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);

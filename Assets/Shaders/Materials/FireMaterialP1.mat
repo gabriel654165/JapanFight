@@ -93,9 +93,9 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DisolvePower: 0
+    - _DisolvePower: 1.3499999
     - _DisolveScale: 7
-    - _DisolveSpeed: 0
+    - _DisolveSpeed: 13.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
