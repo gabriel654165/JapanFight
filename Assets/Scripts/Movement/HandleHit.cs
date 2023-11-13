@@ -25,7 +25,7 @@ public class HandleHit : MonoBehaviour
 
         // @note: init hitproperties hardly
         m_hitPropertyList = new List<HitProperty> {
-            new HitProperty("Punch", 50f, 1.5f),//10f, 1.5f
+            new HitProperty("Punch", 10f, 1.5f),
             new HitProperty("ZombiePunch", 10f, 1.5f),
             new HitProperty("BarbareKick", 7f, 1.5f),
             new HitProperty("HighKick", 12f, 1.5f),

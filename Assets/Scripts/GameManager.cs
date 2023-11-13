@@ -142,8 +142,7 @@ public class GameManager : MonoBehaviour
         m_playerOne.transform.rotation = m_leftPlayerRotation;
         m_playerTwo.transform.rotation = m_rightPlayerRotation;
 
-        // @debug: uncomment this line
-        //m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
+        m_playerTwo.GetComponent<PlayerInputController>().InvertX(true);
 
         if (m_playerOne.transform.position.x < m_playerTwo.transform.position.x) {
             m_playerOne.GetComponent<PlayerInputController>().Init(m_playerTwo, true);
@@ -245,10 +244,6 @@ public class GameManager : MonoBehaviour
         if (m_mapPrefabArray.Length <= m_indexPlayer1) {
             m_indexPlayer1 = 0;
         }
-
-        // @debug: to remove
-        m_playerOneWinRate = 2;
-        m_playerTwoWinRate = 2;
     }
 
     private void Save()
@@ -342,47 +337,23 @@ public class GameManager : MonoBehaviour
         m_canvas.GetComponent<CanvasController>().UpdatePlayerPowerCharge(true);
     }
 
-    private int cptPlayerAction = 0;
-
     public void Pause()
     {
-        if (Time.timeScale != 0 && cptPlayerAction < 2) {
-            cptPlayerAction++;
-            if (cptPlayerAction >= 2) {
-                Time.timeScale = 0;
-                cptPlayerAction = 0;
-            }
-        } else if (Time.timeScale == 0 && cptPlayerAction < 2) {
-            cptPlayerAction++;
-            if (cptPlayerAction >= 2) {
-                Time.timeScale = 1;
-                cptPlayerAction = 0;
-            }
+        if (Time.timeScale != 0) {
+            Time.timeScale = 0;
+        } else if (Time.timeScale == 0) {
+            Time.timeScale = 1;
         }
     }
 
     public void Restart()
     {
-        if (cptPlayerAction < 2)
-        {
-            cptPlayerAction++;
-            if (cptPlayerAction >= 2) {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                cptPlayerAction = 0;
-            }
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()
     {
-        if (cptPlayerAction < 2)
-        {
-            cptPlayerAction++;
-            if (cptPlayerAction >= 2) {
-                cptPlayerAction = 0;
-                SceneManager.LoadScene("Menu");
-            }
-        }
+        SceneManager.LoadScene("Menu");
     }
 
     #endregion

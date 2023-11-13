@@ -73,6 +73,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        Load();
         InitChoosePlayerUI();
         InitSelectPlayerUI();
         InitMapUI();
@@ -145,6 +146,13 @@ public class MenuController : MonoBehaviour
             newButtonP2.transform.localScale = new Vector3(1, 1, 1);
             lastPos = new Vector3(m_initialCenterPosButton.x + m_offsetCenterButton.x, lastPos.y + m_offsetCenterButton.y, m_initialCenterPosButton.z + m_offsetCenterButton.z);
             lastPos = new Vector3(m_initialCenterPosButton.x + m_offsetCenterButton.x, lastPos.y + m_offsetCenterButton.y, m_initialCenterPosButton.z + m_offsetCenterButton.z);
+
+            // @note: directly display the players if they are saved
+            if (index == m_indexPlayer1)
+                SetPlayerOne(m_posPlayer1, playerName, newIndex, m_playerPrefabDictionary[playerName]);
+            if (index == m_indexPlayer2)
+                SetPlayerTwo(m_posPlayer2, playerName, newIndex, m_playerPrefabDictionary[playerName]);
+
             index++;
         }
     }
@@ -281,11 +289,11 @@ public class MenuController : MonoBehaviour
             playerHasBeenChoosen = true;
             StartCoroutine(NextStepCoroutine());
         } else if (m_cptSelect >= 2 && m_containerButtonMap.activeSelf && playerHasBeenChoosen) {
-            StartCoroutine(LoadSceneCoroutine());
+            StartCoroutine(SwitchSceneCoroutine());
         }
     }
 
-    private IEnumerator LoadSceneCoroutine() {
+    private IEnumerator SwitchSceneCoroutine() {
         Save();
 
         foreach (var index in m_scenesDictionnary.Keys)
@@ -316,5 +324,19 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetInt("indexPlayer1", m_indexPlayer1);
         PlayerPrefs.SetInt("indexPlayer2", m_indexPlayer2);
         PlayerPrefs.Save();
+    }
+
+    private void Load()
+    {
+        if (!PlayerPrefs.HasKey("indexPlayer1") || !PlayerPrefs.HasKey("indexPlayer2")) {
+            Debug.Log("Players Index values does not exist in PlayerPrefs");
+            m_indexPlayer1 = 0;
+            m_indexPlayer2 = 0;
+            return;
+        }
+
+        m_indexPlayer1 = PlayerPrefs.GetInt("indexPlayer1");
+        m_indexPlayer2 = PlayerPrefs.GetInt("indexPlayer2");
+
     }
 }
