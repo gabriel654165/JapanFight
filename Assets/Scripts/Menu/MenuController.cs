@@ -330,8 +330,8 @@ public class MenuController : MonoBehaviour
     {
         if (!PlayerPrefs.HasKey("indexPlayer1") || !PlayerPrefs.HasKey("indexPlayer2")) {
             Debug.Log("Players Index values does not exist in PlayerPrefs");
-            m_indexPlayer1 = 0;
-            m_indexPlayer2 = 0;
+            m_indexPlayer1 = -1;
+            m_indexPlayer2 = -1;
             return;
         }
 
