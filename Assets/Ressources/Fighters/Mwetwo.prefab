@@ -1484,7 +1484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5999483191834445478}
   - component: {fileID: 5214004850390659558}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
