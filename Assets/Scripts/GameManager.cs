@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
         Load();
 
         m_mapMetaData = GetComponent<MapMetaData>();
@@ -219,30 +220,30 @@ public class GameManager : MonoBehaviour
             Debug.Log("WinRates values does not exist in PlayerPrefs");
             m_playerOneWinRate = 0;
             m_playerTwoWinRate = 0;
-            return;
+        } else {
+            m_playerOneWinRate = PlayerPrefs.GetInt("playerOneWinRate");
+            m_playerTwoWinRate = PlayerPrefs.GetInt("playerTwoWinRate");
+
+            if (m_playerOneWinRate >= m_nbRoundsToWin || m_playerTwoWinRate >= m_nbRoundsToWin) {
+                m_playerOneWinRate = 0;
+                m_playerTwoWinRate = 0;
+            }
         }
         
         if (!PlayerPrefs.HasKey("indexPlayer1") || !PlayerPrefs.HasKey("indexPlayer2")) {
             Debug.Log("Players Index values does not exist in PlayerPrefs");
             m_indexPlayer1 = 0;
             m_indexPlayer2 = 0;
-            return;
-        }
+        } else {
+            m_indexPlayer1 = PlayerPrefs.GetInt("indexPlayer1");
+            m_indexPlayer2 = PlayerPrefs.GetInt("indexPlayer2");
 
-        m_playerOneWinRate = PlayerPrefs.GetInt("playerOneWinRate");
-        m_playerTwoWinRate = PlayerPrefs.GetInt("playerTwoWinRate");
-        m_indexPlayer1 = PlayerPrefs.GetInt("indexPlayer1");
-        m_indexPlayer2 = PlayerPrefs.GetInt("indexPlayer2");
-
-        if (m_playerOneWinRate >= m_nbRoundsToWin || m_playerTwoWinRate >= m_nbRoundsToWin) {
-            m_playerOneWinRate = 0;
-            m_playerTwoWinRate = 0;
-        }
-        if (m_mapPrefabArray.Length <= m_indexPlayer2) {
-            m_indexPlayer2 = 0;
-        }
-        if (m_mapPrefabArray.Length <= m_indexPlayer1) {
-            m_indexPlayer1 = 0;
+            if (m_mapPrefabArray.Length <= m_indexPlayer2) {
+                m_indexPlayer2 = 0;
+            }
+            if (m_mapPrefabArray.Length <= m_indexPlayer1) {
+                m_indexPlayer1 = 0;
+            }
         }
     }
 
@@ -369,7 +370,7 @@ public class GameManager : MonoBehaviour
         Vector3 destScale = new Vector3(2f, 2f, 2f);
         Vector2 offsetPopUp = new Vector2(-150, -150);
         float duration = 3f;
-        var startingPos = new Vector3(m_mapMetaData.GetCamoffset(m_indexPlace).x, 200, m_mapMetaData.GetCamoffset(m_indexPlace).z);
+        var startingPos = new Vector3(m_mapMetaData.GetCamoffset(m_indexPlace).x, 150, m_mapMetaData.GetCamoffset(m_indexPlace).z);
         
         m_camera.GetComponent<CameraController>().SetOffset(startingPos);
         yield return new WaitForSeconds(1);
@@ -387,7 +388,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         // @todo: write the name of the player ?
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 1", offsetPopUp, duration, false);
-        var randomIndex = UnityEngine.Random.Range(0, 9);
+        var randomIndex = UnityEngine.Random.Range(0, 6);
         targets[0].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
         targets[0].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
         yield return new WaitForSeconds(duration);
@@ -397,7 +398,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         // @todo: write the name of the player ?
         m_canvas.GetComponent<CanvasController>().SpawnTextPopUp(intiScale, destScale, "player 2", offsetPopUp, duration, false);
-        randomIndex = UnityEngine.Random.Range(0, 9);
+        randomIndex = UnityEngine.Random.Range(0, 6);
         targets[1].gameObject.GetComponent<Animator>().SetInteger("Celebrate", randomIndex);
         targets[1].gameObject.GetComponent<Animator>().SetTrigger("TriggerCelebrate");
         yield return new WaitForSeconds(duration);
@@ -467,6 +468,7 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(WinnerCoroutine(winner, loser));
 
             // @todo: display les player save dans le menu 
+            SetVoronoiScreenShader(0);
             SceneManager.LoadScene("Menu");
         } else {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -476,8 +478,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator WinnerCoroutine(Transform winner, Transform loser)
     {
         float duration = 5;
-        var randomIndex = UnityEngine.Random.Range(0, 9);   
-        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f); 
+        var randomIndex = UnityEngine.Random.Range(0, 6);
+        Vector3 intiScale = new Vector3(0.5f, 0.5f, 0.5f);
         Vector3 destScale = new Vector3(2.25f, 2.25f, 2.25f);
         Vector2 offsetPopUp = new Vector2(0, -120);
 

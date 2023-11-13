@@ -73,6 +73,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
         Load();
         InitChoosePlayerUI();
         InitSelectPlayerUI();
@@ -296,6 +297,8 @@ public class MenuController : MonoBehaviour
     private IEnumerator SwitchSceneCoroutine() {
         Save();
 
+        //@todo: create a fake loading time to ensure that the data is saved
+
         foreach (var index in m_scenesDictionnary.Keys)
         {
             if (index == m_mapIndex) {
@@ -309,14 +312,18 @@ public class MenuController : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         m_containerButtonPlayer.SetActive(false);
-        m_cursorP1.GetComponent<CursorController>().hasSelected = false;
-        m_cursorP2.GetComponent<CursorController>().hasSelected = false;
+        m_selectedFieldP1.SetActive(false);
+        m_selectedFieldP2.SetActive(false);
         m_selectedFieldP1.GetComponent<SelectedField>().setState(false);
         m_selectedFieldP2.GetComponent<SelectedField>().setState(false);
-        m_cptSelect = 0;
         m_animator.SetTrigger("HyperSpace");
         yield return new WaitForSeconds(8f);
         m_containerButtonMap.SetActive(true);
+        m_cursorP1.GetComponent<CursorController>().hasSelected = false;
+        m_cursorP2.GetComponent<CursorController>().hasSelected = false;
+        m_cptSelect = 0;
+        m_selectedFieldP1.SetActive(true);
+        m_selectedFieldP2.SetActive(true);
     }
 
     private void Save()

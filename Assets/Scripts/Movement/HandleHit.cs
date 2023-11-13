@@ -41,10 +41,15 @@ public class HandleHit : MonoBehaviour
 
     private void HandleHitLogic(int indexHitProperty, bool specialPower = false)
     {
-        if (m_animator?.GetCurrentAnimatorClipInfo(0)[0].clip.name == "GuardIdle" && !specialPower) {
+        var clipName = m_animator?.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+        if (clipName == "GuardIdle" && !specialPower) {
             m_animator.SetTrigger("BlockWithGuard");
             return;
         }
+
+        if (clipName == "Dodge" || clipName == "BlockWithGuard")
+            return;
 
         if (!m_health.isDead()) {
             var currentAnim = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
