@@ -75,17 +75,17 @@ public class MenuController : MonoBehaviour
     {
         PlayerInputManager.instance.playerPrefab = m_cursorPlayerPrefab;
         // @note: warning if the two controllers are not the 2 and 3 crash
-        // var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
-        // var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
+        var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
+        var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
         
-        // if (inputPlayer1 != null && inputPlayer2 != null) {
-        //     m_cursorP1 = inputPlayer1.gameObject;
-        //     m_cursorP2 = inputPlayer2.gameObject;
-        // }
+        if (inputPlayer1 != null && inputPlayer2 != null) {
+            m_cursorP1 = inputPlayer1.gameObject;
+            m_cursorP2 = inputPlayer2.gameObject;
+        }
 
         // @debug: remove this
-        m_cursorP1 = Instantiate(m_cursorPlayerPrefab);
-        m_cursorP2 = Instantiate(m_cursorPlayerPrefab);
+        // m_cursorP1 = Instantiate(m_cursorPlayerPrefab);
+        // m_cursorP2 = Instantiate(m_cursorPlayerPrefab);
         // !debug
 
         m_cursorP1.transform.SetParent(m_canvas.transform);

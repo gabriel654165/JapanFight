@@ -119,9 +119,9 @@ public class GameManager : MonoBehaviour
     {
         InputSystem.settings.SetInternalFeatureFlag("DISABLE_SHORTCUT_SUPPORT", true);
 
-        m_playerOne = Instantiate(m_mapPrefabArray[m_indexPlayer1]);
-        m_playerTwo = Instantiate(m_mapPrefabArray[m_indexPlayer2]);
-        /*PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer1];
+        //m_playerOne = Instantiate(m_mapPrefabArray[m_indexPlayer1]);
+        //m_playerTwo = Instantiate(m_mapPrefabArray[m_indexPlayer2]);
+        PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer1];
         var inputPlayer1 = PlayerInputManager.instance.JoinPlayer(0, default, default, InputSystem.devices.ToArray()[2]);
         PlayerInputManager.instance.playerPrefab = m_mapPrefabArray[m_indexPlayer2];
         var inputPlayer2 = PlayerInputManager.instance.JoinPlayer(1, default, default, InputSystem.devices.ToArray()[3]);
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         if (inputPlayer1 != null && inputPlayer2 != null) {
             m_playerOne = inputPlayer1.gameObject;
             m_playerTwo = inputPlayer2.gameObject;
-        }*/
+        }
 
         // @note: Random on differents map places for the round
         m_indexPlace = UnityEngine.Random.Range(0, m_mapMetaData.GetNbSpawnPos());
