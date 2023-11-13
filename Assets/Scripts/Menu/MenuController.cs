@@ -7,6 +7,7 @@ using System;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Animator))]
 public class MenuController : MonoBehaviour
 {
     [Header("Players")]
@@ -58,10 +59,17 @@ public class MenuController : MonoBehaviour
     private GameObject m_cursorP1;
     private GameObject m_cursorP2;
 
+    [Header("Animator")]
+    private Animator m_animator;
+
     [Header("InputManager")]
     [SerializeField] public PlayerInputManager inputManager;
     private int m_cptSelect = 0;
 
+    void Awake()
+    {
+        m_animator = GetComponent<Animator>();
+    }
 
     void Start()
     {
@@ -196,6 +204,16 @@ public class MenuController : MonoBehaviour
         m_playerTwoObj = newPlayer;
     }
 
+    private IEnumerator Landing(GameObject toSetActive)
+    {
+        var clipName = m_animator?.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+        if (clipName == "HyperSpace" || clipName == "IdleHyperSpace" || clipName == "IdleOnLevel")
+            m_animator.SetTrigger("Landing");
+        yield return new WaitForSeconds(2f);
+        toSetActive.SetActive(true);
+    }
+
     public void SetMap(string mapName, Dictionary<string, GameObject> mapPrefabDictionnary)
     {
         int index = 0;
@@ -204,7 +222,8 @@ public class MenuController : MonoBehaviour
         {
             if (key == mapName) {
                 m_mapIndex = index;
-                mapPrefabDictionnary[key].SetActive(true);
+                StartCoroutine(Landing(mapPrefabDictionnary[key]));
+                //mapPrefabDictionnary[key].SetActive(true);
             } else {
                 mapPrefabDictionnary[key].SetActive(false);
             }
@@ -282,12 +301,14 @@ public class MenuController : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         m_containerButtonPlayer.SetActive(false);
-        m_containerButtonMap.SetActive(true);
         m_cursorP1.GetComponent<CursorController>().hasSelected = false;
         m_cursorP2.GetComponent<CursorController>().hasSelected = false;
         m_selectedFieldP1.GetComponent<SelectedField>().setState(false);
         m_selectedFieldP2.GetComponent<SelectedField>().setState(false);
         m_cptSelect = 0;
+        m_animator.SetTrigger("HyperSpace");
+        yield return new WaitForSeconds(8f);
+        m_containerButtonMap.SetActive(true);
     }
 
     private void Save()
