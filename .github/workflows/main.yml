@@ -60,13 +60,14 @@ jobs:
       #     name: Build-${{ matrix.targetPlatform }}
       #     path: build/${{ matrix.targetPlatform }}
       
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'feat: new builds'
-          branch: test
-          commit_options: '--no-verify --signoff'
-          commit_author: Author <actions@github.com>
-          status_options: '--untracked-files=no'
-          skip_dirty_check: false
+      # Push artifacts
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: 'feat: new builds'
+      #     branch: test
+      #     commit_options: '--no-verify --signoff'
+      #     commit_author: Author <actions@github.com>
+      #     status_options: '--untracked-files=no'
+      #     skip_dirty_check: false
 
 
