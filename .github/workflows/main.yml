@@ -55,7 +55,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: 'feat: new builds'
-          branch: main
+          branch: test
           commit_options: '--no-verify --signoff'
           commit_author: Author <actions@github.com>
           status_options: '--untracked-files=no'
