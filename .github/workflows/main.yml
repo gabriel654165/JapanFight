@@ -26,8 +26,7 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
           customImage: 'unityci/editor:2021.3.10f1-base-0'
-          projectPath:
-          - ./
+          projectPath: './'
       - uses: actions/upload-artifact@v3
         with:
           name: JapanFight-${{ matrix.targetPlatform }}
