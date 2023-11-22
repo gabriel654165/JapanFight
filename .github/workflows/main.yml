@@ -4,6 +4,9 @@ jobs:
   buildOnMultiplePlatforms:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./
     strategy:
       fail-fast: false
       matrix:
@@ -18,12 +21,16 @@ jobs:
           fetch-depth: 0
           lfs: true
      
-      #- uses: actions/cache@v3
-      #  with:
-      #    path: Library
-      #    key: Library-${{ matrix.targetPlatform }}
-      #    restore-keys: Library-
+     # Caching
+      - uses: actions/cache@v3
+        with:
+          path: Library/
+          key: Library-JapanFight-${{ matrix.targetPlatform }}
+          restore-keys: |
+            Library-JapanFight-
+            Library-
 
+      # Build
       - uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -33,6 +40,7 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
           #customImage: 'unityci/editor:2021.3.10f1'
       
+      # Upload build 
       - uses: actions/upload-artifact@v3
         with:
           name: JapanFight-${{ matrix.targetPlatform }}
