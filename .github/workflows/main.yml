@@ -13,11 +13,11 @@ jobs:
           - StandaloneWindows64
           - StandaloneLinux64
     steps:
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: Library-
+      #- uses: actions/cache@v3
+      #  with:
+      #    path: Library
+      #    key: Library-${{ matrix.targetPlatform }}
+      #    restore-keys: Library-
       - uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -25,7 +25,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
-          customImage: 'unityci/editor:2021.3.10f1'
+          #customImage: 'unityci/editor:2021.3.10f1'
       - uses: actions/upload-artifact@v3
         with:
           name: JapanFight-${{ matrix.targetPlatform }}
