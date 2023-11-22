@@ -43,5 +43,5 @@ jobs:
       # Upload build 
       - uses: actions/upload-artifact@v3
         with:
-          name: JapanFight-${{ matrix.targetPlatform }}
-          path: Builds/${{ matrix.targetPlatform }}
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
