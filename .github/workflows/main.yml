@@ -1,5 +1,11 @@
 name: Build Project
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   buildOnMultiplePlatforms:
     name: Build for ${{ matrix.targetPlatform }}
@@ -15,6 +21,8 @@ jobs:
           - StandaloneWindows
           - StandaloneWindows64
           - StandaloneLinux64
+    
+    # Checkout
     steps:
       - uses: actions/checkout@v4
         with:
