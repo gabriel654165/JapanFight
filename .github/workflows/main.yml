@@ -61,11 +61,11 @@ jobs:
         with:
           draft: false
           prerelease: false
-          name: ${{ steps.version.outputs.version }}
-          #tag_name: ${{ github.ref }}
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
           #body_path: CHANGELOG.md # optional body (description)
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
 
       # Upload release - Linux
       - uses: actions/upload-release-asset@v1
