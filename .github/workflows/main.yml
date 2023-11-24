@@ -22,15 +22,15 @@ jobs:
           - StandaloneWindows64
           - StandaloneLinux64
     
-    # Checkout
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
      
-     # Caching
-      - uses: actions/cache@v3
+      - name: Chaching Library
+        uses: actions/cache@v3
         with:
           path: Library/
           key: Library-JapanFight-${{ matrix.targetPlatform }}
@@ -38,8 +38,8 @@ jobs:
             Library-JapanFight-
             Library-
 
-      # Build
-      - uses: game-ci/unity-builder@v4
+      - name: Build project
+        uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -47,17 +47,22 @@ jobs:
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
       
-      # Upload build 
-      - uses: actions/upload-artifact@v3
+      - name: Upload build
+        uses: actions/upload-artifact@v3
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
+
+        #Try to zip the artifact
+
+      - name: Zip artifact
+        run: zip build-${{ matrix.targetPlatform }}.zip /home/runner/work/JapanFight/JapanFight/build/${{ matrix.targetPlatform }}/* -r
+
+        # Should we download the build ?
+        # To access to the zip in github/workflows or docker
       
-      # Should we download the build ?
-      # To access to the zip in github/workflows or docker
-      
-      # Create release
-      - uses: actions/create-release@v1
+      - name: Create release
+        uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
@@ -69,12 +74,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload release - Linux
-      - uses: actions/upload-release-asset@v1
+      - name: Upload release
+        uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/${{ matrix.targetPlatform }}/Build-${{ matrix.targetPlatform }}.zip
-          asset_name: Build-${{ matrix.targetPlatform }}.zip
+          asset_path: ./build-${{ matrix.targetPlatform }}.zip
+          asset_name: build-${{ matrix.targetPlatform }}.zip
           asset_content_type: application/gzip
         env:
           GITHUB_TOKEN: ${{ github.token }}
