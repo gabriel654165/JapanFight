@@ -54,6 +54,7 @@ jobs:
           path: build/${{ matrix.targetPlatform }}
       
       # Should we download the build ?
+      # To access to the zip in github/workflows or docker
       
       # Create release
       - uses: actions/create-release@v1
@@ -62,11 +63,11 @@ jobs:
           draft: false
           prerelease: false
           release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ steps.version.outputs.version }}
           commitish: main
           #body_path: CHANGELOG.md # optional body (description)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload release - Linux
       - uses: actions/upload-release-asset@v1
