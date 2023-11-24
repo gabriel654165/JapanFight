@@ -46,7 +46,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
-          #customImage: 'unityci/editor:2021.3.10f1'
       
       # Upload build 
       - uses: actions/upload-artifact@v3
@@ -54,11 +53,35 @@ jobs:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
       
+      # Create release
+      - uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      # Upload release - Linux
+      - uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/${{ matrix.targetPlatform }}
+          asset_name: Build-${{ matrix.targetPlatform }}
+          asset_content_type: application/gzip
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      
+      
       # Download build
       # - uses: actions/download-artifact@v3
       #   with:
       #     name: Build-${{ matrix.targetPlatform }}
       #     path: build/${{ matrix.targetPlatform }}
+      
       
       # Push artifacts
       # - uses: stefanzweifel/git-auto-commit-action@v4
