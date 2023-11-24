@@ -53,15 +53,17 @@ jobs:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
       
+      # Should we download the build ?
+      
       # Create release
       - uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
           prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
-          body_path: CHANGELOG.md
+          name: ${{ steps.version.outputs.version }}
+          #tag_name: ${{ github.ref }}
+          #body_path: CHANGELOG.md # optional body (description)
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
