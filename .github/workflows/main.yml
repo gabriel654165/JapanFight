@@ -29,15 +29,17 @@ jobs:
           fetch-depth: 0
           lfs: true
       
-      - name: Get tag name from ref
-        shell: bash
-        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-        id: get_tag
-      - name: Create tag in public repository
-        run: |
-          cd ${{github.workspace}}
-          git tag ${{ steps.get_tag.outputs.tag }}
-          git push --tags --porcelain
+      - name: Get Previous tag
+        id: previoustag
+        uses: 'WyriHaximus/github-action-get-previous-tag@v1'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Get next version
+        id: next
+        uses: 'WyriHaximus/github-action-next-release-version@1.0.0'
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
      
       - name: Chaching Library
         uses: actions/cache@v3
@@ -77,8 +79,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          tag_name: ${{ matrix.targetPlatform }}-${{ steps.get_tag.outputs.tag }}
-          release_name: Release-${{ matrix.targetPlatform }}-${{ steps.get_tag.outputs.tag }}
+          tag_name: ${{ matrix.targetPlatform }}-${{ steps.next.outputs.version }}
+          release_name: Release-${{ matrix.targetPlatform }}-${{ steps.next.outputs.version }}
           commitish: main
           #body_path: CHANGELOG.md # optional body (description)
         env:
