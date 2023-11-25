@@ -29,12 +29,15 @@ jobs:
           fetch-depth: 0
           lfs: true
       
-      #- name: Set Version ENV
-      #  run: echo "::set-env name=VERSION::'$(cat VERSION)"
       - name: Get tag name from ref
         shell: bash
         run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
         id: get_tag
+      - name: Create tag in public repository
+        run: |
+          cd ${{github.workspace}}/JapanFight
+          git tag ${{ steps.get_tag.outputs.tag }}
+          git push --tags --porcelain
      
       - name: Chaching Library
         uses: actions/cache@v3
