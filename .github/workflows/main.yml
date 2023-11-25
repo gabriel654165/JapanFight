@@ -28,6 +28,13 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
+      
+      #- name: Set Version ENV
+      #  run: echo "::set-env name=VERSION::'$(cat VERSION)"
+      - name: Get tag name from ref
+        shell: bash
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+        id: get_tag
      
       - name: Chaching Library
         uses: actions/cache@v3
@@ -67,8 +74,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          tag_name: ${{ matrix.targetPlatform }}-${{ github.run_number }}
-          release_name: Release-${{ matrix.targetPlatform }}-${{ github.run_number }}
+          tag_name: ${{ matrix.targetPlatform }}-${{ steps.get_tag.outputs.tag }}
+          release_name: Release-${{ matrix.targetPlatform }}-${{ steps.get_tag.outputs.tag }}
           commitish: main
           #body_path: CHANGELOG.md # optional body (description)
         env:
