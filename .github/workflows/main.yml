@@ -17,10 +17,10 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneOSX
           - StandaloneWindows
           - StandaloneWindows64
           - StandaloneLinux64
+          - StandaloneOSX
     
     steps:
       - name: Checkout
@@ -75,7 +75,7 @@ jobs:
           draft: false
           prerelease: false
           tag_name: ${{ matrix.targetPlatform }}-${{ steps.next.outputs.version }}
-          release_name: Release-${{ matrix.targetPlatform }}-${{ steps.next.outputs.version }}
+          release_name: Release-${{ matrix.targetPlatform }}-v1.0.${{ steps.next.outputs.version }}
           commitish: main
           #body_path: CHANGELOG.md # optional body (description)
         env:
