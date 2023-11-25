@@ -65,14 +65,9 @@ jobs:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
-        #Try to zip the artifact
-
       - name: Zip artifact
         run: zip build-${{ matrix.targetPlatform }}.zip /home/runner/work/JapanFight/JapanFight/build/${{ matrix.targetPlatform }}/* -r
 
-        # Should we download the build ?
-        # To access to the zip in github/workflows or docker
-      
       - name: Create release
         uses: actions/create-release@v1
         id: create_release
@@ -91,27 +86,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build-${{ matrix.targetPlatform }}.zip
-          asset_name: build-${{ matrix.targetPlatform }}.zip
+          asset_name: JapanFight.zip
           asset_content_type: application/gzip
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      
-      
-      # Download build
-      # - uses: actions/download-artifact@v3
-      #   with:
-      #     name: Build-${{ matrix.targetPlatform }}
-      #     path: build/${{ matrix.targetPlatform }}
-      
-      
-      # Push artifacts
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: 'feat: new builds'
-      #     branch: test
-      #     commit_options: '--no-verify --signoff'
-      #     commit_author: Author <actions@github.com>
-      #     status_options: '--untracked-files=no'
-      #     skip_dirty_check: false
-
-
